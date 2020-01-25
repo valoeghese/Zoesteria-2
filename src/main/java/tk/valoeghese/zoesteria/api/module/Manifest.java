@@ -1,7 +1,8 @@
 package tk.valoeghese.zoesteria.api.module;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 public class Manifest {
 	private Manifest(String packId) {
@@ -19,7 +20,7 @@ public class Manifest {
 	}
 
 	public Map<String, Object> asMap() {
-		Map<String, Object> result = new LinkedHashMap<>();
+		Map<String, Object> result = Maps.newLinkedHashMap();
 		result.put("schemaVersion", "0");
 		result.put("id", this.packId);
 		result.put("enabled", "true");

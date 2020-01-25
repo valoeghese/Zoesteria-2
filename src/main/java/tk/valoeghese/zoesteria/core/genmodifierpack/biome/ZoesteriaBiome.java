@@ -6,9 +6,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 
 class ZoesteriaBiome extends Biome {
-	ZoesteriaBiome(String packId, String id, Builder properties, BiomeFactory.Details biomeDetails) {
+	ZoesteriaBiome(String packId, String id, Builder properties, BiomeFactory.Details biomeDetails, IForgeRegistry<Biome> biomeRegistry) {
 		super(properties);
 
 		if (id.contains(":")) {
@@ -31,11 +32,15 @@ class ZoesteriaBiome extends Biome {
 			this.customRiver = false;
 		}
 
-		ForgeRegistries.BIOMES.register(this);
+		biomeRegistry.register(this);
 
 		biomeDetails.placement.forEach((type, weight) -> {
 			BiomeManager.addBiome(type, new BiomeManager.BiomeEntry(this, weight));
 		});
+
+		if (biomeDetails.spawnBiome) {
+			BiomeManager.addSpawnBiome(this);
+		}
 	}
 
 	private final boolean customSkyColour;

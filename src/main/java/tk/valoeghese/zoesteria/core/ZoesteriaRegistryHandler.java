@@ -11,6 +11,7 @@ public class ZoesteriaRegistryHandler {
 	@SubscribeEvent
 	public static void onBiomeRegister(RegistryEvent.Register<Biome> event) {
 		GenModifierPack.init();
-		GenModifierPack.forEach(pack -> pack.loadBiomes());
+		GenModifierPack.forEach(pack -> pack.loadBiomes(event.getRegistry()));
+		GenModifierPack.flagLoadedPackBiomes();
 	}
 }

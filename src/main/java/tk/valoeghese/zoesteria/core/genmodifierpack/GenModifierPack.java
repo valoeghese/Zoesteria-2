@@ -2,11 +2,20 @@ package tk.valoeghese.zoesteria.core.genmodifierpack;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.common.util.FileUtils;
+import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
+import tk.valoeghese.zoesteria.api.biome.IBiomeProperties.IExtendedBiomeProperties;
+import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.module.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
@@ -23,7 +32,7 @@ public final class GenModifierPack {
 	private final String packDir;
 	private final boolean disabled;
 
-	public void loadBiomes() {
+	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
 		if (this.disabled) {
 			return;
 		}
@@ -35,7 +44,7 @@ public final class GenModifierPack {
 		}
 
 		FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
-			BiomeFactory.buildBiome(file, this.id);
+			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
 		});
 	}
 
@@ -47,7 +56,7 @@ public final class GenModifierPack {
 		return this.disabled;
 	}
 
-	public static void add(String packDir) {
+	public static void addIfAbsent(String packDir) {
 		File manifest = new File(packDir + "/manifest.cfg");
 
 		if (!manifest.isFile()) {
@@ -76,7 +85,7 @@ public final class GenModifierPack {
 		}
 	}
 
-	public static void addIfAbsent(IZoesteriaJavaModule module) {
+	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		String packId = module.packId();
 
 		if (!isLoaded(packId)) {
@@ -89,7 +98,86 @@ public final class GenModifierPack {
 			ConfigWriter manifest = new ConfigWriter(module.createManifest().asMap());
 			manifest.writeToFile(new File(packDir + "/manifest.cfg"));
 
+			new File(packDir + "/biomes").mkdir();
+
 			// create biome files
+			for (IZoesteriaBiome biome : module.createBiomes()) {
+				Map<String, Object> fileData = Maps.newLinkedHashMap();
+
+				// create properties
+				IBiomeProperties biomeProperties = biome.properties();
+				Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
+
+				biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase());
+				biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase());
+				biomePropertiesData.put("depth", biomeProperties.depth());
+				biomePropertiesData.put("scale", biomeProperties.scale());
+				biomePropertiesData.put("temperature", biomeProperties.temperature());
+				biomePropertiesData.put("downfall", biomeProperties.downfall());
+
+				// create surface
+				Optional<String> topBlock = biomeProperties.topBlock();
+				Optional<String> fillerBlock = biomeProperties.fillerBlock();
+				Optional<String> underwaterBlock = biomeProperties.underwaterBlock();
+
+				boolean hasTopBlock = topBlock.isPresent();
+				boolean hasFillerBlock = fillerBlock.isPresent();
+				boolean hasUnderwaterBlock = underwaterBlock.isPresent();
+
+				if (biomeProperties instanceof IExtendedBiomeProperties) {
+					biomePropertiesData.put("waterColor", ((IExtendedBiomeProperties) biomeProperties).waterColour());
+					biomePropertiesData.put("waterFogColor", ((IExtendedBiomeProperties) biomeProperties).waterFogColour());
+				}
+
+				Optional<Integer> skyColour = biome.customSkyColour();
+
+				if (skyColour.isPresent()) {
+					biomePropertiesData.put("skyColor", skyColour.get().toString());
+				}
+
+				if (hasTopBlock || hasFillerBlock || hasUnderwaterBlock) {
+					Map<String, Object> surfaceData = Maps.newLinkedHashMap();
+
+					if (hasTopBlock) {
+						surfaceData.put("topBlock", topBlock.get());
+					}
+
+					if (hasFillerBlock) {
+						surfaceData.put("fillerBlock", fillerBlock.get());
+					}
+
+					if (hasUnderwaterBlock) {
+						surfaceData.put("underwaterBlock", underwaterBlock.get());
+					}
+
+					biomePropertiesData.put("surface", surfaceData);
+				}
+
+				fileData.put("properties", biomePropertiesData);
+
+				Optional<String> river = biome.getRiver();
+
+				if (river.isPresent()) {
+					fileData.put("river", river.get());
+				}
+
+				Object2IntMap<BiomeManager.BiomeType> biomePlacement = biome.placement();
+				Map<String, Object> biomePlacementData = Maps.newLinkedHashMap();
+
+				biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(), weight.toString()));
+				biomePlacementData.put("canSpawnInBiome", String.valueOf(biome.canSpawnInBiome()));
+
+				fileData.put("biomePlacement", biomePlacementData);
+
+				ConfigWriter cw = new ConfigWriter(fileData);
+				cw.writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
+			}
+
+			GenModifierPack.addIfAbsent(packDir);
+
+			if (loadedPackBiomes && PACKS.containsKey(packId)) {
+				PACKS.get(packId).loadBiomes(ForgeRegistries.BIOMES);
+			}
 		}
 	}
 
@@ -101,7 +189,7 @@ public final class GenModifierPack {
 		if (!initialised) {
 			if (ROOT_DIR.isDirectory()) {
 				FileUtils.forEachDirectory(ROOT_DIR, dir -> {
-					GenModifierPack.add(dir.getPath());
+					GenModifierPack.addIfAbsent(dir.getPath());
 				});
 			}
 
@@ -109,11 +197,16 @@ public final class GenModifierPack {
 		}
 	}
 
+	public static void flagLoadedPackBiomes() {
+		loadedPackBiomes = true;
+	}
+
 	public static boolean isLoaded(String packId) {
 		return PACKS.containsKey(packId);
 	}
 
 	private static boolean initialised = false;
+	private static boolean loadedPackBiomes = false;
 
 	private static final Map<String, GenModifierPack> PACKS = Maps.newHashMap();
 	public static final File ROOT_DIR = new File("./zoesteria");

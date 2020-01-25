@@ -12,6 +12,6 @@ public interface IZoesteriaJavaModule {
 
 	static void registerModule(IZoesteriaJavaModule module) {
 		GenModifierPack.init();
-		GenModifierPack.addIfAbsent(module);
+		GenModifierPack.addJavaModuleIfAbsent(module);
 	}
 }
