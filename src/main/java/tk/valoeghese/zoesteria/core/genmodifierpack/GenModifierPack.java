@@ -8,7 +8,6 @@ import com.google.common.collect.Maps;
 
 import tk.valoeghese.common.util.FileUtils;
 import tk.valoeghese.zoesteria.api.module.IZoesteriaJavaModule;
-import tk.valoeghese.zoesteria.api.module.Manifest;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -87,8 +86,10 @@ public final class GenModifierPack {
 			packDirFile.mkdirs();
 
 			// create manifest
-			Manifest manifest = module.createManifest();
-			
+			ConfigWriter manifest = new ConfigWriter(module.createManifest().asMap());
+			manifest.writeToFile(new File(packDir + "/manifest.cfg"));
+
+			// create biome files
 		}
 	}
 

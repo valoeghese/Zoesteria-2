@@ -1,5 +1,6 @@
 package tk.valoeghese.zoesteria.core.genmodifierpack.biome;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,8 +24,15 @@ class ZoesteriaBiome extends Biome {
 			this.customSkyColour = false;
 		}
 
+		if (biomeDetails.river != null) {
+			this.customRiver = true;
+			this.riverId = new ResourceLocation(biomeDetails.river);
+		} else {
+			this.customRiver = false;
+		}
+
 		ForgeRegistries.BIOMES.register(this);
-		
+
 		biomeDetails.placement.forEach((type, weight) -> {
 			BiomeManager.addBiome(type, new BiomeManager.BiomeEntry(this, weight));
 		});
@@ -33,9 +41,26 @@ class ZoesteriaBiome extends Biome {
 	private final boolean customSkyColour;
 	private int skyColour;
 
+	private final boolean customRiver;
+	private ResourceLocation riverId;
+	private Biome river = null;
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int func_225529_c_() {
 		return this.customSkyColour ? this.skyColour : super.func_225529_c_();
+	}
+
+	@Override
+	public Biome getRiver() {
+		return this.customRiver ? this.river() : super.getRiver();
+	}
+
+	public Biome river() {
+		if (this.river != null) {
+			return this.river;
+		} else {
+			return (this.river = ForgeRegistries.BIOMES.getValue(this.riverId));
+		}
 	}
 }

@@ -9,4 +9,5 @@ public interface IZoesteriaBiome {
 	<T extends IBiomeProperties> T properties();
 	Object2IntMap<BiomeManager.BiomeType> placement();
 	Optional<Integer> customSkyColour();
+	Optional<String> getRiver();
 }

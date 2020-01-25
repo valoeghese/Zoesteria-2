@@ -37,6 +37,7 @@ public final class BiomeFactory {
 
 		Details details = new Details();
 		details.skyColour = properties.getIntegerValue("skyColor");
+		details.river = biomeConfig.getStringValue("river");
 
 		addGeneration(details, biomePlacement);
 
@@ -97,6 +98,7 @@ public final class BiomeFactory {
 	
 	static final class Details {
 		Integer skyColour;
+		String river;
 		Object2IntMap<BiomeManager.BiomeType> placement = new Object2IntArrayMap<>();
 	}
 }
