@@ -11,12 +11,13 @@ public interface IBiomeProperties {
 	float downfall();
 	Biome.Category category();
 	Biome.RainType precipitation();
+	int waterColour();
+	int waterFogColour();
 	Optional<String> topBlock();
 	Optional<String> fillerBlock();
 	Optional<String> underwaterBlock();
 
-	public static interface IExtendedBiomeProperties extends IBiomeProperties {
-		int waterColour();
-		int waterFogColour();
+	static BiomePropertiesBuilder builder(Biome.Category category) {
+		return new BiomePropertiesBuilder(category);
 	}
 }

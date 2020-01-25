@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.api.module;
+package tk.valoeghese.zoesteria.api;
 
 import java.util.List;
 

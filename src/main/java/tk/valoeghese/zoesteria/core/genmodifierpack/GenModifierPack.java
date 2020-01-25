@@ -1,22 +1,24 @@
 package tk.valoeghese.zoesteria.core.genmodifierpack;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.common.util.FileUtils;
+import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
-import tk.valoeghese.zoesteria.api.biome.IBiomeProperties.IExtendedBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
-import tk.valoeghese.zoesteria.api.module.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -33,6 +35,8 @@ public final class GenModifierPack {
 	private final boolean disabled;
 
 	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
+		doHacks(biomeRegistry);
+
 		if (this.disabled) {
 			return;
 		}
@@ -46,6 +50,8 @@ public final class GenModifierPack {
 		FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
 			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
 		});
+
+		doHacks2(biomeRegistry);
 	}
 
 	public String getId() {
@@ -104,6 +110,8 @@ public final class GenModifierPack {
 			for (IZoesteriaBiome biome : module.createBiomes()) {
 				Map<String, Object> fileData = Maps.newLinkedHashMap();
 
+				fileData.put("id", biome.id());
+
 				// create properties
 				IBiomeProperties biomeProperties = biome.properties();
 				Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
@@ -124,10 +132,8 @@ public final class GenModifierPack {
 				boolean hasFillerBlock = fillerBlock.isPresent();
 				boolean hasUnderwaterBlock = underwaterBlock.isPresent();
 
-				if (biomeProperties instanceof IExtendedBiomeProperties) {
-					biomePropertiesData.put("waterColor", ((IExtendedBiomeProperties) biomeProperties).waterColour());
-					biomePropertiesData.put("waterFogColor", ((IExtendedBiomeProperties) biomeProperties).waterFogColour());
-				}
+				biomePropertiesData.put("waterColor", biomeProperties.waterColour());
+				biomePropertiesData.put("waterFogColor", biomeProperties.waterFogColour());
 
 				Optional<Integer> skyColour = biome.customSkyColour();
 
@@ -161,7 +167,9 @@ public final class GenModifierPack {
 					fileData.put("river", river.get());
 				}
 
-				Object2IntMap<BiomeManager.BiomeType> biomePlacement = biome.placement();
+				Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
+				biome.addPlacement(biomePlacement);
+
 				Map<String, Object> biomePlacementData = Maps.newLinkedHashMap();
 
 				biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(), weight.toString()));
@@ -203,6 +211,30 @@ public final class GenModifierPack {
 
 	public static boolean isLoaded(String packId) {
 		return PACKS.containsKey(packId);
+	}
+
+	public static void doHacks(IForgeRegistry<?> registry) {
+		if (loadedPackBiomes) {
+			try {
+				Field yeet = ForgeRegistry.class.getDeclaredField("isFrozen");
+				yeet.setAccessible(true);
+				yeet.set(registry, false);
+			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void doHacks2(IForgeRegistry<?> registry) {
+		if (loadedPackBiomes) {
+			try {
+				Field yeet = ForgeRegistry.class.getDeclaredField("isFrozen");
+				yeet.setAccessible(true);
+				yeet.set(registry, true);
+			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private static boolean initialised = false;

@@ -7,8 +7,8 @@ import net.minecraftforge.common.BiomeManager;
 
 public interface IZoesteriaBiome {
 	String id();
-	<T extends IBiomeProperties> T properties();
-	Object2IntMap<BiomeManager.BiomeType> placement();
+	IBiomeProperties properties();
+	void addPlacement(Object2IntMap<BiomeManager.BiomeType> biomePlacement);
 	Optional<Integer> customSkyColour();
 	Optional<String> getRiver();
 	boolean canSpawnInBiome();
