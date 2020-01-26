@@ -44,5 +44,4 @@ public final class BluffBiome implements IZoesteriaBiome {
 	public boolean canSpawnInBiome() {
 		return true;
 	}
-
 }
