@@ -101,8 +101,7 @@ public final class GenModifierPack {
 			packDirFile.mkdirs();
 
 			// create manifest
-			ConfigWriter manifest = new ConfigWriter(module.createManifest().asMap());
-			manifest.writeToFile(new File(packDir + "/manifest.cfg"));
+			ZoesteriaConfig.createWritableConfig(module.createManifest().asMap()).writeToFile(new File(packDir + "/manifest.cfg"));
 
 			new File(packDir + "/biomes").mkdir();
 
@@ -177,8 +176,8 @@ public final class GenModifierPack {
 
 				fileData.put("biomePlacement", biomePlacementData);
 
-				ConfigWriter cw = new ConfigWriter(fileData);
-				cw.writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
+				// write to file
+				ZoesteriaConfig.createWritableConfig(fileData).writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
 			}
 
 			GenModifierPack.addIfAbsent(packDir);

@@ -1,9 +1,12 @@
 package tk.valoeghese.zoesteria.common.biome;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
@@ -43,5 +46,11 @@ public final class BluffBiome implements IZoesteriaBiome {
 	@Override
 	public boolean canSpawnInBiome() {
 		return true;
+	}
+
+	@Override
+	public List<ConfiguredFeature<?, ?>> getFeatures() {
+		List<ConfiguredFeature<?, ?>> result = new ArrayList<>();
+		return result;
 	}
 }

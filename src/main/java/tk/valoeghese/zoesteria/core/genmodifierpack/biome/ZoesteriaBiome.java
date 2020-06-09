@@ -52,8 +52,8 @@ class ZoesteriaBiome extends Biome {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int func_225529_c_() {
-		return this.customSkyColour ? this.skyColour : super.func_225529_c_();
+	public int getSkyColor() {
+		return this.customSkyColour ? this.skyColour : super.getSkyColor();
 	}
 
 	@Override
