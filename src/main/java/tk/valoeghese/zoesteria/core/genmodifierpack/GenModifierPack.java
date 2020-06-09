@@ -2,6 +2,9 @@ package tk.valoeghese.zoesteria.core.genmodifierpack;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -10,7 +13,18 @@ import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.DecoratedFlowerFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.placement.ConfiguredPlacement;
+import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
@@ -19,9 +33,14 @@ import tk.valoeghese.common.util.FileUtils;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
+import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 public final class GenModifierPack {
 	private GenModifierPack(String id, String packDir, boolean enabled) {
@@ -91,6 +110,7 @@ public final class GenModifierPack {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		String packId = module.packId();
 
@@ -158,6 +178,41 @@ public final class GenModifierPack {
 					biomePropertiesData.put("surface", surfaceData);
 				}
 
+				// features
+				List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
+
+				if (!features.isEmpty()) {
+					List<Object> decorations = new ArrayList<>();
+
+					for (Tuple<GenerationStage.Decoration, ConfiguredFeature> decoration : features) {
+						ConfiguredFeature feature = decoration.getB();
+						DecoratedFeatureConfig dfc;
+
+						if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
+							dfc = (DecoratedFeatureConfig) feature.config;
+						} else {
+							ZoesteriaMod.LOGGER.warn("Can only serialise decorated features in configs! Defaulting to a Passthrough placement?");
+							feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
+							dfc = (DecoratedFeatureConfig) feature.config;
+						}
+
+						Map<String, Object> entry = new LinkedHashMap<>();
+						entry.put("step", decoration.getA().name());
+						entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
+						entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
+
+						// haha funni raw type go brr
+						handleFeature((ConfiguredFeature) dfc.feature, entry);
+						handlePlacement((ConfiguredPlacement) dfc.decorator, entry);
+
+						// add to decorations list
+						decorations.add(entry);
+					}
+
+					fileData.put("decorations", features);
+				}
+
+				// final
 				fileData.put("properties", biomePropertiesData);
 
 				Optional<String> river = biome.getRiver();
@@ -186,6 +241,24 @@ public final class GenModifierPack {
 				PACKS.get(packId).loadBiomes(ForgeRegistries.BIOMES);
 			}
 		}
+	}
+
+	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
+		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.get(feature.feature);
+		fc = fc.loadFrom(feature.config);
+
+		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+		fc.serialise(settings);
+		map.put("settings", settings.asMap());
+	}
+
+	private static <T extends IPlacementConfig> void handlePlacement(ConfiguredPlacement<T> placement, Map<String, Object> map) {
+		IZoesteriaPlacementConfig<T> fc = FeatureSerialisers.get(placement.decorator);
+		fc = fc.loadFrom(placement.config);
+
+		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+		fc.serialise(settings);
+		map.put("placement", settings.asMap());
 	}
 
 	public static void forEach(Consumer<GenModifierPack> callback) {

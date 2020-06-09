@@ -1,16 +1,26 @@
 package tk.valoeghese.zoesteria.core.genmodifierpack.biome;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
 import tk.valoeghese.zoesteria.core.genmodifierpack.Utils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -21,6 +31,7 @@ public final class BiomeFactory {
 		Container biomeConfig = ZoesteriaConfig.loadConfigWithDefaults(file, biomeDefaults);
 		Container properties = biomeConfig.getContainer("properties");
 		Container biomePlacement = biomeConfig.getContainer("biomePlacement");
+		List<Object> decorations = biomeConfig.getList("decorations");
 
 		String id = biomeConfig.getStringValue("id"); // required
 
@@ -42,7 +53,13 @@ public final class BiomeFactory {
 
 		addGeneration(details, biomePlacement);
 
-		return new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+
+		if (decorations != null) {
+			addDecorations(result, decorations);
+		}
+
+		return result;
 	}
 
 	private static void addGeneration(Details details, Container biomePlacement) {
@@ -74,6 +91,28 @@ public final class BiomeFactory {
 		details.spawnBiome = Utils.getBoolean(biomePlacement, "canSpawnInBiome", false);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static void addDecorations(Biome biome, List<Object> decorations) {
+		for (Object rawEntry : decorations) {
+			if (rawEntry instanceof Map) {
+				Map<String, Object> entry = (Map<String, Object>) rawEntry;
+				Feature feature = ForgeRegistries.FEATURES.getValue(new ResourceLocation((String) entry.get("feature")));
+
+				IZoesteriaFeatureConfig config = FeatureSerialisers.get(feature)
+						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
+
+				Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
+
+				IZoesteriaPlacementConfig placement = FeatureSerialisers.get(placementType)
+						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
+
+				biome.addFeature(GenerationStage.Decoration.valueOf((String) entry.get("step")),
+						feature.withConfiguration(config.create())
+						.withPlacement(placementType.configure(placement.create())));
+			}
+		}
+	}
+
 	private static SurfaceBuilderConfig getSurfaceConfig(Container properties) {
 		Container surface = properties.getContainer("surface");
 
@@ -99,7 +138,7 @@ public final class BiomeFactory {
 				container.addDataEntry("waterFogColor", "329011");
 			})
 			.build();
-	
+
 	static final class Details {
 		Integer skyColour;
 		String river;
