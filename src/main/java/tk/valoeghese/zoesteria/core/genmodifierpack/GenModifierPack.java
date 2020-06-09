@@ -244,7 +244,7 @@ public final class GenModifierPack {
 	}
 
 	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
-		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.get(feature.feature);
+		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
 		fc = fc.loadFrom(feature.config);
 
 		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
@@ -253,7 +253,7 @@ public final class GenModifierPack {
 	}
 
 	private static <T extends IPlacementConfig> void handlePlacement(ConfiguredPlacement<T> placement, Map<String, Object> map) {
-		IZoesteriaPlacementConfig<T> fc = FeatureSerialisers.get(placement.decorator);
+		IZoesteriaPlacementConfig<T> fc = FeatureSerialisers.getPlacement(placement.decorator);
 		fc = fc.loadFrom(placement.config);
 
 		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());

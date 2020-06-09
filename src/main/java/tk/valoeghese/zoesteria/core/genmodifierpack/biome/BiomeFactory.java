@@ -98,12 +98,12 @@ public final class BiomeFactory {
 				Map<String, Object> entry = (Map<String, Object>) rawEntry;
 				Feature feature = ForgeRegistries.FEATURES.getValue(new ResourceLocation((String) entry.get("feature")));
 
-				IZoesteriaFeatureConfig config = FeatureSerialisers.get(feature)
+				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
 
 				Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
 
-				IZoesteriaPlacementConfig placement = FeatureSerialisers.get(placementType)
+				IZoesteriaPlacementConfig placement = FeatureSerialisers.getPlacement(placementType)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
 				biome.addFeature(GenerationStage.Decoration.valueOf((String) entry.get("step")),

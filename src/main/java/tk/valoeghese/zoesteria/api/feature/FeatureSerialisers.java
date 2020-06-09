@@ -15,24 +15,24 @@ public class FeatureSerialisers {
 	private FeatureSerialisers() {
 	}
 
-	public static <T extends IFeatureConfig> void registerFeatureConfig(Feature<T> feature, IZoesteriaFeatureConfig<T> configHandler) {
+	public static <T extends IFeatureConfig> void registerFeatureSettings(Feature<T> feature, IZoesteriaFeatureConfig<T> configHandler) {
 		FEATURE_CONFIGS.put(feature, configHandler);
 	}
 
-	public static <T extends IPlacementConfig> void registerPlacementConfig(Placement<T> placement, IZoesteriaPlacementConfig<T> configHandler) {
+	public static <T extends IPlacementConfig> void registerPlacementSettings(Placement<T> placement, IZoesteriaPlacementConfig<T> configHandler) {
 		PLACEMENT_CONFIGS.put(placement, configHandler);
 	}
 
 	// only dirty reflection hacks or an idiot (or genius) using raw types should be able to cause casting errors
 
 	@SuppressWarnings("unchecked")
-	public static <T extends IFeatureConfig> IZoesteriaFeatureConfig<T> get(Feature<T> feature) {
-		return (IZoesteriaFeatureConfig<T>) FEATURE_CONFIGS.get(feature);
+	public static <T extends IFeatureConfig> IZoesteriaFeatureConfig<T> getFeatureSettings(Feature<T> featureConfig) {
+		return (IZoesteriaFeatureConfig<T>) FEATURE_CONFIGS.get(featureConfig);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends IPlacementConfig> IZoesteriaPlacementConfig<T> get(Placement<T> placement) {
-		return (IZoesteriaPlacementConfig<T>) PLACEMENT_CONFIGS.get(placement);
+	public static <T extends IPlacementConfig> IZoesteriaPlacementConfig<T> getPlacement(Placement<T> placementConfig) {
+		return (IZoesteriaPlacementConfig<T>) PLACEMENT_CONFIGS.get(placementConfig);
 	}
 
 	private static final Map<Feature<?>, IZoesteriaFeatureConfig<?>> FEATURE_CONFIGS = new HashMap<>();
