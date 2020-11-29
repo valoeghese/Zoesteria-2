@@ -6,6 +6,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.common.feature.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 
@@ -31,6 +32,6 @@ public class ZoesteriaRegistryHandler {
 
 	@SubscribeEvent
 	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
-
+		FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigHandler.BASE);
 	}
 }

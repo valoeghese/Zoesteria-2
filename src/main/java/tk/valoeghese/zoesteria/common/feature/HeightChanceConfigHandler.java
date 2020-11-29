@@ -41,4 +41,6 @@ public class HeightChanceConfigHandler implements IZoesteriaPlacementConfig<Heig
 	public HeightWithChanceConfig create() {
 		return new HeightWithChanceConfig(this.count, this.chance);
 	}
+	
+	public static final HeightChanceConfigHandler BASE = new HeightChanceConfigHandler(0, 0.0F);
 }
