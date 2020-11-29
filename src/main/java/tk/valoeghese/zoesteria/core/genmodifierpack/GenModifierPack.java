@@ -232,6 +232,7 @@ public final class GenModifierPack {
 				fileData.put("biomePlacement", biomePlacementData);
 
 				// write to file
+				ZoesteriaMod.LOGGER.info("Writing biome " + biome.id() + " to config file.");
 				ZoesteriaConfig.createWritableConfig(fileData).writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
 			}
 
