@@ -14,6 +14,7 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFeatureConfig> {
 	private TreeFeatureConfigHandler(TreeFeatureConfig config) {
+		// TODO make not bad, have ways of having variable leaves and log
 		this.leaves = config.leavesProvider.getBlockState(RAND, BlockPos.ZERO);
 		this.log = config.trunkProvider.getBlockState(RAND, BlockPos.ZERO);
 		this.minTrunkHeight = config.trunkHeight;

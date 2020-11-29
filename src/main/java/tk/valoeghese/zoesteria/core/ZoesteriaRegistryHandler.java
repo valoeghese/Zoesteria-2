@@ -25,6 +25,8 @@ public class ZoesteriaRegistryHandler {
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
 		FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigHandler.BASE);
 	}
 
 	@SubscribeEvent
