@@ -32,6 +32,7 @@ public class ZoesteriaRegistryHandler {
 
 	@SubscribeEvent
 	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
+		FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigHandler.BASE);
 		FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigHandler.BASE);
 	}
 }
