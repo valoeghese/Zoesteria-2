@@ -3,11 +3,12 @@ package tk.valoeghese.zoesteria.common.feature;
 import java.util.Random;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.core.Default;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
@@ -47,20 +48,31 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	@Override
 	public IZoesteriaFeatureConfig<TreeFeatureConfig> deserialise(Container settings) {
 		return new TreeFeatureConfigHandler(
-				ZFGUtils.getBlockState(settings, "leaves")
+				ZFGUtils.getBlockState(settings, "leaves"),
+				ZFGUtils.getBlockState(settings, "log"),
+				settings.getIntegerValue("minTrunkHeight"),
+				settings.getIntegerValue("maxTrunkHeight"),
+				settings.getIntegerValue("minFoliageDepth"),
+				settings.getIntegerValue("maxFoliageDepth")
 				);
 	}
 
 	@Override
 	public void serialise(EditableContainer settings) {
-		// TODO Auto-generated method stub
-
+		ZFGUtils.putBlockState(settings, "leaves", this.leaves);
+		ZFGUtils.putBlockState(settings, "log", this.log);
+		settings.putIntegerValue("minTrunkHeight", this.minTrunkHeight);
+		settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
+		settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
+		settings.putIntegerValue("maxFoliageDepth", this.maxFoliageDepth);
 	}
 
 	@Override
 	public TreeFeatureConfig create() {
-		return new TreeFeatureConfig.Builder(trunkProviderIn, leavesProviderIn, foliagePlacerIn)
+		return new TreeFeatureConfig.Builder(
+				new SimpleBlockStateProvider(this.log),
+				new SimpleBlockStateProvider(this.leaves), new BlobFoliagePlacer(2, 1)).build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler();
+	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0);
 }

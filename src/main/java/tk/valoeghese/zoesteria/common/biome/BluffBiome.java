@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
@@ -48,6 +51,8 @@ public final class BluffBiome implements IZoesteriaBiome {
 
 	@Override
 	public BiomeDecorations getDecorations() {
-		return BiomeDecorations.create();
+		return BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE
+						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG));
 	}
 }

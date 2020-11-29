@@ -2,7 +2,6 @@ package tk.valoeghese.zoesteria.core;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +24,7 @@ public class ZoesteriaRegistryHandler {
 
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
-		FeatureSerialisers.registerFeatureSettings(TreeFeatureConfig.class, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigHandler.BASE);
 	}
 
 	@SubscribeEvent

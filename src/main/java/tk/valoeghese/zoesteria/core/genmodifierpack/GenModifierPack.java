@@ -245,7 +245,7 @@ public final class GenModifierPack {
 
 	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
 		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
-		fc = fc.loadFrom(feature.config);
+		fc = fc.loadFrom(feature.config); // load from config
 
 		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
 		fc.serialise(settings);
