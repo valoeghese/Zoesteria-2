@@ -209,7 +209,7 @@ public final class GenModifierPack {
 						decorations.add(entry);
 					}
 
-					fileData.put("decorations", features);
+					fileData.put("decorations", decorations);
 				}
 
 				// final
