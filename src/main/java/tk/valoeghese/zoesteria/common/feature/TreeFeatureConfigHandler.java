@@ -21,25 +21,37 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight;
 		this.minFoliageDepth = config.foliageHeight;
 		this.maxFoliageDepth = config.foliageHeightRandom + config.foliageHeight;
+		this.baseHeight = config.baseHeight;
+		this.heightRandA = config.heightRandA;
+		this.heightRandB = config.heightRandB;
+		this.maxBlocksUnderwater = config.maxWaterDepth;
 	}
 
-	private TreeFeatureConfigHandler(BlockState leaves, BlockState log, int lt, int ht, int lf, int hf) {
+	private TreeFeatureConfigHandler(BlockState leaves, BlockState log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU) {
 		this.leaves = leaves;
 		this.log = log;
 		this.minTrunkHeight = lt;
 		this.maxTrunkHeight = ht;
 		this.minFoliageDepth = lf;
 		this.maxFoliageDepth = hf;
+		this.baseHeight = bh;
+		this.heightRandA = hA;
+		this.heightRandB = hB;
+		this.maxBlocksUnderwater = mBU;
 	}
 
 	private static final Random RAND = new Random();
 
 	private final BlockState leaves;
 	private final BlockState log;
+	private final int baseHeight;
+	private final int heightRandA;
+	private final int heightRandB;
 	private final int minTrunkHeight;
 	private final int maxTrunkHeight;
 	private final int minFoliageDepth;
 	private final int maxFoliageDepth;
+	private final int maxBlocksUnderwater;
 
 	@Override
 	public IZoesteriaFeatureConfig<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
@@ -48,13 +60,19 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 
 	@Override
 	public IZoesteriaFeatureConfig<TreeFeatureConfig> deserialise(Container settings) {
+		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
+
 		return new TreeFeatureConfigHandler(
 				ZFGUtils.getBlockState(settings, "leaves"),
 				ZFGUtils.getBlockState(settings, "log"),
 				settings.getIntegerValue("minTrunkHeight"),
 				settings.getIntegerValue("maxTrunkHeight"),
 				settings.getIntegerValue("minFoliageDepth"),
-				settings.getIntegerValue("maxFoliageDepth")
+				settings.getIntegerValue("maxFoliageDepth"),
+				settings.getIntegerValue("baseHeight"),
+				settings.getIntegerValue("heightRandA"),
+				settings.getIntegerValue("heightRandB"),
+				maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()
 				);
 	}
 
@@ -62,6 +80,9 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	public void serialise(EditableContainer settings) {
 		ZFGUtils.putBlockState(settings, "leaves", this.leaves);
 		ZFGUtils.putBlockState(settings, "log", this.log);
+		settings.putIntegerValue("baseHeight", this.baseHeight);
+		settings.putIntegerValue("heightRandA", this.heightRandA);
+		settings.putIntegerValue("heightRandB", this.heightRandB);
 		settings.putIntegerValue("minTrunkHeight", this.minTrunkHeight);
 		settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
 		settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
@@ -72,8 +93,17 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	public TreeFeatureConfig create() {
 		return new TreeFeatureConfig.Builder(
 				new SimpleBlockStateProvider(this.log),
-				new SimpleBlockStateProvider(this.leaves), new BlobFoliagePlacer(2, 1)).build();
+				new SimpleBlockStateProvider(this.leaves), new BlobFoliagePlacer(2, 1))
+				.baseHeight(this.baseHeight)
+				.heightRandA(this.heightRandA)
+				.heightRandB(this.heightRandB)
+				.trunkHeight(this.minTrunkHeight)
+				.trunkHeightRandom(this.maxTrunkHeight - this.minTrunkHeight)
+				.foliageHeight(this.minFoliageDepth)
+				.foliageHeightRandom(this.maxFoliageDepth - this.minFoliageDepth)
+				.maxWaterDepth(this.maxBlocksUnderwater)
+				.build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0);
+	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0, 0, 0, 0, 0);
 }
