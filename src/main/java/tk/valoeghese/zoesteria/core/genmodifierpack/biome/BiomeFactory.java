@@ -101,11 +101,19 @@ public final class BiomeFactory {
 		for (Object rawEntry : decorations) {
 			entryCounter++;
 
+			if (rawEntry == null) {
+				throw new NullPointerException("Decoration entry found to be null where a decoration was expected!");
+			}
+
 			if (rawEntry instanceof Map) {
 				decorationCounter++;
 				Map<String, Object> entry = (Map<String, Object>) rawEntry;
 				Feature feature = ForgeRegistries.FEATURES.getValue(new ResourceLocation((String) entry.get("feature")));
 
+				if (feature == null) {
+					throw new NullPointerException("Invalid feature given in decorations!");
+				}
+				
 				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
 
