@@ -73,7 +73,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		mutablePos.setY(startY);
 
 		// check gen conditions
-		if (isSoil(world, mutablePos, null)) {
+		if (isSoil(world, mutablePos.down(), null)) {
 			
 		}
 	}
