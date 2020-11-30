@@ -21,6 +21,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.Utils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -56,6 +57,7 @@ public final class BiomeFactory {
 		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
 
 		if (decorations != null) {
+			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
 			addDecorations(result, decorations);
 		}
 
@@ -93,8 +95,14 @@ public final class BiomeFactory {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void addDecorations(Biome biome, List<Object> decorations) {
+		int decorationCounter = 0;
+		int entryCounter = 0;
+
 		for (Object rawEntry : decorations) {
+			entryCounter++;
+
 			if (rawEntry instanceof Map) {
+				decorationCounter++;
 				Map<String, Object> entry = (Map<String, Object>) rawEntry;
 				Feature feature = ForgeRegistries.FEATURES.getValue(new ResourceLocation((String) entry.get("feature")));
 
@@ -111,6 +119,8 @@ public final class BiomeFactory {
 						.withPlacement(placementType.configure(placement.create())));
 			}
 		}
+
+		ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
 	}
 
 	private static SurfaceBuilderConfig getSurfaceConfig(Container properties) {
