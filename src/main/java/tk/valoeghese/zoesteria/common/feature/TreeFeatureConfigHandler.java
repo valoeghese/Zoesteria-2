@@ -87,6 +87,10 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
 		settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
 		settings.putIntegerValue("maxFoliageDepth", this.maxFoliageDepth);
+
+		if (this.maxBlocksUnderwater != 0) {
+			settings.putIntegerValue("maxBlocksUnderwater", this.maxBlocksUnderwater);
+		}
 	}
 
 	@Override
