@@ -24,11 +24,19 @@ public class ZFGUtils {
 		settings.putStringValue(key, ForgeRegistries.BLOCKS.getKey(value).toString());
 	}
 
-	// TODO untested
 	@SuppressWarnings("unchecked")
 	public static BlockState getBlockState(Container settings, String key) {
+		if (key == null) {
+			throw new NullPointerException("Key for block state is null!");
+		}
+
 		Container state = settings.getContainer(key);
-		Block block = getBlock(state, key);
+
+		if (state == null) {
+			throw new NullPointerException("State container of block state is null!");
+		}
+
+		Block block = getBlock(state, "block");
 
 		StateContainer<Block, BlockState> stateContainer = block.getStateContainer();
 
@@ -43,7 +51,6 @@ public class ZFGUtils {
 		return result;
 	}
 
-	// TODO untested
 	@SuppressWarnings("unchecked")
 	public static void putBlockState(EditableContainer settings, String key, BlockState value) {
 		Map<String, Object> state = new LinkedHashMap<>();
@@ -51,6 +58,10 @@ public class ZFGUtils {
 		for (@SuppressWarnings("rawtypes") IProperty property : value.getProperties()) {
 			state.put(property.getName(), property.getName(value.get(property)));
 		}
+
+		state.put("block", ForgeRegistries.BLOCKS.getKey(value.getBlock()).toString());
+
+		settings.putMap(key, state);
 	}
 
 	private static <T extends Comparable<T>> BlockState add(BlockState result, IProperty<T> property, Container settings) {
