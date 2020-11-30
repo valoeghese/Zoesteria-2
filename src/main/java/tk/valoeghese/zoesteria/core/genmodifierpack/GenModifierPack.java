@@ -37,6 +37,7 @@ import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
+import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -54,6 +55,9 @@ public final class GenModifierPack {
 	private final boolean disabled;
 
 	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
+		ZoesteriaRegistryHandler.featureSettingsRegister();
+		ZoesteriaRegistryHandler.placementSettingsRegister();
+		
 		doHacks(biomeRegistry);
 
 		if (this.disabled) {

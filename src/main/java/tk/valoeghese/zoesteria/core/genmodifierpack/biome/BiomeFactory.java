@@ -113,7 +113,7 @@ public final class BiomeFactory {
 				if (feature == null) {
 					throw new NullPointerException("Invalid feature given in decorations!");
 				}
-				
+
 				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
 
