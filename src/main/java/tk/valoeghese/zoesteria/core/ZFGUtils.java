@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.common.feature;
+package tk.valoeghese.zoesteria.core;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

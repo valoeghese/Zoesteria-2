@@ -10,7 +10,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
@@ -98,6 +100,9 @@ public final class BiomeFactory {
 		int decorationCounter = 0;
 		int entryCounter = 0;
 
+		DefaultBiomeFeatures.addCarvers(biome);
+		DefaultBiomeFeatures.addStructures(biome);
+
 		for (Object rawEntry : decorations) {
 			entryCounter++;
 
@@ -128,6 +133,7 @@ public final class BiomeFactory {
 			}
 		}
 
+		DefaultBiomeFeatures.addFreezeTopLayer(biome);
 		ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
 	}
 
