@@ -30,8 +30,12 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable(pos);
 		final int startX = pos.getX();
 		final int startZ = pos.getZ();
-		final int trunkHeight = config.trunkHeight + rand.nextInt(config.trunkHeightRandom);
-		final int foliageDepth = config.foliageHeight + rand.nextInt(config.foliageHeightRandom);
+		
+		// foliage height thus indicates the height of the bare trunk, and the rest is foliage-covered
+		final int trunkHeight = height - (config.foliageHeight + rand.nextInt(config.foliageHeightRandom));
+
+		// trunk height in the config thus indicates the amount of bare foliage at the end
+		final int foliageDepth = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom));
 
 		// final xo
 		int fxo = 0;
