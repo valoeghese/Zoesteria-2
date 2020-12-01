@@ -58,7 +58,7 @@ public final class BiomeFactory {
 		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
 
 		if (decorations != null) {
-			ZoesteriaMod.FEATURE_TASK.add(() -> {
+			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
 				ZoesteriaMod.LOGGER.info("Decorating biome " + id);
 				addDecorations(result, decorations);
 			});

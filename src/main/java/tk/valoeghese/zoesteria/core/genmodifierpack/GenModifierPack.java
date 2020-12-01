@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import com.google.common.collect.Maps;
@@ -56,8 +57,6 @@ public final class GenModifierPack {
 		ZoesteriaRegistryHandler.registerFeatureSettings();
 		ZoesteriaRegistryHandler.registerPlacementSettings();
 
-		//doHacks(biomeRegistry);
-
 		if (this.disabled) {
 			return;
 		}
@@ -72,7 +71,6 @@ public final class GenModifierPack {
 			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
 		});
 
-		//doHacks2(biomeRegistry);
 	}
 
 	public String getId() {
@@ -104,7 +102,7 @@ public final class GenModifierPack {
 
 			Boolean enabled = Utils.getBoolean(packManifest, "enabled", true);
 
-			System.out.println("Zoesteria has detected module: " + id);
+			ZoesteriaMod.LOGGER.info("Zoesteria has detected module: " + id);
 			PACKS.put(id, new GenModifierPack(id, packDir, enabled.booleanValue()));
 			break;
 		default:
@@ -115,135 +113,142 @@ public final class GenModifierPack {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		String packId = module.packId();
+		AtomicBoolean isLoaded = new AtomicBoolean(false);
 
-		if (!isLoaded(packId)) {
-			// create module dir
-			String packDir = "./zoesteria/" + packId;
-			File packDirFile = new File(packDir);
-			packDirFile.mkdirs();
+		ZoesteriaRegistryHandler.BIOME_PROCESSING.add(() -> {
+			isLoaded.set(isLoaded(packId));
 
-			// create manifest
-			ZoesteriaConfig.createWritableConfig(module.createManifest().asMap()).writeToFile(new File(packDir + "/manifest.cfg"));
+			if (!isLoaded.get()) {
+				
+			}
+		});
 
-			new File(packDir + "/biomes").mkdir();
+		ZoesteriaMod.COMMON_PROCESSING.add(() -> {
+			if (!isLoaded.get()) {
+				// create module dir
+				String packDir = "./zoesteria/" + packId;
+				File packDirFile = new File(packDir);
+				packDirFile.mkdirs();
 
-			// create biome files
-			for (IZoesteriaBiome biome : module.createBiomes()) {
-				Map<String, Object> fileData = Maps.newLinkedHashMap();
+				// create manifest
+				ZoesteriaConfig.createWritableConfig(module.createManifest().asMap()).writeToFile(new File(packDir + "/manifest.cfg"));
 
-				fileData.put("id", biome.id());
+				new File(packDir + "/biomes").mkdir();
 
-				// create properties
-				IBiomeProperties biomeProperties = biome.properties();
-				Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
+				// create biome files
+				for (IZoesteriaBiome biome : module.createBiomes()) {
+					Map<String, Object> fileData = Maps.newLinkedHashMap();
 
-				biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase());
-				biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase());
-				biomePropertiesData.put("depth", biomeProperties.depth());
-				biomePropertiesData.put("scale", biomeProperties.scale());
-				biomePropertiesData.put("temperature", biomeProperties.temperature());
-				biomePropertiesData.put("downfall", biomeProperties.downfall());
+					fileData.put("id", biome.id());
 
-				// create surface
-				Optional<String> topBlock = biomeProperties.topBlock();
-				Optional<String> fillerBlock = biomeProperties.fillerBlock();
-				Optional<String> underwaterBlock = biomeProperties.underwaterBlock();
+					// create properties
+					IBiomeProperties biomeProperties = biome.properties();
+					Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
 
-				boolean hasTopBlock = topBlock.isPresent();
-				boolean hasFillerBlock = fillerBlock.isPresent();
-				boolean hasUnderwaterBlock = underwaterBlock.isPresent();
+					biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase());
+					biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase());
+					biomePropertiesData.put("depth", biomeProperties.depth());
+					biomePropertiesData.put("scale", biomeProperties.scale());
+					biomePropertiesData.put("temperature", biomeProperties.temperature());
+					biomePropertiesData.put("downfall", biomeProperties.downfall());
 
-				biomePropertiesData.put("waterColor", biomeProperties.waterColour());
-				biomePropertiesData.put("waterFogColor", biomeProperties.waterFogColour());
+					// create surface
+					Optional<String> topBlock = biomeProperties.topBlock();
+					Optional<String> fillerBlock = biomeProperties.fillerBlock();
+					Optional<String> underwaterBlock = biomeProperties.underwaterBlock();
 
-				Optional<Integer> skyColour = biome.customSkyColour();
+					boolean hasTopBlock = topBlock.isPresent();
+					boolean hasFillerBlock = fillerBlock.isPresent();
+					boolean hasUnderwaterBlock = underwaterBlock.isPresent();
 
-				if (skyColour.isPresent()) {
-					biomePropertiesData.put("skyColor", skyColour.get().toString());
-				}
+					biomePropertiesData.put("waterColor", biomeProperties.waterColour());
+					biomePropertiesData.put("waterFogColor", biomeProperties.waterFogColour());
 
-				if (hasTopBlock || hasFillerBlock || hasUnderwaterBlock) {
-					Map<String, Object> surfaceData = Maps.newLinkedHashMap();
+					Optional<Integer> skyColour = biome.customSkyColour();
 
-					if (hasTopBlock) {
-						surfaceData.put("topBlock", topBlock.get());
+					if (skyColour.isPresent()) {
+						biomePropertiesData.put("skyColor", skyColour.get().toString());
 					}
 
-					if (hasFillerBlock) {
-						surfaceData.put("fillerBlock", fillerBlock.get());
-					}
+					if (hasTopBlock || hasFillerBlock || hasUnderwaterBlock) {
+						Map<String, Object> surfaceData = Maps.newLinkedHashMap();
 
-					if (hasUnderwaterBlock) {
-						surfaceData.put("underwaterBlock", underwaterBlock.get());
-					}
-
-					biomePropertiesData.put("surface", surfaceData);
-				}
-
-				// features
-				List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
-
-				if (!features.isEmpty()) {
-					List<Object> decorations = new ArrayList<>();
-
-					for (Tuple<GenerationStage.Decoration, ConfiguredFeature> decoration : features) {
-						ConfiguredFeature feature = decoration.getB();
-						DecoratedFeatureConfig dfc;
-
-						if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
-							dfc = (DecoratedFeatureConfig) feature.config;
-						} else {
-							ZoesteriaMod.LOGGER.warn("Can only serialise decorated features in configs! Defaulting to a Passthrough placement?");
-							feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
-							dfc = (DecoratedFeatureConfig) feature.config;
+						if (hasTopBlock) {
+							surfaceData.put("topBlock", topBlock.get());
 						}
 
-						Map<String, Object> entry = new LinkedHashMap<>();
-						entry.put("step", decoration.getA().name());
-						entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
-						entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
+						if (hasFillerBlock) {
+							surfaceData.put("fillerBlock", fillerBlock.get());
+						}
 
-						// haha funni raw type go brr
-						handleFeature((ConfiguredFeature) dfc.feature, entry);
-						handlePlacement((ConfiguredPlacement) dfc.decorator, entry);
+						if (hasUnderwaterBlock) {
+							surfaceData.put("underwaterBlock", underwaterBlock.get());
+						}
 
-						// add to decorations list
-						decorations.add(entry);
+						biomePropertiesData.put("surface", surfaceData);
 					}
 
-					fileData.put("decorations", decorations);
+					// features
+					List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
+
+					if (!features.isEmpty()) {
+						List<Object> decorations = new ArrayList<>();
+
+						for (Tuple<GenerationStage.Decoration, ConfiguredFeature> decoration : features) {
+							ConfiguredFeature feature = decoration.getB();
+							DecoratedFeatureConfig dfc;
+
+							if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
+								dfc = (DecoratedFeatureConfig) feature.config;
+							} else {
+								ZoesteriaMod.LOGGER.warn("Can only serialise decorated features in configs! Defaulting to a Passthrough placement?");
+								feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
+								dfc = (DecoratedFeatureConfig) feature.config;
+							}
+
+							Map<String, Object> entry = new LinkedHashMap<>();
+							entry.put("step", decoration.getA().name());
+							entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
+							entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
+
+							// haha funni raw type go brr
+							handleFeature((ConfiguredFeature) dfc.feature, entry);
+							handlePlacement((ConfiguredPlacement) dfc.decorator, entry);
+
+							// add to decorations list
+							decorations.add(entry);
+						}
+
+						fileData.put("decorations", decorations);
+					}
+
+					// final
+					fileData.put("properties", biomePropertiesData);
+
+					Optional<String> river = biome.getRiver();
+
+					if (river.isPresent()) {
+						fileData.put("river", river.get());
+					}
+
+					Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
+					biome.addPlacement(biomePlacement);
+
+					Map<String, Object> biomePlacementData = Maps.newLinkedHashMap();
+
+					biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(), weight.toString()));
+					biomePlacementData.put("canSpawnInBiome", String.valueOf(biome.canSpawnInBiome()));
+
+					fileData.put("biomePlacement", biomePlacementData);
+
+					// write to file
+					ZoesteriaMod.LOGGER.info("Writing biome " + biome.id() + " to config file.");
+					ZoesteriaConfig.createWritableConfig(fileData).writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
 				}
 
-				// final
-				fileData.put("properties", biomePropertiesData);
-
-				Optional<String> river = biome.getRiver();
-
-				if (river.isPresent()) {
-					fileData.put("river", river.get());
-				}
-
-				Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
-				biome.addPlacement(biomePlacement);
-
-				Map<String, Object> biomePlacementData = Maps.newLinkedHashMap();
-
-				biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(), weight.toString()));
-				biomePlacementData.put("canSpawnInBiome", String.valueOf(biome.canSpawnInBiome()));
-
-				fileData.put("biomePlacement", biomePlacementData);
-
-				// write to file
-				ZoesteriaMod.LOGGER.info("Writing biome " + biome.id() + " to config file.");
-				ZoesteriaConfig.createWritableConfig(fileData).writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
+				GenModifierPack.addIfAbsent(packDir);
 			}
-
-			GenModifierPack.addIfAbsent(packDir);
-
-			//if (/*loadedPackBiomes && */PACKS.containsKey(packId)) {
-			//PACKS.get(packId).loadBiomes(ForgeRegistries.BIOMES);
-			//}
-		}
+		});
 	}
 
 	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
@@ -280,40 +285,11 @@ public final class GenModifierPack {
 		}
 	}
 
-	/*public static void flagLoadedPackBiomes() {
-		loadedPackBiomes = true;
-	}*/
-
 	public static boolean isLoaded(String packId) {
 		return PACKS.containsKey(packId);
 	}
 
-	/*public static void doHacks(IForgeRegistry<?> registry) {
-		if (loadedPackBiomes) {
-			try {
-				Field yeet = ForgeRegistry.class.getDeclaredField("isFrozen");
-				yeet.setAccessible(true);
-				yeet.set(registry, false);
-			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static void doHacks2(IForgeRegistry<?> registry) {
-		if (loadedPackBiomes) {
-			try {
-				Field yeet = ForgeRegistry.class.getDeclaredField("isFrozen");
-				yeet.setAccessible(true);
-				yeet.set(registry, true);
-			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}*/
-
 	private static boolean initialised = false;
-	//private static boolean loadedPackBiomes = false;
 
 	private static final Map<String, GenModifierPack> PACKS = Maps.newHashMap();
 	public static final File ROOT_DIR = new File("./zoesteria");

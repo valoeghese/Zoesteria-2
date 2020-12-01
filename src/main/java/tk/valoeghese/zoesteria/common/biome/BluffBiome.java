@@ -61,7 +61,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 						.withConfiguration(new TreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(
 										Blocks.SPRUCE_LOG.getDefaultState()),
-								new SimpleBlockStateProvider(Blocks.SPRUCE_WOOD.getDefaultState()),
+								new SimpleBlockStateProvider(Blocks.SPRUCE_LEAVES.getDefaultState()),
 								new BlobFoliagePlacer(1, 1))
 								.baseHeight(11)
 								.heightRandA(4)

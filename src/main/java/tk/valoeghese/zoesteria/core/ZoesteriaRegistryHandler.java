@@ -1,5 +1,8 @@
 package tk.valoeghese.zoesteria.core;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -20,7 +23,10 @@ public class ZoesteriaRegistryHandler {
 		ZoesteriaMod.LOGGER.info("Loading biomes of GenModifierPacks");
 		GenModifierPack.init();
 		GenModifierPack.forEach(pack -> pack.loadBiomes(event.getRegistry()));
-		//GenModifierPack.flagLoadedPackBiomes();
+
+		while (!BIOME_PROCESSING.isEmpty()) {
+			BIOME_PROCESSING.remove().run();
+		}
 	}
 
 	// ===== COMMON / ZOESTERIA MODULE =====
@@ -57,6 +63,7 @@ public class ZoesteriaRegistryHandler {
 	}
 
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
+	public static final Queue<Runnable> BIOME_PROCESSING = new LinkedList<>();
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;
 }

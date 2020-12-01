@@ -16,7 +16,7 @@ import tk.valoeghese.zoesteria.common.Zoesteria;
 @Mod("zoesteria")
 public class ZoesteriaMod {
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final Queue<Runnable> FEATURE_TASK = new LinkedList<>();
+	public static final Queue<Runnable> COMMON_PROCESSING = new LinkedList<>();
 
 	public ZoesteriaMod() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -29,8 +29,8 @@ public class ZoesteriaMod {
 	private void setup(final FMLCommonSetupEvent event) {
 		LOGGER.info("Setting up Zoesteria!");
 
-		while (!FEATURE_TASK.isEmpty()) {
-			FEATURE_TASK.remove().run();
+		while (!COMMON_PROCESSING.isEmpty()) {
+			COMMON_PROCESSING.remove().run();
 		}
 	}
 }
