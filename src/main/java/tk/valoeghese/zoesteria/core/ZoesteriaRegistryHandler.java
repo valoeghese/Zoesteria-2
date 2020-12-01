@@ -2,10 +2,12 @@ package tk.valoeghese.zoesteria.core;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.common.feature.BluffPineFeature;
 import tk.valoeghese.zoesteria.common.feature.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
@@ -25,6 +27,7 @@ public class ZoesteriaRegistryHandler {
 
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
+		event.getRegistry().register(BLUFF_PINE.setRegistryName("bluff_pine"));
 		featureSettingsRegister();
 	}
 
@@ -49,9 +52,11 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigHandler.BASE);
+			FeatureSerialisers.registerFeatureSettings(BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 		}
 	}
 
+	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;
 }
