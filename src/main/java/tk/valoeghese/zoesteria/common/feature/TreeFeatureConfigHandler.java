@@ -19,16 +19,18 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.leaves = config.leavesProvider.getBlockState(RAND, BlockPos.ZERO);
 		this.log = config.trunkProvider.getBlockState(RAND, BlockPos.ZERO);
 		this.minTrunkHeight = config.trunkHeight;
-		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight;
+		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight - 1;
 		this.minFoliageDepth = config.foliageHeight;
-		this.maxFoliageDepth = config.foliageHeightRandom + config.foliageHeight;
+		this.maxFoliageDepth = config.foliageHeightRandom + config.foliageHeight - 1;
 		this.baseHeight = config.baseHeight;
 		this.heightRandA = config.heightRandA;
 		this.heightRandB = config.heightRandB;
 		this.maxBlocksUnderwater = config.maxWaterDepth;
+		this.minTrunkTopOffset = config.trunkTopOffset;
+		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset - 1;
 	}
 
-	private TreeFeatureConfigHandler(BlockState leaves, BlockState log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU) {
+	private TreeFeatureConfigHandler(BlockState leaves, BlockState log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM) {
 		this.leaves = leaves;
 		this.log = log;
 		this.minTrunkHeight = lt;
@@ -39,6 +41,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.heightRandA = hA;
 		this.heightRandB = hB;
 		this.maxBlocksUnderwater = mBU;
+		this.minTrunkTopOffset = tOm;
+		this.maxTrunkTopOffset = tOM;
 	}
 
 	private static final Random RAND = new Random();
@@ -52,6 +56,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	private final int maxTrunkHeight;
 	private final int minFoliageDepth;
 	private final int maxFoliageDepth;
+	private final int minTrunkTopOffset;
+	private final int maxTrunkTopOffset;
 	private final int maxBlocksUnderwater;
 
 	@Override
@@ -73,7 +79,9 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 				settings.getIntegerValue("baseHeight"),
 				settings.getIntegerValue("heightRandA"),
 				settings.getIntegerValue("heightRandB"),
-				maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()
+				maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue(),
+				settings.getIntegerValue("minTrunkTopOffset"),
+				settings.getIntegerValue("maxTrunkTopOffset")
 				);
 	}
 
@@ -86,6 +94,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		settings.putIntegerValue("heightRandB", this.heightRandB);
 		settings.putIntegerValue("minTrunkHeight", this.minTrunkHeight);
 		settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
+		settings.putIntegerValue("minTrunkTopOffset", this.minTrunkTopOffset);
+		settings.putIntegerValue("maxTrunkTopOffset", this.maxTrunkTopOffset);
 		settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
 		settings.putIntegerValue("maxFoliageDepth", this.maxFoliageDepth);
 
@@ -103,12 +113,14 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 				.heightRandA(this.heightRandA)
 				.heightRandB(this.heightRandB)
 				.trunkHeight(this.minTrunkHeight)
-				.trunkHeightRandom(this.maxTrunkHeight - this.minTrunkHeight)
+				.trunkHeightRandom(this.maxTrunkHeight - this.minTrunkHeight + 1)
 				.foliageHeight(this.minFoliageDepth)
 				.foliageHeightRandom(this.maxFoliageDepth - this.minFoliageDepth)
+				.trunkTopOffset(this.minTrunkTopOffset)
+				.trunkTopOffsetRandom(this.maxTrunkTopOffset - this.minTrunkTopOffset + 1)
 				.maxWaterDepth(this.maxBlocksUnderwater)
 				.build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0, 0, 0, 0, 0);
+	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
