@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
@@ -23,6 +22,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.core.InternalBackupRegistries;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.Utils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
@@ -113,10 +113,16 @@ public final class BiomeFactory {
 			if (rawEntry instanceof Map) {
 				decorationCounter++;
 				Map<String, Object> entry = (Map<String, Object>) rawEntry;
-				Feature feature = ForgeRegistries.FEATURES.getValue(new ResourceLocation((String) entry.get("feature")));
+				ResourceLocation featureResource = new ResourceLocation((String) entry.get("feature"));
+				Feature feature = ForgeRegistries.FEATURES.getValue(featureResource);
 
 				if (feature == null) {
-					throw new NullPointerException("Invalid feature given in decorations!");
+					// check backup
+					feature = InternalBackupRegistries.FEATURE_LOOKUP.get(featureResource);
+
+					if (feature == null) {
+						throw new NullPointerException("Invalid or unregistered feature given in decorations!");
+					}
 				}
 
 				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)

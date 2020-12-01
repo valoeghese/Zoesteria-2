@@ -27,7 +27,7 @@ public class ZoesteriaRegistryHandler {
 
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
-		event.getRegistry().register(BLUFF_PINE.setRegistryName("bluff_pine"));
+		event.getRegistry().register(BLUFF_PINE);
 		featureSettingsRegister();
 	}
 
@@ -56,7 +56,7 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
-	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
+	public static final Feature<TreeFeatureConfig> BLUFF_PINE = (Feature<TreeFeatureConfig>) new BluffPineFeature().setRegistryName("bluff_pine");
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;
 }

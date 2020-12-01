@@ -30,7 +30,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable(pos);
 		final int startX = pos.getX();
 		final int startZ = pos.getZ();
-		
+
 		// trunk height thus indicates the height of the bare trunk, and the rest is foliage-covered
 		final int trunkHeight = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom));
 
@@ -69,12 +69,14 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 					}
 				}
 
-				fxo /= count;
-				fzo /= count;
-				int tempOldFxo = fxo;
+				if (count > 0) {
+					fxo /= count;
+					fzo /= count;
+					int tempOldFxo = fxo;
 
-				fxo = fzo > fxo ? 0 : signum(fxo);
-				fzo = tempOldFxo > fzo ? 0 : signum(fzo);
+					fxo = fzo > fxo ? 0 : signum(fxo);
+					fzo = tempOldFxo > fzo ? 0 : signum(fzo);
+				}
 			}
 		}
 
@@ -121,11 +123,19 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 					this.setLeaf(world, rand, mutablePos, leaves, box, config);
 				}
 
-				mutablePos.setX(startX);
-				mutablePos.setZ(startZ);
+				mutablePos.setX(yo > 2 ? startX + fxo : startX);
+				mutablePos.setZ(yo > 2 ? startZ + fzo : startZ);
 			}
 
+			mutablePos.setX(startX);
+			mutablePos.setZ(startZ);
+
 			for (int yo = 0; yo <= trunkHeight; ++yo) {
+				if (yo == 3) {
+					mutablePos.setX(startX + fxo);
+					mutablePos.setZ(startZ + fzo);
+				}
+
 				mutablePos.setY(startY + yo);
 				this.setLog(world, rand, mutablePos, logs, box, config);
 			}
@@ -138,7 +148,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 
 	private void growBigLeaves1(IWorldGenerationReader world, Random rand, Mutable mutablePos, int startX, int startZ, Set<BlockPos> leaves, MutableBoundingBox box, TreeFeatureConfig config) {
 		this.growBigLeaves2(world, rand, mutablePos, startX, startZ, leaves, box, config);
-		
+
 		// apparently "outer x, outer z"
 		for (int lilScumbag = -1; lilScumbag <= 1; ++lilScumbag) {
 			// x 3
