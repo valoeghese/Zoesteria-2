@@ -9,26 +9,68 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
+import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
-import tk.valoeghese.zoesteria.core.genmodifierpack.Utils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.template.ConfigTemplate;
 
 public final class BiomeFactory {
+	public static Biome buildBiome(IZoesteriaBiome biome, String packId, IForgeRegistry<Biome> biomeRegistry) {
+		String id = biome.id();
+		IBiomeProperties properties = biome.properties();
+		BiomeDecorations decorations = biome.getDecorations();
+
+		Biome.Builder propertiesBuilder = new Biome.Builder()
+				.category(properties.category()) // required
+				.precipitation(properties.precipitation())
+				.depth(properties.depth())
+				.scale(properties.scale())
+				.temperature(properties.temperature())
+				.downfall(properties.downfall())
+				.waterColor(properties.waterColour())
+				.waterFogColor(properties.waterFogColour())
+				.surfaceBuilder(SurfaceBuilder.DEFAULT, getSurfaceConfig(properties))
+				.parent(null);
+
+		Details details = new Details();
+		details.skyColour = biome.customSkyColour().orElse(null);
+		details.river = biome.getRiver().orElse(null);
+
+		Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
+		biome.addPlacement(biomePlacement);
+		addGeneration(details, biomePlacement, biome.canSpawnInBiome());
+		
+		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+
+		if (decorations != null) {
+			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
+			addDecorations(result, decorations);
+		}
+
+		return result;
+	}
+
 	public static Biome buildBiome(File file, String packId, IForgeRegistry<Biome> biomeRegistry) {
 		Container biomeConfig = ZoesteriaConfig.loadConfigWithDefaults(file, biomeDefaults);
 		Container properties = biomeConfig.getContainer("properties");
@@ -67,6 +109,35 @@ public final class BiomeFactory {
 		return result;
 	}
 
+	private static void addGeneration(Details details, Object2IntMap<BiomeManager.BiomeType> biomePlacement, boolean spawnBiome) {
+		if (biomePlacement.isEmpty()) {
+			return;
+		}
+
+		int desert = biomePlacement.getInt(BiomeType.DESERT);
+		int warm = biomePlacement.getInt(BiomeType.WARM);
+		int cool = biomePlacement.getInt(BiomeType.COOL);
+		int icy = biomePlacement.getInt(BiomeType.ICY);
+
+		if (desert > 0) {
+			details.placement.put(BiomeManager.BiomeType.DESERT, desert);
+		}
+
+		if (warm > 0) {
+			details.placement.put(BiomeManager.BiomeType.WARM, warm);
+		}
+
+		if (cool > 0) {
+			details.placement.put(BiomeManager.BiomeType.COOL, cool);
+		}
+
+		if (icy > 0) {
+			details.placement.put(BiomeManager.BiomeType.ICY, icy);
+		}
+
+		details.spawnBiome = spawnBiome;
+	}
+
 	private static void addGeneration(Details details, Container biomePlacement) {
 		if (biomePlacement == null) {
 			return;
@@ -93,7 +164,14 @@ public final class BiomeFactory {
 			details.placement.put(BiomeManager.BiomeType.ICY, icy.intValue());
 		}
 
-		details.spawnBiome = Utils.getBoolean(biomePlacement, "canSpawnInBiome", false);
+		details.spawnBiome = ZFGUtils.getBooleanOrDefault(biomePlacement, "canSpawnInBiome", false);
+	}
+
+	@SuppressWarnings("rawtypes")
+	private static void addDecorations(Biome biome, BiomeDecorations decorations) {
+		for (Tuple<Decoration, ConfiguredFeature> entry : decorations.toImmutableList()) {
+			biome.addFeature(entry.getA(), entry.getB());
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -139,15 +217,23 @@ public final class BiomeFactory {
 		ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
 	}
 
+	private static SurfaceBuilderConfig getSurfaceConfig(IBiomeProperties properties) {
+		BlockState topMaterial = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(properties.topBlock().orElse("minecraft:grass_block"))).getDefaultState();
+		BlockState underMaterial = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(properties.fillerBlock().orElse("minecraft:dirt"))).getDefaultState();
+		BlockState underWaterMaterial = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(properties.underwaterBlock().orElse("minecraft:gravel"))).getDefaultState();
+
+		return new SurfaceBuilderConfig(topMaterial, underMaterial, underWaterMaterial);
+	}
+
 	private static SurfaceBuilderConfig getSurfaceConfig(Container properties) {
 		Container surface = properties.getContainer("surface");
 
 		if (surface == null) {
 			return SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG;
 		} else {
-			BlockState topBlock = Utils.getBlock(surface.getStringValue("topBlock"), Blocks.GRASS_BLOCK).getDefaultState();
-			BlockState fillerBlock = Utils.getBlock(surface.getStringValue("fillerBlock"), Blocks.DIRT).getDefaultState();
-			BlockState underwaterBlock = Utils.getBlock(surface.getStringValue("underwaterBlock"), Blocks.GRAVEL).getDefaultState();
+			BlockState topBlock = ZFGUtils.getBlock(surface.getStringValue("topBlock"), Blocks.GRASS_BLOCK).getDefaultState();
+			BlockState fillerBlock = ZFGUtils.getBlock(surface.getStringValue("fillerBlock"), Blocks.DIRT).getDefaultState();
+			BlockState underwaterBlock = ZFGUtils.getBlock(surface.getStringValue("underwaterBlock"), Blocks.GRAVEL).getDefaultState();
 
 			return new SurfaceBuilderConfig(topBlock, fillerBlock, underwaterBlock);
 		}

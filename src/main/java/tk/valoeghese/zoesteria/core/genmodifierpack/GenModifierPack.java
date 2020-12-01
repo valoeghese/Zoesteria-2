@@ -35,6 +35,7 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
@@ -54,9 +55,6 @@ public final class GenModifierPack {
 	private final boolean disabled;
 
 	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
-		ZoesteriaRegistryHandler.registerFeatureSettings();
-		ZoesteriaRegistryHandler.registerPlacementSettings();
-
 		if (this.disabled) {
 			return;
 		}
@@ -70,7 +68,6 @@ public final class GenModifierPack {
 		FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
 			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
 		});
-
 	}
 
 	public String getId() {
@@ -100,7 +97,7 @@ public final class GenModifierPack {
 				return;
 			}
 
-			Boolean enabled = Utils.getBoolean(packManifest, "enabled", true);
+			Boolean enabled = ZFGUtils.getBooleanOrDefault(packManifest, "enabled", true);
 
 			ZoesteriaMod.LOGGER.info("Zoesteria has detected module: " + id);
 			PACKS.put(id, new GenModifierPack(id, packDir, enabled.booleanValue()));
@@ -114,12 +111,15 @@ public final class GenModifierPack {
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		String packId = module.packId();
 		AtomicBoolean isLoaded = new AtomicBoolean(false);
+		final List<IZoesteriaBiome> moduleBiomes = module.createBiomes();
 
-		ZoesteriaRegistryHandler.BIOME_PROCESSING.add(() -> {
+		ZoesteriaRegistryHandler.BIOME_PROCESSING.add(biomeRegistry -> {
 			isLoaded.set(isLoaded(packId));
 
 			if (!isLoaded.get()) {
-				
+				for (IZoesteriaBiome moduleBiome : moduleBiomes) {
+					BiomeFactory.buildBiome(moduleBiome, module.packId(), biomeRegistry);
+				}
 			}
 		});
 
@@ -136,7 +136,7 @@ public final class GenModifierPack {
 				new File(packDir + "/biomes").mkdir();
 
 				// create biome files
-				for (IZoesteriaBiome biome : module.createBiomes()) {
+				for (IZoesteriaBiome biome : moduleBiomes) {
 					Map<String, Object> fileData = Maps.newLinkedHashMap();
 
 					fileData.put("id", biome.id());
