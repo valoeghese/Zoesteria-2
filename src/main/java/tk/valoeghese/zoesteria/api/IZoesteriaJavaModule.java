@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilder;
+import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 
 public interface IZoesteriaJavaModule {
@@ -18,6 +19,7 @@ public interface IZoesteriaJavaModule {
 	}
 
 	static void registerModule(IZoesteriaJavaModule module) {
+		ZoesteriaMod.LOGGER.info("Adding module: " + module.packId());
 		GenModifierPack.init();
 		GenModifierPack.addJavaModuleIfAbsent(module);
 	}

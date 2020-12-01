@@ -22,7 +22,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
-import tk.valoeghese.zoesteria.core.InternalBackupRegistries;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.Utils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
@@ -59,8 +58,10 @@ public final class BiomeFactory {
 		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
 
 		if (decorations != null) {
-			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
-			addDecorations(result, decorations);
+			ZoesteriaMod.FEATURE_TASK.add(() -> {
+				ZoesteriaMod.LOGGER.info("Decorating biome " + id);
+				addDecorations(result, decorations);
+			});
 		}
 
 		return result;
@@ -117,12 +118,7 @@ public final class BiomeFactory {
 				Feature feature = ForgeRegistries.FEATURES.getValue(featureResource);
 
 				if (feature == null) {
-					// check backup
-					feature = InternalBackupRegistries.FEATURE_LOOKUP.get(featureResource);
-
-					if (feature == null) {
-						throw new NullPointerException("Invalid or unregistered feature given in decorations!");
-					}
+					throw new NullPointerException("Invalid or unregistered feature given in decorations!");
 				}
 
 				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)

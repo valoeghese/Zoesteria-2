@@ -3,12 +3,10 @@ package tk.valoeghese.zoesteria.api.feature;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
-import tk.valoeghese.zoesteria.core.InternalBackupRegistries;
 
 /**
  * Register your {@link IZoesteriaFeatureConfig} and {@link IZoesteriaPlacementConfig} instances in feature registry event and placement registry event, respectively.
@@ -19,11 +17,6 @@ public class FeatureSerialisers {
 
 	public static <T extends IFeatureConfig> void registerFeatureSettings(Feature<T> feature, IZoesteriaFeatureConfig<T> configHandler) {
 		FEATURE_CONFIGS.put(feature, configHandler);
-		ResourceLocation regName = feature.getRegistryName();
-
-		if (regName != null) {
-			InternalBackupRegistries.FEATURE_LOOKUP.put(regName, feature);
-		}
 	}
 
 	public static <T extends IPlacementConfig> void registerPlacementSettings(Placement<T> placement, IZoesteriaPlacementConfig<T> configHandler) {

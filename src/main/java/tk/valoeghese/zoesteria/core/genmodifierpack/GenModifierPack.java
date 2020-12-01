@@ -1,7 +1,6 @@
 package tk.valoeghese.zoesteria.core.genmodifierpack;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,7 +26,6 @@ import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.common.util.FileUtils;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
@@ -55,10 +53,10 @@ public final class GenModifierPack {
 	private final boolean disabled;
 
 	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
-		ZoesteriaRegistryHandler.featureSettingsRegister();
-		ZoesteriaRegistryHandler.placementSettingsRegister();
-		
-		doHacks(biomeRegistry);
+		ZoesteriaRegistryHandler.registerFeatureSettings();
+		ZoesteriaRegistryHandler.registerPlacementSettings();
+
+		//doHacks(biomeRegistry);
 
 		if (this.disabled) {
 			return;
@@ -74,7 +72,7 @@ public final class GenModifierPack {
 			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
 		});
 
-		doHacks2(biomeRegistry);
+		//doHacks2(biomeRegistry);
 	}
 
 	public String getId() {
@@ -242,9 +240,9 @@ public final class GenModifierPack {
 
 			GenModifierPack.addIfAbsent(packDir);
 
-			if (loadedPackBiomes && PACKS.containsKey(packId)) {
-				PACKS.get(packId).loadBiomes(ForgeRegistries.BIOMES);
-			}
+			//if (/*loadedPackBiomes && */PACKS.containsKey(packId)) {
+			//PACKS.get(packId).loadBiomes(ForgeRegistries.BIOMES);
+			//}
 		}
 	}
 
@@ -282,15 +280,15 @@ public final class GenModifierPack {
 		}
 	}
 
-	public static void flagLoadedPackBiomes() {
+	/*public static void flagLoadedPackBiomes() {
 		loadedPackBiomes = true;
-	}
+	}*/
 
 	public static boolean isLoaded(String packId) {
 		return PACKS.containsKey(packId);
 	}
 
-	public static void doHacks(IForgeRegistry<?> registry) {
+	/*public static void doHacks(IForgeRegistry<?> registry) {
 		if (loadedPackBiomes) {
 			try {
 				Field yeet = ForgeRegistry.class.getDeclaredField("isFrozen");
@@ -312,10 +310,10 @@ public final class GenModifierPack {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 
 	private static boolean initialised = false;
-	private static boolean loadedPackBiomes = false;
+	//private static boolean loadedPackBiomes = false;
 
 	private static final Map<String, GenModifierPack> PACKS = Maps.newHashMap();
 	public static final File ROOT_DIR = new File("./zoesteria");

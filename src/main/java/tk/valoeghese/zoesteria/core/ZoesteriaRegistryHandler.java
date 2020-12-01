@@ -20,23 +20,23 @@ public class ZoesteriaRegistryHandler {
 		ZoesteriaMod.LOGGER.info("Loading biomes of GenModifierPacks");
 		GenModifierPack.init();
 		GenModifierPack.forEach(pack -> pack.loadBiomes(event.getRegistry()));
-		GenModifierPack.flagLoadedPackBiomes();
+		//GenModifierPack.flagLoadedPackBiomes();
 	}
 
 	// ===== COMMON / ZOESTERIA MODULE =====
 
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
-		event.getRegistry().register(BLUFF_PINE);
-		featureSettingsRegister();
+		event.getRegistry().register(BLUFF_PINE.setRegistryName("bluff_pine"));
+		registerFeatureSettings();
 	}
 
 	@SubscribeEvent
 	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
-		placementSettingsRegister();
+		registerPlacementSettings();
 	}
 
-	public static void placementSettingsRegister() {
+	public static void registerPlacementSettings() {
 		if (!preventPlacementFire) {
 			preventPlacementFire = true;
 
@@ -45,7 +45,7 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
-	public static void featureSettingsRegister() {
+	public static void registerFeatureSettings() {
 		if (!preventFeatureFire) {
 			preventFeatureFire = true;
 
@@ -56,7 +56,7 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
-	public static final Feature<TreeFeatureConfig> BLUFF_PINE = (Feature<TreeFeatureConfig>) new BluffPineFeature().setRegistryName("bluff_pine");
+	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;
 }
