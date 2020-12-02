@@ -74,8 +74,8 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 					fzo /= count;
 					int tempOldFxo = fxo;
 
-					fxo = fzo > fxo ? 0 : signum(fxo);
-					fzo = tempOldFxo > fzo ? 0 : signum(fzo);
+					fxo = fzo > fxo ? 0 : -signum(fxo);
+					fzo = tempOldFxo > fzo ? 0 : -signum(fzo);
 				}
 			}
 		}
@@ -94,29 +94,29 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 					switch ((yo - foliageStart) & 0b11) { // (yo - (foliageStart - 1) - 1) % 4
 					case 0:
 						if (height > 11 && (yo < foliageStart + 3)) {
-							this.growBigLeaves1(world, rand, mutablePos, startX, startZ, leaves, box, config);
+							this.growBigLeaves1(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config);
 						} else {
-							this.growBigLeaves2(world, rand, mutablePos, startX, startZ, leaves, box, config);
+							this.growBigLeaves2(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config);
 						}
 						break;
 					case 2:
 						if (rand.nextBoolean()) {
-							this.growMediumLeaves(world, rand, mutablePos, startX, startZ, leaves, box, config); // "small leaves 1"
+							this.growMediumLeaves(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config); // "small leaves 1"
 						} else {
-							this.growSmallLeaves(world, rand, mutablePos, startX, startZ, leaves, box, config); // "small leaves 2"
+							this.growSmallLeaves(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config); // "small leaves 2"
 						}
 						break;
 					default:
-						this.growTinyLeaves(world, rand, mutablePos, startX, startZ, leaves, box, config); // "small leaves 3"
+						this.growTinyLeaves(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config); // "small leaves 3"
 						break;
 					}
 				} else if (yo < height) {
 					switch ((height - yo) & 0b1) {
 					case 0:
-						this.growSmallLeaves(world, rand, mutablePos, startX, startZ, leaves, box, config);
+						this.growSmallLeaves(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config);
 						break;
 					case 1:
-						this.growTinyLeaves(world, rand, mutablePos, startX, startZ, leaves, box, config);
+						this.growTinyLeaves(world, rand, mutablePos, mutablePos.getX(), mutablePos.getZ(), leaves, box, config);
 						break;
 					}
 				} else {

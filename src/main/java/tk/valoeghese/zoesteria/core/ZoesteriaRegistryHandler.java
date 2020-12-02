@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -55,7 +56,7 @@ public class ZoesteriaRegistryHandler {
 		Map<ISurfaceBuilderTemplate<?>, ResourceLocation> templateIdLookup = TEMPLATE_LOOKUP.inverse();
 
 		while (!SURFACE_PROCESSING.isEmpty()) {
-			SURFACE_PROCESSING.remove().accept(templateIdLookup::get);
+			SURFACE_PROCESSING.remove().accept(event.getRegistry(), templateIdLookup::get);
 		}
 
 		ZoesteriaMod.LOGGER.info("Loading surface builders of GenModifierPacks");
@@ -110,7 +111,7 @@ public class ZoesteriaRegistryHandler {
 	}
 
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
-	public static final Queue<Consumer<Function<ISurfaceBuilderTemplate<?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
+	public static final Queue<BiConsumer<IForgeRegistry<SurfaceBuilder<?>>, Function<ISurfaceBuilderTemplate<?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
 	public static final Queue<Consumer<IForgeRegistry<Biome>>> BIOME_PROCESSING = new LinkedList<>();
 	private static final BiMap<ResourceLocation, ISurfaceBuilderTemplate<?>> TEMPLATE_LOOKUP = HashBiMap.create();
 	private static final List<IZoesteriaJavaModule> MODULES = new ArrayList<>();
