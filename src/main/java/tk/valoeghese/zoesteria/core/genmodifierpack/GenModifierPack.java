@@ -183,7 +183,7 @@ public final class GenModifierPack {
 
 					config.putList("steps", stepsData);
 					config.writeToFile(new File(packDir + "/surfacebuilders/" + surfaceBuilder.id + ".cfg"));
-					
+
 					// create and register surface builder
 					surfaceRegistry.register(surfaceBuilder.template.create(config).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
 				});

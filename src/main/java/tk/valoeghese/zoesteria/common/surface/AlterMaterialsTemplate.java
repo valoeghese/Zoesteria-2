@@ -14,9 +14,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
+import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
@@ -91,6 +93,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 
 	private SBStep constructStepNodule(Container stepData, SBPredicate condition, int type, boolean terminate) {
 		// Microoptimisation go brr
+
 		switch (type) {
 		case 0:
 			return (top, filler, underwater, x, z, noise) -> {
@@ -140,7 +143,6 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		case 4: // t
 		{
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					top.set(topBlock);
@@ -210,7 +212,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		{
 			double min = conditionData.getDoubleValue("min");
 			double max = conditionData.getDoubleValue("max");
-			return (x, z, noise) -> min < noise && noise < max;
+			return (x, z, noise) -> noise > min && noise < max;
 		}
 		case "noise_outside":
 		{
