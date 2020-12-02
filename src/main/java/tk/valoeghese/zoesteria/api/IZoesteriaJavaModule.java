@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
-import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilder;
+import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 
@@ -14,7 +14,7 @@ public interface IZoesteriaJavaModule {
 	Manifest createManifest();
 	List<IZoesteriaBiome> createBiomes();
 
-	default List<ISurfaceBuilder<?, ?>> createSurfaces() {
+	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaces() {
 		return ImmutableList.of();
 	}
 
