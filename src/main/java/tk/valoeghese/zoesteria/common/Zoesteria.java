@@ -56,7 +56,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public List<ISurfaceBuilderTemplate<?>> createSurfaceBuilderTemplates() {
-		return ImmutableList.of();
+		return ImmutableList.of(ALTER_MATERIALS);
 	}
 
 	@Override
