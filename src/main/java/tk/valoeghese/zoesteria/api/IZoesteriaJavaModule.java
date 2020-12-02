@@ -18,6 +18,12 @@ public interface IZoesteriaJavaModule {
 		return ImmutableList.of();
 	}
 
+	default void registerPlacementSettings() {
+	}
+
+	default void registerFeatureSettings() {
+	}
+
 	static void registerModule(IZoesteriaJavaModule module) {
 		ZoesteriaMod.LOGGER.info("Adding module: " + module.packId());
 		GenModifierPack.init();

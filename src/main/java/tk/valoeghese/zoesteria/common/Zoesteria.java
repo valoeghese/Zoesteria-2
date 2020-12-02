@@ -7,7 +7,10 @@ import com.google.common.collect.Lists;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.Manifest;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
+import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
@@ -25,5 +28,10 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		List<IZoesteriaBiome> biomes = Lists.newArrayList();
 		biomes.add(new BluffBiome());
 		return biomes;
+	}
+
+	@Override
+	public void registerFeatureSettings() {
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaRegistryHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 	}
 }

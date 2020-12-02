@@ -249,6 +249,8 @@ public final class GenModifierPack {
 				GenModifierPack.addIfAbsent(packDir);
 			}
 		});
+
+		ZoesteriaRegistryHandler.addJavaModule(module);
 	}
 
 	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {

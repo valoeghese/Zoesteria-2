@@ -71,6 +71,6 @@ public final class BluffBiome implements IZoesteriaBiome {
 								.trunkHeight(1)
 								.trunkHeightRandom(1)
 								.build())
-						.withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(1, 0.1f))));
+						.withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(2, 0.1f))));
 	}
 }
