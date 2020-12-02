@@ -29,7 +29,21 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 
 	@Override
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
-		return null;
+		List<SBStep> steps = constructStepBranch(surfaceBuilderData.getList("steps"));
+
+		return new AlterMaterialsSB((original, x, z, noise) -> {
+			AtomicReference<Block> top = new AtomicReference<>(original.getTop().getBlock());
+			AtomicReference<Block> filler = new AtomicReference<>(original.getUnder().getBlock());
+			AtomicReference<Block> underwater = new AtomicReference<>(original.getUnderWaterMaterial().getBlock());
+
+			for (SBStep step : steps) {
+				if (step.alterMaterials(top, filler, underwater, x, z, noise)) {
+					break;
+				}
+			}
+
+			return new SurfaceBuilderConfig(top.get().getDefaultState(), filler.get().getDefaultState(), underwater.get().getDefaultState());
+		});
 	}
 
 	private SBStep constructStep(Container stepData) {
@@ -44,7 +58,35 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 			return constructStepNodule(stepData, condition, type, terminate);
 		} else {
 			// branch
+			List<SBStep> constructedSteps = constructStepBranch(steps);
+
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					for (SBStep step : constructedSteps) {
+						if (step.alterMaterials(top, filler, underwater, x, z, noise)) {
+							return terminate;
+						}
+					}
+				}
+
+				return false;
+			};
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<SBStep> constructStepBranch(List<Object> steps) {
+		List<SBStep> constructedSteps = new ArrayList<>();
+
+		for (Object o : steps) {
+			constructedSteps.add(
+					constructStep(
+							ZoesteriaConfig.createWritableConfig((Map<String, Object>) o)
+							)
+					);
+		}
+
+		return constructedSteps;
 	}
 
 	private SBStep constructStepNodule(Container stepData, SBPredicate condition, int type, boolean terminate) {
@@ -57,7 +99,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		case 1: //uw
 		{
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					underwater.set(underwaterBlock);
@@ -70,7 +112,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		case 2: // f
 		{
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					filler.set(fillerBlock);
@@ -84,7 +126,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		{
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					underwater.set(underwaterBlock);
@@ -98,7 +140,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		case 4: // t
 		{
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					top.set(topBlock);
@@ -112,7 +154,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		{
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					underwater.set(underwaterBlock);
@@ -127,7 +169,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		{
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					filler.set(fillerBlock);
@@ -143,7 +185,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-			
+
 			return (top, filler, underwater, x, z, noise) -> {
 				if (condition.test(x, z, noise)) {
 					underwater.set(underwaterBlock);
