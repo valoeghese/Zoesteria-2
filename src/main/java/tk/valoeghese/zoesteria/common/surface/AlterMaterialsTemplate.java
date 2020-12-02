@@ -14,11 +14,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
-import net.minecraftforge.registries.ForgeRegistries;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
-import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
@@ -33,13 +31,13 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
 		List<SBStep> steps = constructStepBranch(surfaceBuilderData.getList("steps"));
 
-		return new AlterMaterialsSB((original, x, z, noise) -> {
+		return new AlterMaterialsSB((original, rand, x, z, noise) -> {
 			AtomicReference<Block> top = new AtomicReference<>(original.getTop().getBlock());
 			AtomicReference<Block> filler = new AtomicReference<>(original.getUnder().getBlock());
 			AtomicReference<Block> underwater = new AtomicReference<>(original.getUnderWaterMaterial().getBlock());
 
 			for (SBStep step : steps) {
-				if (step.alterMaterials(top, filler, underwater, x, z, noise)) {
+				if (step.alterMaterials(top, filler, underwater, rand, x, z, noise)) {
 					break;
 				}
 			}
@@ -62,10 +60,10 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			// branch
 			List<SBStep> constructedSteps = constructStepBranch(steps);
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					for (SBStep step : constructedSteps) {
-						if (step.alterMaterials(top, filler, underwater, x, z, noise)) {
+						if (step.alterMaterials(top, filler, underwater, rand, x, z, noise)) {
 							return terminate;
 						}
 					}
@@ -96,15 +94,15 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 
 		switch (type) {
 		case 0:
-			return (top, filler, underwater, x, z, noise) -> {
-				return terminate && condition.test(x, z, noise);
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				return terminate && condition.test(rand, x, z, noise);
 			};
 		case 1: //uw
 		{
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					underwater.set(underwaterBlock);
 					return terminate;
 				}
@@ -116,8 +114,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		{
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					filler.set(fillerBlock);
 					return terminate;
 				}
@@ -130,8 +128,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					underwater.set(underwaterBlock);
 					filler.set(fillerBlock);
 					return terminate;
@@ -143,8 +141,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		case 4: // t
 		{
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					top.set(topBlock);
 					return terminate;
 				}
@@ -157,8 +155,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					underwater.set(underwaterBlock);
 					top.set(topBlock);
 					return terminate;
@@ -172,8 +170,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					filler.set(fillerBlock);
 					top.set(topBlock);
 					return terminate;
@@ -188,8 +186,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
 			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
 
-			return (top, filler, underwater, x, z, noise) -> {
-				if (condition.test(x, z, noise)) {
+			return (top, filler, underwater, rand, x, z, noise) -> {
+				if (condition.test(rand, x, z, noise)) {
 					underwater.set(underwaterBlock);
 					filler.set(fillerBlock);
 					top.set(topBlock);
@@ -212,43 +210,53 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		{
 			double min = conditionData.getDoubleValue("min");
 			double max = conditionData.getDoubleValue("max");
-			return (x, z, noise) -> noise > min && noise < max;
+			return (rand, x, z, noise) -> noise > min && noise < max;
 		}
 		case "noise_outside":
 		{
 			double min = conditionData.getDoubleValue("min");
 			double max = conditionData.getDoubleValue("max");
-			return (x, z, noise) -> noise < min || noise > max;
+			return (rand, x, z, noise) -> noise < min || noise > max;
 		}
 		case "noise_exceeds":
 		{
 			double val = conditionData.getDoubleValue("value");
-			return (x, z, noise) -> noise > val;
+			return (rand, x, z, noise) -> noise > val;
 		}
 		case "noise_preceeds":
 		{
 			double val = conditionData.getDoubleValue("value");
-			return (x, z, noise) -> noise < val;
+			return (rand, x, z, noise) -> noise < val;
 		}
 		case "z_exceeds":
 		{
 			int val = conditionData.getIntegerValue("value");
-			return (x, z, noise) -> z > val;
+			return (rand, x, z, noise) -> z > val;
 		}
 		case "z_preceeds":
 		{
 			int val = conditionData.getIntegerValue("value");
-			return (x, z, noise) -> z < val;
+			return (rand, x, z, noise) -> z < val;
 		}
 		case "x_exceeds":
 		{
 			int val = conditionData.getIntegerValue("value");
-			return (x, z, noise) -> x > val;
+			return (rand, x, z, noise) -> x > val;
 		}
 		case "x_preceeds":
 		{
 			int val = conditionData.getIntegerValue("value");
-			return (x, z, noise) -> x < val;
+			return (rand, x, z, noise) -> x < val;
+		}
+		case "chance":
+		{
+			int val = conditionData.getIntegerValue("value");
+			return (rand, x, z, noise) -> rand.nextInt(val) == 0;
+		}
+		case "chance_double":
+		{
+			double val = conditionData.getDoubleValue("value");
+			return (rand, x, z, noise) -> rand.nextDouble() < val;
 		}
 		default:
 			throw new RuntimeException("Unknown condition type: " + type);
@@ -279,7 +287,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 					defaultFluid,
 					seaLevel,
 					seed,
-					this.function.alterMaterials(config, x, z, noise));
+					this.function.alterMaterials(config, random, x, z, noise));
 		}
 	}
 
@@ -362,16 +370,16 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 
 	@FunctionalInterface
 	interface SBFunction {
-		SurfaceBuilderConfig alterMaterials(SurfaceBuilderConfig original, int x, int z, double noise);
+		SurfaceBuilderConfig alterMaterials(SurfaceBuilderConfig original, Random rand, int x, int z, double noise);
 	}
 
 	@FunctionalInterface
 	interface SBStep {
-		boolean alterMaterials(AtomicReference<Block> top, AtomicReference<Block> filler, AtomicReference<Block> underwater, int x, int z, double noise);
+		boolean alterMaterials(AtomicReference<Block> top, AtomicReference<Block> filler, AtomicReference<Block> underwater, Random rand, int x, int z, double noise);
 	}
 
 	@FunctionalInterface
 	interface SBPredicate {
-		boolean test(int x, int z, double noise);
+		boolean test(Random rand, int x, int z, double noise);
 	}
 }

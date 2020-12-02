@@ -44,11 +44,32 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				ALTER_MATERIALS,
 				ImmutableList.of(
 						new AlterMaterialsTemplate.Step(
-								new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.8),
+								new AlterMaterialsTemplate.Condition("z_preceeds").withParameter("value", 0),
+								ImmutableList.of(
+										new AlterMaterialsTemplate.Step(
+												new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.8),
+												Optional.of(Blocks.COBBLESTONE),
+												Optional.empty(),
+												Optional.empty(),
+												true)), true),
+						new AlterMaterialsTemplate.Step(
+								new AlterMaterialsTemplate.Condition("chance").withParameter("value", 3),
+								ImmutableList.of(
+										new AlterMaterialsTemplate.Step(
+												new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.7),
+												Optional.of(Blocks.MOSSY_COBBLESTONE),
+												Optional.empty(),
+												Optional.empty(),
+												true)
+										),
+								false),
+						new AlterMaterialsTemplate.Step(
+								new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.6),
 								Optional.of(Blocks.COBBLESTONE),
 								Optional.empty(),
 								Optional.empty(),
 								true)
+
 						)
 				));
 		return surfaceBuilders;
