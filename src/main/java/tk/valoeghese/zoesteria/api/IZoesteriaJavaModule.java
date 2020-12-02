@@ -19,7 +19,7 @@ public interface IZoesteriaJavaModule {
 		return ImmutableList.of();
 	}
 
-	default List<ISurfaceBuilderTemplate<?>> createSurfaceTemplates() {
+	default List<ISurfaceBuilderTemplate<?>> createSurfaceBuilderTemplates() {
 		return ImmutableList.of();
 	}
 

@@ -51,7 +51,7 @@ public class ZoesteriaRegistryHandler {
 	@SubscribeEvent
 	public static void onSurfaceBuilderRegister(RegistryEvent.Register<SurfaceBuilder<?>> event) {
 		for (IZoesteriaJavaModule module : MODULES) {
-			module.createSurfaceTemplates().forEach(template -> TEMPLATE_LOOKUP.put(new ResourceLocation(module.packId(), template.id()), template));
+			module.createSurfaceBuilderTemplates().forEach(template -> TEMPLATE_LOOKUP.put(new ResourceLocation(module.packId(), template.id()), template));
 		}
 
 		Map<ISurfaceBuilderTemplate<?>, ResourceLocation> templateIdLookup = TEMPLATE_LOOKUP.inverse();
