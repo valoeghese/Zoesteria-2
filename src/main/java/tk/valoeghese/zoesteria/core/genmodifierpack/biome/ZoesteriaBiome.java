@@ -1,7 +1,11 @@
 package tk.valoeghese.zoesteria.core.genmodifierpack.biome;
 
+import java.util.Random;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.ISurfaceBuilderConfig;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
@@ -75,6 +79,16 @@ class ZoesteriaBiome extends Biome {
 		return this.customSurface ? this.overridden : super.getSurfaceBuilder();
 	}
 
+	@Override
+	public void buildSurface(Random random, IChunk chunkIn, int x, int z, int startHeight, double noise,
+			BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed) {
+		if (this.customSurface) {
+			this.overridden.setSeed(seed);
+			this.overridden.buildSurface(random, chunkIn, this, x, z, startHeight, noise, defaultBlock, defaultFluid, seaLevel, seed);
+		} else {
+			super.buildSurface(random, chunkIn, x, z, startHeight, noise, defaultBlock, defaultFluid, seaLevel, seed);
+		}
+	}
 	// TODO 1.16-friendly workaround instead. Perhaps only when porting to 1.16
 	public void setSurfaceBuilder(SurfaceBuilder<SurfaceBuilderConfig> sb) {
 		if (sb == null) {
