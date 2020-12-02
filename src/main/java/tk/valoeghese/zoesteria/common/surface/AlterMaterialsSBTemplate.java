@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,6 +30,134 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 	@Override
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
 		return null;
+	}
+
+	private SBStep constructStep(Container stepData) {
+		SBPredicate condition = constructCondition(stepData.getContainer("condition"));
+		boolean terminate = stepData.getBooleanValue("terminate");
+		List<Object> steps = stepData.getList("steps"); // microoptimisation - skip containsKey
+
+		if (steps == null) {
+			int type = stepData.containsKey("topBlock") ? 1 : 0;
+			type = (type << 1) | (stepData.containsKey("fillerBlock") ? 1 : 0);
+			type = (type << 1) | (stepData.containsKey("underwaterBlock") ? 1 : 0);
+			return constructStepNodule(stepData, condition, type, terminate);
+		} else {
+			// branch
+		}
+	}
+
+	private SBStep constructStepNodule(Container stepData, SBPredicate condition, int type, boolean terminate) {
+		// Microoptimisation go brr
+		switch (type) {
+		case 0:
+			return (top, filler, underwater, x, z, noise) -> {
+				return terminate && condition.test(x, z, noise);
+			};
+		case 1: //uw
+		{
+			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					underwater.set(underwaterBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 2: // f
+		{
+			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					filler.set(fillerBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 3: // f uw
+		{
+			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
+			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					underwater.set(underwaterBlock);
+					filler.set(fillerBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 4: // t
+		{
+			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					top.set(topBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 5: // t uw
+		{
+			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
+			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					underwater.set(underwaterBlock);
+					top.set(topBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 6: // t f
+		{
+			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
+			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					filler.set(fillerBlock);
+					top.set(topBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		case 7: // t f uw
+		{
+			Block underwaterBlock = ZFGUtils.getBlock(stepData, "underwaterBlock");
+			Block fillerBlock = ZFGUtils.getBlock(stepData, "fillerBlock");
+			Block topBlock = ZFGUtils.getBlock(stepData, "topBlock");
+			
+			return (top, filler, underwater, x, z, noise) -> {
+				if (condition.test(x, z, noise)) {
+					underwater.set(underwaterBlock);
+					filler.set(fillerBlock);
+					top.set(topBlock);
+					return terminate;
+				}
+
+				return false;
+			};
+		}
+		default:
+			throw new RuntimeException("what?\thow?\t(step nodule type generated an impossible output: " + type + ")");
+		}
 	}
 
 	private SBPredicate constructCondition(Container conditionData) {
@@ -190,6 +319,11 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 	@FunctionalInterface
 	interface SBFunction {
 		SurfaceBuilderConfig alterMaterials(SurfaceBuilderConfig original, int x, int z, double noise);
+	}
+
+	@FunctionalInterface
+	interface SBStep {
+		boolean alterMaterials(AtomicReference<Block> top, AtomicReference<Block> filler, AtomicReference<Block> underwater, int x, int z, double noise);
 	}
 
 	@FunctionalInterface
