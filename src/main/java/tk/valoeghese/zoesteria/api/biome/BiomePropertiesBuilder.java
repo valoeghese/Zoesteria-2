@@ -23,6 +23,7 @@ public final class BiomePropertiesBuilder {
 	private Optional<String> underwaterBlock = Optional.empty();
 	private int waterColour = 4159204;
 	private int waterFogColour = 329011;
+	private Optional<String> surfaceBuilder = Optional.empty();
 
 	public BiomePropertiesBuilder depth(float depth) {
 		this.depth = depth;
@@ -61,6 +62,11 @@ public final class BiomePropertiesBuilder {
 
 	public BiomePropertiesBuilder underwaterBlock(String underwaterBlock) {
 		this.underwaterBlock = Optional.of(underwaterBlock);
+		return this;
+	}
+
+	public BiomePropertiesBuilder surfaceBuilder(String surfaceBuilder) {
+		this.surfaceBuilder = Optional.of(surfaceBuilder);
 		return this;
 	}
 
@@ -119,6 +125,10 @@ public final class BiomePropertiesBuilder {
 			@Override
 			public int waterFogColour() {
 				return waterFogColour;
+			}
+			@Override
+			public Optional<String> surfaceBuilder() {
+				return surfaceBuilder;
 			}
 		};
 	}

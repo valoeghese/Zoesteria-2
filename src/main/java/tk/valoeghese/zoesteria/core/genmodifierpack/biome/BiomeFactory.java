@@ -3,6 +3,7 @@ package tk.valoeghese.zoesteria.core.genmodifierpack.biome;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -36,10 +37,28 @@ import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.template.ConfigTemplate;
 
 public final class BiomeFactory {
+	@SuppressWarnings("unchecked")
 	public static Biome buildBiome(IZoesteriaBiome biome, String packId, IForgeRegistry<Biome> biomeRegistry) {
 		String id = biome.id();
 		IBiomeProperties properties = biome.properties();
 		BiomeDecorations decorations = biome.getDecorations();
+		Optional<String> surfaceBuilder = properties.surfaceBuilder();
+
+		SurfaceBuilder<SurfaceBuilderConfig> sb;
+
+		boolean flag = false; // flag for whether to replace custom surface builder in load
+
+		if (surfaceBuilder.isPresent()) {
+			ResourceLocation location = new ResourceLocation(surfaceBuilder.get());
+			sb = (SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(location);
+
+			if (sb == null) {
+				sb = SurfaceBuilder.DEFAULT;
+				flag = true;
+			}
+		} else {
+			sb = SurfaceBuilder.DEFAULT;
+		}
 
 		Biome.Builder propertiesBuilder = new Biome.Builder()
 				.category(properties.category()) // required
@@ -50,18 +69,29 @@ public final class BiomeFactory {
 				.downfall(properties.downfall())
 				.waterColor(properties.waterColour())
 				.waterFogColor(properties.waterFogColour())
-				.surfaceBuilder(SurfaceBuilder.DEFAULT, getSurfaceConfig(properties))
+				.surfaceBuilder(sb, getSurfaceConfig(properties))
 				.parent(null);
 
 		Details details = new Details();
 		details.skyColour = biome.customSkyColour().orElse(null);
 		details.river = biome.getRiver().orElse(null);
 
+		// create map to store data of biome placement in the world
 		Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
+		// add the data from the java module to the biome placement
 		biome.addPlacement(biomePlacement);
+		// use the data to add the biome placement data to the details
 		addGeneration(details, biomePlacement, biome.canSpawnInBiome());
-		
-		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+
+		// create the biome instance
+		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+
+		if (flag) {
+			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
+				ResourceLocation location = new ResourceLocation(surfaceBuilder.get());
+				result.setSurfaceBuilder((SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(location));
+			});
+		}
 
 		if (decorations != null) {
 			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
@@ -79,6 +109,24 @@ public final class BiomeFactory {
 
 		String id = biomeConfig.getStringValue("id"); // required
 
+		String surfaceBuilder = properties.getStringValue("surfaceBuilder");
+
+		SurfaceBuilder<SurfaceBuilderConfig> sb;
+
+		boolean flag = false; // flag for whether to replace custom surface builder in load
+
+		if (surfaceBuilder == null) {
+			sb = SurfaceBuilder.DEFAULT;
+		} else {
+			ResourceLocation location = new ResourceLocation(surfaceBuilder);
+			sb = (SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(location);
+
+			if (sb == null) {
+				sb = SurfaceBuilder.DEFAULT;
+				flag = true;
+			}
+		}
+
 		Biome.Builder propertiesBuilder = new Biome.Builder()
 				.category(Biome.Category.valueOf(properties.getStringValue("category").toUpperCase())) // required
 				.precipitation(Biome.RainType.valueOf(properties.getStringValue("precipitation").toUpperCase()))
@@ -88,16 +136,24 @@ public final class BiomeFactory {
 				.downfall(properties.getFloatValue("downfall"))
 				.waterColor(properties.getIntegerValue("waterColor"))
 				.waterFogColor(properties.getIntegerValue("waterFogColor"))
-				.surfaceBuilder(SurfaceBuilder.DEFAULT, getSurfaceConfig(properties))
+				.surfaceBuilder(sb, getSurfaceConfig(properties))
 				.parent(null);
 
 		Details details = new Details();
 		details.skyColour = properties.getIntegerValue("skyColor");
 		details.river = biomeConfig.getStringValue("river");
 
+		// transfer loaded data about the placement of the biome in the world to the Details of the biome
 		addGeneration(details, biomePlacement);
 
-		Biome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+
+		if (flag) {
+			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
+				ResourceLocation location = new ResourceLocation(surfaceBuilder);
+				result.setSurfaceBuilder((SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(location));
+			});
+		}
 
 		if (decorations != null) {
 			ZoesteriaMod.COMMON_PROCESSING.add(() -> {

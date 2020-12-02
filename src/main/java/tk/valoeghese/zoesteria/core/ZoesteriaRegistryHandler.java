@@ -1,12 +1,12 @@
 package tk.valoeghese.zoesteria.core;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -20,7 +20,6 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
-import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
@@ -28,8 +27,6 @@ import tk.valoeghese.zoesteria.common.feature.BluffPineFeature;
 import tk.valoeghese.zoesteria.common.feature.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
-import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
-import tk.valoeghese.zoesteriaconfig.api.container.WritableConfig;
 
 public class ZoesteriaRegistryHandler {
 	// ===== CORE ONLY ======
@@ -57,25 +54,8 @@ public class ZoesteriaRegistryHandler {
 
 		Map<ISurfaceBuilderTemplate<?>, ResourceLocation> templateIdLookup = TEMPLATE_LOOKUP.inverse();
 
-		for (IZoesteriaJavaModule module : MODULES) {
-			if (!GenModifierPack.isLoaded(module.packId())) {
-				module.createSurfaceBuilders().forEach(surfaceBuilder -> {
-					WritableConfig config = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
-					config.putStringValue("id", surfaceBuilder.id);
-					config.putStringValue("template", templateIdLookup.get(surfaceBuilder.template).toString());
-
-					// convert to data
-					List<? extends IZFGSerialisable> stepsJava = surfaceBuilder.steps;
-					List<Object> stepsData = new ArrayList<>();
-
-					for (IZFGSerialisable serialisable : stepsJava) {
-						// add data
-						stepsData.add(serialisable.toZoesteriaConfig().asMap());
-					}
-
-					config.putList("steps", stepsData);
-				});
-			}
+		while (!SURFACE_PROCESSING.isEmpty()) {
+			SURFACE_PROCESSING.remove().accept(templateIdLookup::get);
 		}
 
 		ZoesteriaMod.LOGGER.info("Loading surface builders of GenModifierPacks");
@@ -130,6 +110,7 @@ public class ZoesteriaRegistryHandler {
 	}
 
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
+	public static final Queue<Consumer<Function<ISurfaceBuilderTemplate<?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
 	public static final Queue<Consumer<IForgeRegistry<Biome>>> BIOME_PROCESSING = new LinkedList<>();
 	private static final BiMap<ResourceLocation, ISurfaceBuilderTemplate<?>> TEMPLATE_LOOKUP = HashBiMap.create();
 	private static final List<IZoesteriaJavaModule> MODULES = new ArrayList<>();

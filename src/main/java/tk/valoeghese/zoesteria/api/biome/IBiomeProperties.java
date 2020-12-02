@@ -16,6 +16,7 @@ public interface IBiomeProperties {
 	Optional<String> topBlock();
 	Optional<String> fillerBlock();
 	Optional<String> underwaterBlock();
+	Optional<String> surfaceBuilder();
 
 	static BiomePropertiesBuilder builder(Biome.Category category) {
 		return new BiomePropertiesBuilder(category);

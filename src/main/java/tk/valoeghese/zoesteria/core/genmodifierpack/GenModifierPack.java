@@ -32,6 +32,7 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.common.util.FileUtils;
+import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
@@ -46,6 +47,7 @@ import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
+import tk.valoeghese.zoesteriaconfig.api.container.WritableConfig;
 
 public final class GenModifierPack {
 	private GenModifierPack(String id, String packDir, boolean enabled) {
@@ -135,16 +137,53 @@ public final class GenModifierPack {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		String packId = module.packId();
+		AtomicBoolean setIsLoaded = new AtomicBoolean(false); // in case of varying order
 		AtomicBoolean isLoaded = new AtomicBoolean(false);
 		final List<IZoesteriaBiome> moduleBiomes = module.createBiomes();
 
 		ZoesteriaRegistryHandler.BIOME_PROCESSING.add(biomeRegistry -> {
-			isLoaded.set(isLoaded(packId));
+			if (!setIsLoaded.get()) {
+				setIsLoaded.set(true);
+				isLoaded.set(isLoaded(packId));
+			}
 
 			if (!isLoaded.get()) {
 				for (IZoesteriaBiome moduleBiome : moduleBiomes) {
 					BiomeFactory.buildBiome(moduleBiome, module.packId(), biomeRegistry);
 				}
+			}
+		});
+
+		ZoesteriaRegistryHandler.SURFACE_PROCESSING.add(templateIdProvider -> {
+			if (!setIsLoaded.get()) {
+				setIsLoaded.set(true);
+				isLoaded.set(isLoaded(packId));
+			}
+
+			if (!isLoaded.get()) {
+				// create module dir
+				String packDir = "./zoesteria/" + packId;
+				File packDirFile = new File(packDir);
+				packDirFile.mkdirs();
+				new File(packDir, "surfacebuilders").mkdir();
+
+				module.createSurfaceBuilders().forEach(surfaceBuilder -> {
+					WritableConfig config = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+					config.putStringValue("id", surfaceBuilder.id);
+					config.putStringValue("template", templateIdProvider.apply(surfaceBuilder.template).toString());
+
+					// convert to data
+					List<? extends IZFGSerialisable> stepsJava = surfaceBuilder.steps;
+					List<Object> stepsData = new ArrayList<>();
+
+					for (IZFGSerialisable serialisable : stepsJava) {
+						// add data
+						stepsData.add(serialisable.toZoesteriaConfig().asMap());
+					}
+
+					config.putList("steps", stepsData);
+					config.writeToFile(new File(packDir + "/surfacebuilders/" + surfaceBuilder.id + ".cfg"));
+				});
 			}
 		});
 
@@ -158,7 +197,7 @@ public final class GenModifierPack {
 				// create manifest
 				ZoesteriaConfig.createWritableConfig(module.createManifest().asMap()).writeToFile(new File(packDir + "/manifest.cfg"));
 
-				new File(packDir + "/biomes").mkdir();
+				new File(packDir, "biomes").mkdir();
 
 				// create biome files
 				for (IZoesteriaBiome biome : moduleBiomes) {
@@ -170,12 +209,14 @@ public final class GenModifierPack {
 					IBiomeProperties biomeProperties = biome.properties();
 					Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
 
+					// add biome properties data to config
 					biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase());
 					biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase());
 					biomePropertiesData.put("depth", biomeProperties.depth());
 					biomePropertiesData.put("scale", biomeProperties.scale());
 					biomePropertiesData.put("temperature", biomeProperties.temperature());
 					biomePropertiesData.put("downfall", biomeProperties.downfall());
+					biomeProperties.surfaceBuilder().ifPresent(id -> biomePropertiesData.put("surfaceBuilder", id));
 
 					// create surface
 					Optional<String> topBlock = biomeProperties.topBlock();
@@ -195,6 +236,7 @@ public final class GenModifierPack {
 						biomePropertiesData.put("skyColor", skyColour.get().toString());
 					}
 
+					// handle default surface blocks
 					if (hasTopBlock || hasFillerBlock || hasUnderwaterBlock) {
 						Map<String, Object> surfaceData = Maps.newLinkedHashMap();
 
