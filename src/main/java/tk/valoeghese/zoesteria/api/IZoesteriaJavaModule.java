@@ -14,7 +14,7 @@ public interface IZoesteriaJavaModule {
 	Manifest createManifest();
 	List<IZoesteriaBiome> createBiomes();
 
-	default List<ISurfaceBuilder> createSurfaces() {
+	default List<ISurfaceBuilder<?, ?>> createSurfaces() {
 		return ImmutableList.of();
 	}
 
@@ -24,9 +24,15 @@ public interface IZoesteriaJavaModule {
 	default void registerFeatureSettings() {
 	}
 
+	/**
+	 * Call this method in the constructor of your main mod class to register your Zoesteria java module to Zoesteria-2.
+	 * @param module the module to register.
+	 */
 	static void registerModule(IZoesteriaJavaModule module) {
-		ZoesteriaMod.LOGGER.info("Adding module: " + module.packId());
-		GenModifierPack.init();
-		GenModifierPack.addJavaModuleIfAbsent(module);
+		synchronized (GenModifierPack.ROOT_DIR) {
+			ZoesteriaMod.LOGGER.info("Adding module: " + module.packId());
+			GenModifierPack.init();
+			GenModifierPack.addJavaModuleIfAbsent(module);
+		}
 	}
 }

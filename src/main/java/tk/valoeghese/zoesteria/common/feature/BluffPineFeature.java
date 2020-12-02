@@ -91,7 +91,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 				mutablePos.setY(startY + yo);
 
 				if (yo < trunkHeight) {
-					switch (yo - foliageStart) { // yo - (foliageStart - 1) - 1
+					switch ((yo - foliageStart) & 0b11) { // (yo - (foliageStart - 1) - 1) % 4
 					case 0:
 						if (height > 11 && (yo < foliageStart + 3)) {
 							this.growBigLeaves1(world, rand, mutablePos, startX, startZ, leaves, box, config);
