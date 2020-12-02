@@ -307,7 +307,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			this.filler = null;
 			this.underwater = null;
 			this.terminate = terminate;
-			this.steps = null;
+			this.steps = steps;
 		}
 
 		private final Condition condition;
