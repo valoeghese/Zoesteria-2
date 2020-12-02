@@ -182,10 +182,13 @@ public final class GenModifierPack {
 					}
 
 					config.putList("steps", stepsData);
-					config.writeToFile(new File(packDir + "/surfacebuilders/" + surfaceBuilder.id + ".cfg"));
+					File surfaceBuilderFile = new File(packDir + "/surfacebuilders/" + surfaceBuilder.id + ".cfg");
+					config.writeToFile(surfaceBuilderFile);
 
 					// create and register surface builder
-					surfaceRegistry.register(surfaceBuilder.template.create(config).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
+					// load config again because I didn't make the `get` functions deal with non-strings it seems because it was built for loading data
+					// someone remind me to make such things work in the next ZoesteriaConfig version
+					surfaceRegistry.register(surfaceBuilder.template.create(ZoesteriaConfig.loadConfig(surfaceBuilderFile)).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
 				});
 			}
 		});
