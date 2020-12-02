@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Function;
-
-import com.mojang.datafixers.Dynamic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,8 +28,58 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 
 	@Override
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private SBPredicate constructCondition(Container conditionData) {
+		String type = conditionData.getStringValue("type");
+
+		switch (type) {
+		case "noise_within":
+		{
+			double min = conditionData.getDoubleValue("min");
+			double max = conditionData.getDoubleValue("max");
+			return (x, z, noise) -> min < noise && noise < max;
+		}
+		case "noise_outside":
+		{
+			double min = conditionData.getDoubleValue("min");
+			double max = conditionData.getDoubleValue("max");
+			return (x, z, noise) -> noise < min || noise > max;
+		}
+		case "noise_exceeds":
+		{
+			double val = conditionData.getDoubleValue("value");
+			return (x, z, noise) -> noise > val;
+		}
+		case "noise_preceeds":
+		{
+			double val = conditionData.getDoubleValue("value");
+			return (x, z, noise) -> noise < val;
+		}
+		case "z_exceeds":
+		{
+			int val = conditionData.getIntegerValue("value");
+			return (x, z, noise) -> z > val;
+		}
+		case "z_preceeds":
+		{
+			int val = conditionData.getIntegerValue("value");
+			return (x, z, noise) -> z < val;
+		}
+		case "x_exceeds":
+		{
+			int val = conditionData.getIntegerValue("value");
+			return (x, z, noise) -> x > val;
+		}
+		case "x_preceeds":
+		{
+			int val = conditionData.getIntegerValue("value");
+			return (x, z, noise) -> x < val;
+		}
+		default:
+			throw new RuntimeException("Unknown condition type: " + type);
+		}
 	}
 
 	public static class AlterMaterialsSB extends SurfaceBuilder<SurfaceBuilderConfig> {
@@ -65,6 +112,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 
 	public static class Step implements IZFGSerialisable {
 		public Step(Condition condition, Optional<Block> top, Optional<Block> filler, Optional<Block> underwater, boolean terminate) {
+			this.condition = condition;
 			this.top = top;
 			this.filler = filler;
 			this.underwater = underwater;
@@ -73,6 +121,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		}
 
 		public Step(Condition condition, List<Step> steps, boolean terminate) {
+			this.condition = condition;
 			this.top = null;
 			this.filler = null;
 			this.underwater = null;
@@ -80,6 +129,7 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 			this.steps = null;
 		}
 
+		private final Condition condition;
 		private final Optional<Block> top;
 		private final Optional<Block> filler;
 		private final Optional<Block> underwater;
@@ -89,6 +139,8 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 		@Override
 		public Container toZoesteriaConfig() {
 			final EditableContainer result = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+
+			result.putMap("condition", this.condition.toZoesteriaConfig().asMap());
 
 			if (this.steps == null) {
 				// node
@@ -138,5 +190,10 @@ public class AlterMaterialsSBTemplate implements ISurfaceBuilderTemplate<AlterMa
 	@FunctionalInterface
 	interface SBFunction {
 		SurfaceBuilderConfig alterMaterials(SurfaceBuilderConfig original, int x, int z, double noise);
+	}
+
+	@FunctionalInterface
+	interface SBPredicate {
+		boolean test(int x, int z, double noise);
 	}
 }
