@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
@@ -14,13 +15,23 @@ public interface IZoesteriaJavaModule {
 	Manifest createManifest();
 	List<IZoesteriaBiome> createBiomes();
 
-	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaces() {
+	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {
 		return ImmutableList.of();
 	}
 
+	default List<ISurfaceBuilderTemplate<?>> createSurfaceTemplates() {
+		return ImmutableList.of();
+	}
+
+	/**
+	 * Called at the time of placement settings registration.
+	 */
 	default void registerPlacementSettings() {
 	}
 
+	/**
+	 * Called at the time of feature settings registration.
+	 */
 	default void registerFeatureSettings() {
 	}
 

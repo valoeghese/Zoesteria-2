@@ -8,11 +8,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -25,6 +27,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.ConfiguredPlacement;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -35,6 +38,7 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
@@ -67,6 +71,27 @@ public final class GenModifierPack {
 
 		FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
 			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
+		});
+	}
+
+	public void loadSurfaces(IForgeRegistry<SurfaceBuilder<?>> surfaceRegistry, Function<ResourceLocation, ISurfaceBuilderTemplate<?>> templateProvider) {
+		if (this.disabled) {
+			return;
+		}
+
+		File surfaceBuilderDir = new File(this.packDir + "./surfacebuilders/");
+
+		if (!surfaceBuilderDir.isDirectory()) {
+			return;
+		}
+
+		FileUtils.trailFilesOfExtension(surfaceBuilderDir, "cfg", (file, trail) -> {
+			// get data
+			Container surfaceBuilderConfig = ZoesteriaConfig.loadConfig(file);
+			// get template
+			ISurfaceBuilderTemplate<?> template = templateProvider.apply(new ResourceLocation(surfaceBuilderConfig.getStringValue("template")));
+			// create surface builder
+			surfaceRegistry.register(template.create(surfaceBuilderConfig).setRegistryName(new ResourceLocation(this.id, surfaceBuilderConfig.getStringValue("id"))));
 		});
 	}
 
