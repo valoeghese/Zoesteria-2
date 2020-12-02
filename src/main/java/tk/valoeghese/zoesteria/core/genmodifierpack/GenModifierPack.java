@@ -136,6 +136,8 @@ public final class GenModifierPack {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
+		GenModifierPack.init(); // make sure configs have loaded before java modules
+
 		String packId = module.packId();
 		AtomicBoolean setIsLoaded = new AtomicBoolean(false); // in case of varying order
 		AtomicBoolean isLoaded = new AtomicBoolean(false);
