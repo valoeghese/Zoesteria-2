@@ -31,6 +31,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 				.temperature(0.3F)
 				.downfall(0.6F)
 				.fillerBlock("minecraft:stone")
+				.surfaceBuilder("zoesteria:bluff")
 				.build();
 	}
 
