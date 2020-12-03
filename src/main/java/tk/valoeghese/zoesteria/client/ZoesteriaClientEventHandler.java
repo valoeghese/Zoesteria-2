@@ -45,7 +45,7 @@ public class ZoesteriaClientEventHandler {
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		ZoesteriaMod.LOGGER.info("Running Zoesteria client Setup.");
-		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutoutMipped());
 	}
 
 	public static void safeRunClient() {

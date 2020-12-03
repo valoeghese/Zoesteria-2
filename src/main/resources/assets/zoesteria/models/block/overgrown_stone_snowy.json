@@ -4,6 +4,6 @@
     "particle": "block/stone",
     "bottom": "block/stone",
     "top": "block/grass_block_top",
-    "side": "block/overgrown_stone_snowy"
+    "side": "zoesteria:block/overgrown_stone_snowy"
   }
 }
