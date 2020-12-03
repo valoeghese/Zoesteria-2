@@ -15,7 +15,7 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
-import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
+import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 
 public final class BluffBiome implements IZoesteriaBiome {
 	@Override
@@ -58,7 +58,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 	@Override
 	public BiomeDecorations getDecorations() {
 		return BiomeDecorations.create()
-				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaRegistryHandler.BLUFF_PINE
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.BLUFF_PINE
 						.withConfiguration(new TreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(
 										Blocks.SPRUCE_LOG.getDefaultState()),

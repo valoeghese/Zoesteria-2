@@ -82,7 +82,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public void registerFeatureSettings() {
-		FeatureSerialisers.registerFeatureSettings(ZoesteriaRegistryHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterMaterialsTemplate.Step> ALTER_MATERIALS = new AlterMaterialsTemplate();

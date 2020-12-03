@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "zoesteria:overgrown_stone"
+          "name": "minecraft:stone"
         }
       ],
       "conditions": [

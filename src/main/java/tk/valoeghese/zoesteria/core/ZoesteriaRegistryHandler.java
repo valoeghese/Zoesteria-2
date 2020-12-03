@@ -15,7 +15,6 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,14 +23,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
-import tk.valoeghese.zoesteria.common.feature.BluffPineFeature;
 import tk.valoeghese.zoesteria.common.feature.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 
+/**
+ * Event registry handler for core stuff.
+ */
 public class ZoesteriaRegistryHandler {
-	// ===== CORE ONLY ======
-
 	@SubscribeEvent
 	public static void onBiomeRegister(RegistryEvent.Register<Biome> event) {
 		registerFeatureSettings();
@@ -64,11 +63,8 @@ public class ZoesteriaRegistryHandler {
 		GenModifierPack.forEach(pack -> pack.loadSurfaces(event.getRegistry(), TEMPLATE_LOOKUP::get));
 	}
 
-	// ===== COMMON / ZOESTERIA MODULE =====
-
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
-		event.getRegistry().register(BLUFF_PINE.setRegistryName("bluff_pine"));
 		registerFeatureSettings();
 	}
 
@@ -110,7 +106,6 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
-	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature();
 	public static final Queue<BiConsumer<IForgeRegistry<SurfaceBuilder<?>>, Function<ISurfaceBuilderTemplate<?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
 	public static final Queue<Consumer<IForgeRegistry<Biome>>> BIOME_PROCESSING = new LinkedList<>();
 	private static final BiMap<ResourceLocation, ISurfaceBuilderTemplate<?>> TEMPLATE_LOOKUP = HashBiMap.create();
