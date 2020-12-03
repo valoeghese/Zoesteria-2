@@ -13,6 +13,7 @@ import net.minecraft.world.gen.placement.HeightWithChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
@@ -58,7 +59,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 
 	@Override
 	public BiomeDecorations getDecorations() {
-		return BiomeDecorations.create()
+		BiomeDecorations decorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.BLUFF_PINE
 						.withConfiguration(new TreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(
@@ -74,5 +75,9 @@ public final class BluffBiome implements IZoesteriaBiome {
 								.trunkHeightRandom(1)
 								.build())
 						.withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(2, 0.1f))));
+
+		BiomeDefaultFeatures.addOres(decorations);
+		BiomeDefaultFeatures.addStoneVariants(decorations);
+		return decorations;
 	}
 }
