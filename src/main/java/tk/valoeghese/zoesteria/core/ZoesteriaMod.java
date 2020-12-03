@@ -30,11 +30,11 @@ public class ZoesteriaMod {
 
 		// core
 		eventHandler.addListener(this::setup);
-		eventHandler.register(ZoesteriaRegistryHandler.class);	
+		eventHandler.register(ZoesteriaRegistryHandler.class);
 		MinecraftForge.EVENT_BUS.register(this);
 
 		// common
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> eventHandler.register(ZoesteriaClientEventHandler.class));
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ZoesteriaClientEventHandler::safeRunClient);
 		eventHandler.register(ZoesteriaCommonEventHandler.class);
 		ZoesteriaItems.ITEMS.register(eventHandler);
 		ZoesteriaBlocks.BLOCKS.register(eventHandler);

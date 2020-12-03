@@ -6,7 +6,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.world.GrassColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class ZoesteriaClientEventHandler {
@@ -34,5 +36,10 @@ public class ZoesteriaClientEventHandler {
 				null,
 				null,
 				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem());
+	}
+
+	public static void safeRunClient() {
+		final IEventBus eventHandler = FMLJavaModLoadingContext.get().getModEventBus();
+		eventHandler.register(ZoesteriaClientEventHandler.class);
 	}
 }

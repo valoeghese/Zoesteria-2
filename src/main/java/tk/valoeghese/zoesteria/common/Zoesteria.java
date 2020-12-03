@@ -16,7 +16,6 @@ import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.common.surface.AlterMaterialsTemplate;
-import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
