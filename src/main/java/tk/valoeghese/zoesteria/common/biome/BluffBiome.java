@@ -17,6 +17,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public final class BluffBiome implements IZoesteriaBiome {
 	@Override
@@ -64,7 +65,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 						.withConfiguration(new TreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(
 										Blocks.SPRUCE_LOG.getDefaultState()),
-								new SimpleBlockStateProvider(Blocks.SPRUCE_LEAVES.getDefaultState()),
+								new SimpleBlockStateProvider(ZoesteriaBlocks.BLUFF_PINE_LEAVES.get().getDefaultState()),
 								new BlobFoliagePlacer(1, 1))
 								.baseHeight(11)
 								.heightRandA(4)
