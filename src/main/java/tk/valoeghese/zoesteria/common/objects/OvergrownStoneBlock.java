@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SnowyDirtBlock;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -12,7 +13,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.lighting.LightEngine;
 import net.minecraft.world.server.ServerWorld;
 
-public class OvergrownStoneBlock extends Block/* implements IGrowable*/ {
+public class OvergrownStoneBlock extends SnowyDirtBlock/* implements IGrowable*/ {
 	public OvergrownStoneBlock(Block.Properties properties) {
 		super(properties);
 

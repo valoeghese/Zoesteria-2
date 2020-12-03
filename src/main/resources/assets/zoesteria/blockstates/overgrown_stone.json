@@ -1,7 +1,11 @@
 {
   "variants": {
-    "": {
-      "model": "zoesteria:block/overgrown_stone"
-    }
+    "snowy=false": [
+      { "model": "zoesteria:block/overgrown_stone" },
+      { "model": "zoesteria:block/overgrown_stone", "y": 90 },
+      { "model": "zoesteria:block/overgrown_stone", "y": 180 },
+      { "model": "zoesteria:block/overgrown_stone", "y": 270 }
+    ],
+    "snowy=true":  { "model": "zoesteria:block/overgrown_stone_snowy" }
   }
 }
