@@ -4,7 +4,8 @@
     "particle": "block/stone",
     "bottom": "block/stone",
     "top": "block/grass_block_top",
-    "side": "zoesteria:block/overgrown_stone_side"
+    "side": "zoesteria:block/overgrown_stone_side",
+    "overlay": "block/grass_block_side_overlay"
   },
   "elements": [
     {
@@ -18,6 +19,16 @@
          "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side", "cullface": "west" },
          "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side", "cullface": "east" }
       }
-    }
+    },
+    {
+     "from": [ 0, 0, 0 ],
+     "to": [ 16, 16, 16 ],
+       "faces": {
+         "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay", "tintindex": 0, "cullface": "north" },
+         "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay", "tintindex": 0, "cullface": "south" },
+         "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay", "tintindex": 0, "cullface": "west" },
+         "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay", "tintindex": 0, "cullface": "east" }
+       }
+     }
   ]
 }

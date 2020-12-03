@@ -30,6 +30,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 				.scale(1.7F)
 				.temperature(0.3F)
 				.downfall(0.6F)
+				.topBlock("zoesteria:overgrown_stone")
 				.fillerBlock("minecraft:stone")
 				.surfaceBuilder("zoesteria:bluff")
 				.build();

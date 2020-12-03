@@ -17,7 +17,6 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
-import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
