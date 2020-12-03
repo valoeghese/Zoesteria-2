@@ -11,10 +11,11 @@ import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.Manifest;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
-import tk.valoeghese.zoesteria.common.surface.AlterMaterialsTemplate;
+import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
 
 public class Zoesteria implements IZoesteriaJavaModule {
@@ -40,30 +41,30 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		List<ZoesteriaSurfaceBuilder<?, ?>> surfaceBuilders = Lists.newArrayList();
 		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
 				"bluff",
-				ALTER_MATERIALS,
+				ALTER_BLOCKS,
 				ImmutableList.of(
-						new AlterMaterialsTemplate.Step(
-								new AlterMaterialsTemplate.Condition("z_preceeds").withParameter("value", 0),
+						new AlterBlocksTemplate.Step(
+								new Condition("z_preceeds").withParameter("value", 0),
 								ImmutableList.of(
-										new AlterMaterialsTemplate.Step(
-												new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.8),
+										new AlterBlocksTemplate.Step(
+												new Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.8),
 												Optional.of(Blocks.COBBLESTONE),
 												Optional.empty(),
 												Optional.empty(),
 												true)), true),
-						new AlterMaterialsTemplate.Step(
-								new AlterMaterialsTemplate.Condition("chance").withParameter("value", 3),
+						new AlterBlocksTemplate.Step(
+								new Condition("chance").withParameter("value", 3),
 								ImmutableList.of(
-										new AlterMaterialsTemplate.Step(
-												new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.7),
+										new AlterBlocksTemplate.Step(
+												new Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.7),
 												Optional.of(Blocks.MOSSY_COBBLESTONE),
 												Optional.empty(),
 												Optional.empty(),
 												true)
 										),
 								false),
-						new AlterMaterialsTemplate.Step(
-								new AlterMaterialsTemplate.Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.6),
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_within").withParameter("min", 2.0).withParameter("max", 2.6),
 								Optional.of(Blocks.COBBLESTONE),
 								Optional.empty(),
 								Optional.empty(),
@@ -76,7 +77,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public List<ISurfaceBuilderTemplate<?>> createSurfaceBuilderTemplates() {
-		return ImmutableList.of(ALTER_MATERIALS);
+		return ImmutableList.of(ALTER_BLOCKS);
 	}
 
 	@Override
@@ -84,5 +85,5 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 	}
 
-	private static final ISurfaceBuilderTemplate<AlterMaterialsTemplate.Step> ALTER_MATERIALS = new AlterMaterialsTemplate();
+	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> ALTER_BLOCKS = new AlterBlocksTemplate();
 }

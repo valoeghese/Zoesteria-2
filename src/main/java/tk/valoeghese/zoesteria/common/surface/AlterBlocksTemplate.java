@@ -15,7 +15,9 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
+import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
+import tk.valoeghese.zoesteria.api.surface.Condition.SBPredicate;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -25,23 +27,23 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
  * You may notice there is a lot of weird code in this class.
  * This is for optimisation purposes.
  */
-public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMaterialsTemplate.Step> {
+public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> {
 	@Override
 	public String id() {
-		return "alter_materials";
+		return "alter_blocks";
 	}
 
 	@Override
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
 		List<SBStep> steps = constructStepBranch(surfaceBuilderData.getList("steps"));
 
-		return new AlterMaterialsSB((original, rand, x, z, noise) -> {
+		return new AlterBlocksSB((original, rand, x, z, noise) -> {
 			AtomicReference<Block> top = new AtomicReference<>(original.getTop().getBlock());
 			AtomicReference<Block> filler = new AtomicReference<>(original.getUnder().getBlock());
 			AtomicReference<Block> underwater = new AtomicReference<>(original.getUnderWaterMaterial().getBlock());
 
 			for (SBStep step : steps) {
-				if (step.alterMaterials(top, filler, underwater, rand, x, z, noise)) {
+				if (step.alterBlocks(top, filler, underwater, rand, x, z, noise)) {
 					break;
 				}
 			}
@@ -51,7 +53,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 	}
 
 	private SBStep constructStep(Container stepData) {
-		SBPredicate condition = constructCondition(stepData.getContainer("condition"));
+		SBPredicate condition = Condition.deserialise(stepData.getContainer("condition"));
 		boolean terminate = stepData.getBooleanValue("terminate");
 		List<Object> steps = stepData.getList("steps"); // microoptimisation - skip containsKey
 
@@ -67,7 +69,7 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 			return (top, filler, underwater, rand, x, z, noise) -> {
 				if (condition.test(rand, x, z, noise)) {
 					for (SBStep step : constructedSteps) {
-						if (step.alterMaterials(top, filler, underwater, rand, x, z, noise)) {
+						if (step.alterBlocks(top, filler, underwater, rand, x, z, noise)) {
 							return terminate;
 						}
 					}
@@ -206,69 +208,8 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		}
 	}
 
-	private SBPredicate constructCondition(Container conditionData) {
-		String type = conditionData.getStringValue("type");
-
-		switch (type) {
-		case "noise_within":
-		{
-			double min = conditionData.getDoubleValue("min");
-			double max = conditionData.getDoubleValue("max");
-			return (rand, x, z, noise) -> noise > min && noise < max;
-		}
-		case "noise_outside":
-		{
-			double min = conditionData.getDoubleValue("min");
-			double max = conditionData.getDoubleValue("max");
-			return (rand, x, z, noise) -> noise < min || noise > max;
-		}
-		case "noise_exceeds":
-		{
-			double val = conditionData.getDoubleValue("value");
-			return (rand, x, z, noise) -> noise > val;
-		}
-		case "noise_preceeds":
-		{
-			double val = conditionData.getDoubleValue("value");
-			return (rand, x, z, noise) -> noise < val;
-		}
-		case "z_exceeds":
-		{
-			int val = conditionData.getIntegerValue("value");
-			return (rand, x, z, noise) -> z > val;
-		}
-		case "z_preceeds":
-		{
-			int val = conditionData.getIntegerValue("value");
-			return (rand, x, z, noise) -> z < val;
-		}
-		case "x_exceeds":
-		{
-			int val = conditionData.getIntegerValue("value");
-			return (rand, x, z, noise) -> x > val;
-		}
-		case "x_preceeds":
-		{
-			int val = conditionData.getIntegerValue("value");
-			return (rand, x, z, noise) -> x < val;
-		}
-		case "chance":
-		{
-			int val = conditionData.getIntegerValue("value");
-			return (rand, x, z, noise) -> rand.nextInt(val) == 0;
-		}
-		case "chance_double":
-		{
-			double val = conditionData.getDoubleValue("value");
-			return (rand, x, z, noise) -> rand.nextDouble() < val;
-		}
-		default:
-			throw new RuntimeException("Unknown condition type: " + type);
-		}
-	}
-
-	public static class AlterMaterialsSB extends SurfaceBuilder<SurfaceBuilderConfig> {
-		public AlterMaterialsSB(SBFunction function) {
+	public static class AlterBlocksSB extends SurfaceBuilder<SurfaceBuilderConfig> {
+		public AlterBlocksSB(SBFunction function) {
 			super(SurfaceBuilderConfig::deserialize);
 			this.function = function;
 		}
@@ -349,29 +290,6 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 		}	
 	}
 
-	// a surface builder condition.
-	public static class Condition implements IZFGSerialisable {
-		public Condition(String conditionName) {
-			this.conditionParams.put("type", conditionName);
-		}
-
-		private final Map<String, Object> conditionParams = new LinkedHashMap<>();
-
-		public Condition withParameter(String parameter, Object value) {
-			if (parameter.equals("type")) {
-				throw new RuntimeException("type is not a valid parameter: it is a reserved key!");
-			}
-
-			this.conditionParams.put(parameter, value);
-			return this;
-		}
-
-		@Override
-		public Container toZoesteriaConfig() {
-			return ZoesteriaConfig.createWritableConfig(this.conditionParams);
-		}	
-	}
-
 	@FunctionalInterface
 	interface SBFunction {
 		SurfaceBuilderConfig alterMaterials(SurfaceBuilderConfig original, Random rand, int x, int z, double noise);
@@ -379,11 +297,6 @@ public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMate
 
 	@FunctionalInterface
 	interface SBStep {
-		boolean alterMaterials(AtomicReference<Block> top, AtomicReference<Block> filler, AtomicReference<Block> underwater, Random rand, int x, int z, double noise);
-	}
-
-	@FunctionalInterface
-	interface SBPredicate {
-		boolean test(Random rand, int x, int z, double noise);
+		boolean alterBlocks(AtomicReference<Block> top, AtomicReference<Block> filler, AtomicReference<Block> underwater, Random rand, int x, int z, double noise);
 	}
 }
