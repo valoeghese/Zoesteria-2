@@ -21,7 +21,7 @@ blockstates = assets.sub("blockstates")
 blockmodels = assets.sub("models/block")
 itemmodels = assets.sub("models/item")
 
-loottables = DataDir("data/" + MOD_ID + "/loot_tables/blocks")
+loottables = DataDir("src/main/resources/data/" + MOD_ID + "/loot_tables/blocks")
 
 block_id = input("block id: ")
 

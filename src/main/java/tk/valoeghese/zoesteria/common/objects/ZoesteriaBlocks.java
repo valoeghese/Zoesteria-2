@@ -9,6 +9,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvents;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,7 +24,7 @@ public final class ZoesteriaBlocks {
 
 	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_STONE = createWithBlockitem(
 			"overgrown_stone",
-			() -> new OvergrownStoneBlock(Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND)),
+			() -> new OvergrownStoneBlock(Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	private static <T extends Block> RegistryObject<T> createWithBlockitem(String id, Supplier<T> blockSupplier, Item.Properties itemProperties) {
