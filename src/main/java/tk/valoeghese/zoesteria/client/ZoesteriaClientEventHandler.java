@@ -1,5 +1,7 @@
 package tk.valoeghese.zoesteria.client;
 
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.BlockItem;
@@ -8,8 +10,10 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 
 public class ZoesteriaClientEventHandler {
 	@SubscribeEvent
@@ -36,6 +40,12 @@ public class ZoesteriaClientEventHandler {
 				null,
 				null,
 				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem());
+	}
+
+	@SubscribeEvent
+	public static void onClientSetup(FMLClientSetupEvent event) {
+		ZoesteriaMod.LOGGER.info("Running Zoesteria client Setup.");
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutout());
 	}
 
 	public static void safeRunClient() {
