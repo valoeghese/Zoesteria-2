@@ -287,8 +287,8 @@ public final class GenModifierPack {
 							entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
 
 							// haha funni raw type go brr
-							handleFeature((ConfiguredFeature) dfc.feature, entry);
-							handlePlacement((ConfiguredPlacement) dfc.decorator, entry);
+							addFeature((ConfiguredFeature) dfc.feature, entry);
+							addPlacement((ConfiguredPlacement) dfc.decorator, entry);
 
 							// add to decorations list
 							decorations.add(entry);
@@ -328,7 +328,7 @@ public final class GenModifierPack {
 		ZoesteriaRegistryHandler.addJavaModule(module);
 	}
 
-	private static <T extends IFeatureConfig> void handleFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
+	private static <T extends IFeatureConfig> void addFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
 		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
 		fc = fc.loadFrom(feature.config); // load from config
 
@@ -337,7 +337,7 @@ public final class GenModifierPack {
 		map.put("settings", settings.asMap());
 	}
 
-	private static <T extends IPlacementConfig> void handlePlacement(ConfiguredPlacement<T> placement, Map<String, Object> map) {
+	private static <T extends IPlacementConfig> void addPlacement(ConfiguredPlacement<T> placement, Map<String, Object> map) {
 		IZoesteriaPlacementConfig<T> fc = FeatureSerialisers.getPlacement(placement.decorator);
 		fc = fc.loadFrom(placement.config);
 

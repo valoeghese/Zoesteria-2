@@ -27,6 +27,7 @@ import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.BlockClusterFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.CountRangeConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.DepthAverageConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.FrequencyConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.OreFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
@@ -90,6 +91,16 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigHandler.BASE);
 
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
+
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigHandler.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {

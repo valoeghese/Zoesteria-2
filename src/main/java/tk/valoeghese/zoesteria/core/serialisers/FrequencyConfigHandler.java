@@ -35,4 +35,6 @@ public class FrequencyConfigHandler implements IZoesteriaPlacementConfig<Frequen
 	public FrequencyConfig create() {
 		return new FrequencyConfig(this.count);
 	}
+
+	public static final FrequencyConfigHandler BASE = new FrequencyConfigHandler(0);
 }
