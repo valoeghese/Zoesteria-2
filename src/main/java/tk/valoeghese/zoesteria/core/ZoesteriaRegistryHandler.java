@@ -24,6 +24,7 @@ import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.serialisers.BlockClusterFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.CountRangeConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.DepthAverageConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.HeightChanceConfigHandler;
@@ -104,6 +105,8 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigHandler.BASE);
+			FeatureSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
+			FeatureSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSettings();

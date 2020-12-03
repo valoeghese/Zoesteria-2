@@ -21,6 +21,10 @@ import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
+/**
+ * You may notice there is a lot of weird code in this class.
+ * This is for optimisation purposes.
+ */
 public class AlterMaterialsTemplate implements ISurfaceBuilderTemplate<AlterMaterialsTemplate.Step> {
 	@Override
 	public String id() {

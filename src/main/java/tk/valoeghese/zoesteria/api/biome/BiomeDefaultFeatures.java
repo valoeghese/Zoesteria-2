@@ -3,10 +3,14 @@ package tk.valoeghese.zoesteria.api.biome;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
+import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 
 public final class BiomeDefaultFeatures {
@@ -30,6 +34,10 @@ public final class BiomeDefaultFeatures {
 		decorations.addDecoration(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LAPIS_ORE, 7)).withPlacement(Placement.COUNT_DEPTH_AVERAGE.configure(new DepthAverageConfig(1, 16, 16))));
 	}
 
+	public static void addSparseGrass(BiomeDecorations decorations) {
+		decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
+	}
+
 	private static final BlockState DIRT = Blocks.DIRT.getDefaultState();
 	private static final BlockState GRAVEL = Blocks.GRAVEL.getDefaultState();
 	private static final BlockState GRANITE = Blocks.GRANITE.getDefaultState();
@@ -41,4 +49,6 @@ public final class BiomeDefaultFeatures {
 	private static final BlockState REDSTONE_ORE = Blocks.REDSTONE_ORE.getDefaultState();
 	private static final BlockState DIAMOND_ORE = Blocks.DIAMOND_ORE.getDefaultState();
 	private static final BlockState LAPIS_ORE = Blocks.LAPIS_ORE.getDefaultState();
+
+	public static final BlockClusterFeatureConfig GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
 }

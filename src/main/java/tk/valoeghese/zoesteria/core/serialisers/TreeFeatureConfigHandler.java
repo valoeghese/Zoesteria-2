@@ -1,23 +1,17 @@
 package tk.valoeghese.zoesteria.core.serialisers;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
-import tk.valoeghese.zoesteria.core.Default;
 import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFeatureConfig> {
 	private TreeFeatureConfigHandler(TreeFeatureConfig config) {
-		// TODO make not bad, have ways of having variable leaves and log
-		this.leaves = config.leavesProvider.getBlockState(RAND, BlockPos.ZERO);
-		this.log = config.trunkProvider.getBlockState(RAND, BlockPos.ZERO);
+		this.leaves = config.leavesProvider;
+		this.log = config.trunkProvider;
 		this.minTrunkHeight = config.trunkHeight;
 		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight - 1;
 		this.minFoliageDepth = config.foliageHeight;
@@ -30,7 +24,7 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset - 1;
 	}
 
-	private TreeFeatureConfigHandler(BlockState leaves, BlockState log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM) {
+	private TreeFeatureConfigHandler(BlockStateProvider leaves, BlockStateProvider log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM) {
 		this.leaves = leaves;
 		this.log = log;
 		this.minTrunkHeight = lt;
@@ -45,10 +39,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.maxTrunkTopOffset = tOM;
 	}
 
-	private static final Random RAND = new Random();
-
-	private final BlockState leaves;
-	private final BlockState log;
+	private final BlockStateProvider leaves;
+	private final BlockStateProvider log;
 	private final int baseHeight;
 	private final int heightRandA;
 	private final int heightRandB;
@@ -70,8 +62,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
 
 		return new TreeFeatureConfigHandler(
-				ZFGUtils.getBlockState(settings, "leaves"),
-				ZFGUtils.getBlockState(settings, "log"),
+				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
+				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
 				ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
@@ -87,8 +79,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 
 	@Override
 	public void serialise(EditableContainer settings) {
-		ZFGUtils.putBlockState(settings, "leaves", this.leaves);
-		ZFGUtils.putBlockState(settings, "log", this.log);
+		settings.putMap("leaves", BlockStateProviderHandler.serialiseStateProvider(this.leaves).asMap());
+		settings.putMap("log", BlockStateProviderHandler.serialiseStateProvider(this.log).asMap());
 		settings.putIntegerValue("baseHeight", this.baseHeight);
 		settings.putIntegerValue("heightRandA", this.heightRandA);
 		settings.putIntegerValue("heightRandB", this.heightRandB);
@@ -114,8 +106,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	@Override
 	public TreeFeatureConfig create() {
 		return new TreeFeatureConfig.Builder(
-				new SimpleBlockStateProvider(this.log),
-				new SimpleBlockStateProvider(this.leaves), new BlobFoliagePlacer(2, 1))
+				this.log,
+				this.leaves, new BlobFoliagePlacer(2, 1))
 				.baseHeight(this.baseHeight)
 				.heightRandA(this.heightRandA)
 				.heightRandB(this.heightRandB)
@@ -129,5 +121,5 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 				.build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(Default.STATE, Default.STATE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }

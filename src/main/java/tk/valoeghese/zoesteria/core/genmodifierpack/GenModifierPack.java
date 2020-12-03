@@ -276,7 +276,7 @@ public final class GenModifierPack {
 							if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
 								dfc = (DecoratedFeatureConfig) feature.config;
 							} else {
-								ZoesteriaMod.LOGGER.warn("Can only serialise decorated features in configs! Defaulting to a Passthrough placement?");
+								ZoesteriaMod.LOGGER.warn("Can only serialise decorated features and decorated flower features in configs! Defaulting to a Passthrough placement?");
 								feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
 								dfc = (DecoratedFeatureConfig) feature.config;
 							}
