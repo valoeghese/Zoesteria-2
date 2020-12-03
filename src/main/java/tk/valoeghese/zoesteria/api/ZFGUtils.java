@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.core;
+package tk.valoeghese.zoesteria.api;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,7 +13,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class ZFGUtils {
+/**
+ * Utilities for handling certain game types with ZoesteriaConfig.
+ */
+public final class ZFGUtils {
 	private ZFGUtils() {
 	}
 

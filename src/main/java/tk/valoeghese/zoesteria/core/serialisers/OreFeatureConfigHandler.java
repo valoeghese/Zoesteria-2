@@ -3,8 +3,8 @@ package tk.valoeghese.zoesteria.core.serialisers;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType;
+import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
-import tk.valoeghese.zoesteria.core.ZFGUtils;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 

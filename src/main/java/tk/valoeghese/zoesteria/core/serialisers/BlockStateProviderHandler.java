@@ -9,7 +9,7 @@ import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.blockstateprovider.ForestFlowerBlockStateProvider;
 import net.minecraft.world.gen.blockstateprovider.PlainFlowerBlockStateProvider;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import tk.valoeghese.zoesteria.core.ZFGUtils;
+import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
