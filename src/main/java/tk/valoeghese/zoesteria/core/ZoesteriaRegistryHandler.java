@@ -23,9 +23,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
-import tk.valoeghese.zoesteria.common.feature.HeightChanceConfigHandler;
-import tk.valoeghese.zoesteria.common.feature.TreeFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.serialisers.HeightChanceConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.OreFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
 
 /**
  * Event registry handler for core stuff.
@@ -79,6 +80,7 @@ public class ZoesteriaRegistryHandler {
 
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigHandler.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigHandler.BASE);
+			
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {
@@ -93,6 +95,7 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigHandler.BASE);
+			FeatureSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigHandler.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSettings();

@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.common.feature;
+package tk.valoeghese.zoesteria.core.serialisers;
 
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;

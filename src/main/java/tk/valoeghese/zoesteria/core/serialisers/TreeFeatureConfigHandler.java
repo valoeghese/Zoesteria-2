@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.common.feature;
+package tk.valoeghese.zoesteria.core.serialisers;
 
 import java.util.Random;
 
@@ -72,14 +72,14 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		return new TreeFeatureConfigHandler(
 				ZFGUtils.getBlockState(settings, "leaves"),
 				ZFGUtils.getBlockState(settings, "log"),
-				settings.getIntegerValue("minTrunkHeight"),
-				settings.getIntegerValue("maxTrunkHeight"),
-				settings.getIntegerValue("minFoliageDepth"),
-				settings.getIntegerValue("maxFoliageDepth"),
+				ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
+				ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
+				ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
+				ZFGUtils.getIntOrDefault(settings, "maxFoliageDepth", -1),
 				settings.getIntegerValue("baseHeight"),
 				settings.getIntegerValue("heightRandA"),
 				settings.getIntegerValue("heightRandB"),
-				maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue(),
+				(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
 				settings.getIntegerValue("minTrunkTopOffset"),
 				settings.getIntegerValue("maxTrunkTopOffset")
 				);
@@ -92,12 +92,19 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		settings.putIntegerValue("baseHeight", this.baseHeight);
 		settings.putIntegerValue("heightRandA", this.heightRandA);
 		settings.putIntegerValue("heightRandB", this.heightRandB);
-		settings.putIntegerValue("minTrunkHeight", this.minTrunkHeight);
-		settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
+
+		if (this.minTrunkHeight >= 0 || this.maxTrunkHeight >= 0) {
+			settings.putIntegerValue("minTrunkHeight", this.minTrunkHeight);
+			settings.putIntegerValue("maxTrunkHeight", this.maxTrunkHeight);
+		}
+
 		settings.putIntegerValue("minTrunkTopOffset", this.minTrunkTopOffset);
 		settings.putIntegerValue("maxTrunkTopOffset", this.maxTrunkTopOffset);
-		settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
-		settings.putIntegerValue("maxFoliageDepth", this.maxFoliageDepth);
+
+		if (this.minFoliageDepth >= 0 || this.maxFoliageDepth >= 0) {
+			settings.putIntegerValue("minFoliageDepth", this.minFoliageDepth);
+			settings.putIntegerValue("maxFoliageDepth", this.maxFoliageDepth);
+		}
 
 		if (this.maxBlocksUnderwater != 0) {
 			settings.putIntegerValue("maxBlocksUnderwater", this.maxBlocksUnderwater);

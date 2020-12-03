@@ -93,5 +93,10 @@ public class ZFGUtils {
 		return stringValue == null ? defaultValue : Boolean.valueOf(stringValue);
 	}
 
+	public static int getIntOrDefault(Container container, String key, int defaultValue) {
+		Integer intValue = container.getIntegerValue(key);
+		return intValue == null ? defaultValue : intValue;
+	}
+
 	private static final Set<ResourceLocation> blockKeys = ForgeRegistries.BLOCKS.getKeys();
 }

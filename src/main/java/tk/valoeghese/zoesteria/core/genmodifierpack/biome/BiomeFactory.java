@@ -225,9 +225,14 @@ public final class BiomeFactory {
 
 	@SuppressWarnings("rawtypes")
 	private static void addDecorations(Biome biome, BiomeDecorations decorations) {
+		DefaultBiomeFeatures.addCarvers(biome);
+		DefaultBiomeFeatures.addStructures(biome);
+
 		for (Tuple<Decoration, ConfiguredFeature> entry : decorations.toImmutableList()) {
 			biome.addFeature(entry.getA(), entry.getB());
 		}
+
+		DefaultBiomeFeatures.addFreezeTopLayer(biome);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
