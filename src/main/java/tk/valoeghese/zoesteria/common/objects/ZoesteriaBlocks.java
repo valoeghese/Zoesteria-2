@@ -33,6 +33,16 @@ public final class ZoesteriaBlocks {
 			() -> new LeavesBlock(Block.Properties.from(Blocks.SPRUCE_LEAVES)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_SMALL = createWithBlockitem(
+			"spinifex_small",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_LARGE = createWithBlockitem(
+			"spinifex_large",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	private static <T extends Block> RegistryObject<T> createWithBlockitem(String id, Supplier<T> blockSupplier, Item.Properties itemProperties) {
 		RegistryObject<T> result = BLOCKS.register(id, blockSupplier);
 		ZoesteriaItems.ITEMS.register(id, result.lazyMap(block -> new BlockItem(block, itemProperties)));
