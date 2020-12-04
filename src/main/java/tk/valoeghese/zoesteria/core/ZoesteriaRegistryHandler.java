@@ -25,6 +25,7 @@ import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.BlockClusterFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.CountExtraChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.CountRangeConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.DepthAverageConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.FrequencyConfigHandler;
@@ -84,6 +85,8 @@ public class ZoesteriaRegistryHandler {
 
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigHandler.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigHandler.BASE);
+
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigHandler.BASE);
 
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigHandler.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigHandler.BASE);

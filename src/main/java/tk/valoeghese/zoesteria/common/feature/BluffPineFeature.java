@@ -20,12 +20,46 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 	@Override
 	protected boolean place(IWorldGenerationReader world, Random rand, BlockPos pos, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, TreeFeatureConfig config) {
 		final int startY = pos.getY();
-		final int height = config.baseHeight + rand.nextInt(config.heightRandA) + rand.nextInt(config.heightRandB);
+		int height = config.baseHeight + rand.nextInt(config.heightRandA) + rand.nextInt(config.heightRandB);
 
 		// check height
 		if (startY < 1 || startY + height >= world.getMaxHeight()) {
 			return false;
 		}
+
+		// START extreme altitude climate modification
+		final int randNum = rand.nextInt(12);
+
+		if (startY > 172) {
+			if (startY > 196) {
+				if (randNum > 0) { // 1/12 success
+					return true;
+				}
+			} else if (randNum > 1) {
+				if (randNum > 1) { // 2/12 success
+					return true;
+				}
+			}
+
+			// shape mod from height
+			height = Math.max(MathHelper.ceil(config.baseHeight / 2.0), height - 4);
+		} else if (startY > 132) {
+			if (randNum > 2) { // 3/12 success.
+				return true;
+			}
+
+			// shape mod from height
+			height = Math.max(Math.max(1, config.baseHeight - 1), height - 2);
+		} else if (startY > 98) {
+			if (randNum > 4) { // 5/12 success.
+				return true;
+			}
+		} else {
+			// else 5/5 success && more prosperous height.
+			height++;
+		}
+
+		// END extreme altitude climate modification
 
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable(pos);
 		final int startX = pos.getX();
