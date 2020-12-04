@@ -1,3 +1,6 @@
 {
-  "parent": "zoesteria:block/bluff_pine_sapling"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "zoesteria:block/bluff_pine_sapling"
+  }
 }
