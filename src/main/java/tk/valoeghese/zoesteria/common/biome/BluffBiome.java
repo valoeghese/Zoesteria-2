@@ -40,7 +40,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.COOL, 6);
+		biomePlacement.put(BiomeType.COOL, 5);
 	}
 
 	@Override

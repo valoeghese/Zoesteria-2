@@ -13,9 +13,12 @@ import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
 public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
-	public BluffPineFeature() {
+	public BluffPineFeature(boolean natGen) {
 		super(TreeFeatureConfig::deserializeFoliage);
+		this.natGen = natGen;
 	}
+
+	private final boolean natGen;
 
 	@Override
 	protected boolean place(IWorldGenerationReader world, Random rand, BlockPos pos, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, TreeFeatureConfig config) {
@@ -28,35 +31,41 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		}
 
 		// START extreme altitude climate modification
-		final int randNum = rand.nextInt(12);
+		if (this.natGen) {
+			final int randNum = rand.nextInt(12);
 
-		if (startY > 172) {
-			if (startY > 196) {
-				if (randNum > 0) { // 1/12 success
+			if (startY > 172) {
+				if (startY > 196) {
+					if (randNum > 0) { // 1/12 success
+						return true;
+					}
+				} else if (randNum > 1) {
+					if (randNum > 1) { // 2/12 success
+						return true;
+					}
+				}
+
+				// shape mod from height
+				height = Math.max(MathHelper.ceil(config.baseHeight / 2.0), height - 4);
+			} else if (startY > 132) {
+				if (randNum > 2) { // 3/12 success.
 					return true;
 				}
-			} else if (randNum > 1) {
-				if (randNum > 1) { // 2/12 success
+
+				// shape mod from height
+				height = Math.max(Math.max(1, config.baseHeight - 1), height - 2);
+			} else if (startY > 98) {
+				if (randNum > 4) { // 5/12 success.
 					return true;
 				}
+			} else {
+				// else 5/5 success && more prosperous height.
+				height++;
 			}
-
-			// shape mod from height
+		} else if (startY > 172) { // sapling grown height mod
 			height = Math.max(MathHelper.ceil(config.baseHeight / 2.0), height - 4);
-		} else if (startY > 132) {
-			if (randNum > 2) { // 3/12 success.
-				return true;
-			}
-
-			// shape mod from height
+		} else if (startY > 132) { // sapling grown height mod
 			height = Math.max(Math.max(1, config.baseHeight - 1), height - 2);
-		} else if (startY > 98) {
-			if (randNum > 4) { // 5/12 success.
-				return true;
-			}
-		} else {
-			// else 5/5 success && more prosperous height.
-			height++;
 		}
 
 		// END extreme altitude climate modification

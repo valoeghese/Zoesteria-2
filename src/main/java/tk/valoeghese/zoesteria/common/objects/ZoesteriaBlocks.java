@@ -15,6 +15,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import tk.valoeghese.zoesteria.common.feature.BluffPineSaplingTree;
 
 public final class ZoesteriaBlocks {
 	private ZoesteriaBlocks() {
@@ -41,6 +42,11 @@ public final class ZoesteriaBlocks {
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_LARGE = createWithBlockitem(
 			"spinifex_large",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<SaplingBlock> BLUFF_PINE_SAPLING = createWithBlockitem(
+			"bluff_pine_sapling",
+			() -> new SaplingBlock(new BluffPineSaplingTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	private static <T extends Block> RegistryObject<T> createWithBlockitem(String id, Supplier<T> blockSupplier, Item.Properties itemProperties) {
