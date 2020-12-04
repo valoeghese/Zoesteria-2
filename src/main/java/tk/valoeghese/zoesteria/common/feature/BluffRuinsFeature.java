@@ -109,7 +109,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 
 				BlockState state = centre.get();
 
-				if (centre != null) {
+				if (state != null) {
 					world.setBlockState(pos, state, 3);
 				}
 			}
