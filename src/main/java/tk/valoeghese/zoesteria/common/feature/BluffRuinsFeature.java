@@ -74,6 +74,8 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 
 			// build structure
 			for (int i = 0; i < height; ++i) {
+				mutablePos.setY(startY + i);
+
 				if (i == 0) {
 					fillRingAround(world, mutablePos, radius, floor, walls);
 				} if (i < threeQuarterHeight) {
