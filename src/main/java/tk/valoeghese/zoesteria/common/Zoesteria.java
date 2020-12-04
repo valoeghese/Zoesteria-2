@@ -16,6 +16,7 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
+import tk.valoeghese.zoesteria.core.serialisers.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
 
 public class Zoesteria implements IZoesteriaJavaModule {
@@ -83,6 +84,8 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
 	public void registerFeatureSettings() {
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigHandler.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigHandler.INSTANCE);
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> ALTER_BLOCKS = new AlterBlocksTemplate();
