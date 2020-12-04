@@ -25,6 +25,7 @@ import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.BlockClusterFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.ChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.CountExtraChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.CountRangeConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.DepthAverageConfigHandler;
@@ -105,6 +106,15 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigHandler.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigHandler.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigHandler.BASE);
+
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigHandler.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {

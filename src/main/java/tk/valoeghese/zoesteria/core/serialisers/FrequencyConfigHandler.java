@@ -10,7 +10,7 @@ public class FrequencyConfigHandler implements IZoesteriaPlacementConfig<Frequen
 		this(config.count);
 	}
 
-	public FrequencyConfigHandler(int count) {
+	private FrequencyConfigHandler(int count) {
 		this.count = count;
 	}
 
