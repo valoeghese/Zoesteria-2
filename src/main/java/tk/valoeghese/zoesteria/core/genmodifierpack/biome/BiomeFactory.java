@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -20,6 +23,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -95,7 +99,7 @@ public final class BiomeFactory {
 
 		if (decorations != null) {
 			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
-			addDecorations(result, decorations);
+			addDecorations(result, decorations, true);
 		}
 
 		return result;
@@ -158,7 +162,7 @@ public final class BiomeFactory {
 		if (decorations != null) {
 			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
 				ZoesteriaMod.LOGGER.info("Decorating biome " + id);
-				addDecorations(result, decorations);
+				addDecorations(ImmutableSet.of(result), decorations, true);
 			});
 		}
 
@@ -224,24 +228,24 @@ public final class BiomeFactory {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static void addDecorations(Biome biome, BiomeDecorations decorations) {
-		DefaultBiomeFeatures.addCarvers(biome);
-		DefaultBiomeFeatures.addStructures(biome);
+	private static void addDecorations(Biome biome, BiomeDecorations decorations, boolean addDefaults) {
+		if (addDefaults) {
+			DefaultBiomeFeatures.addCarvers(biome);
+			DefaultBiomeFeatures.addStructures(biome);
+			DefaultBiomeFeatures.addFreezeTopLayer(biome);
+		}
 
 		for (Tuple<Decoration, ConfiguredFeature> entry : decorations.toImmutableList()) {
 			biome.addFeature(entry.getA(), entry.getB());
 		}
-
-		DefaultBiomeFeatures.addFreezeTopLayer(biome);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static void addDecorations(Biome biome, List<Object> decorations) {
+	private static void addDecorations(Set<Biome> biomes, List<Object> decorations, boolean addDefaults) {
 		int decorationCounter = 0;
 		int entryCounter = 0;
 
-		DefaultBiomeFeatures.addCarvers(biome);
-		DefaultBiomeFeatures.addStructures(biome);
+		BiomeDecorations biomeDecorations = BiomeDecorations.create();
 
 		for (Object rawEntry : decorations) {
 			entryCounter++;
@@ -268,14 +272,19 @@ public final class BiomeFactory {
 				IZoesteriaPlacementConfig placement = FeatureSerialisers.getPlacement(placementType)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
-				biome.addFeature(GenerationStage.Decoration.valueOf((String) entry.get("step")),
+				biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
 						feature.withConfiguration(config.create())
 						.withPlacement(placementType.configure(placement.create())));
 			}
 		}
 
-		DefaultBiomeFeatures.addFreezeTopLayer(biome);
-		ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
+		for (Biome biome : biomes) {
+			addDecorations(biome, biomeDecorations, addDefaults);
+		}
+
+		if (addDefaults) {
+			ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
+		}
 	}
 
 	private static SurfaceBuilderConfig getSurfaceConfig(IBiomeProperties properties) {
@@ -298,6 +307,20 @@ public final class BiomeFactory {
 
 			return new SurfaceBuilderConfig(topBlock, fillerBlock, underwaterBlock);
 		}
+	}
+
+	// Tweaks
+
+	@SuppressWarnings("unchecked")
+	public static void resolveTweaks(File file, String id) {
+		ZoesteriaConfig.loadConfig(file).asMap().forEach((k, v) -> {
+			// get all the biomes for the type
+			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(k));
+
+			if (v instanceof List) {
+				addDecorations(biomes, (List<Object>) v, false);
+			}
+		});
 	}
 
 	private static final ConfigTemplate biomeDefaults = ConfigTemplate.builder()

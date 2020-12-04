@@ -76,6 +76,22 @@ public final class GenModifierPack {
 		});
 	}
 
+	public void loadTweaks() {
+		if (this.disabled) {
+			return;
+		}
+
+		File tweaksDir = new File(this.packDir + "./tweaks/");
+
+		if (!tweaksDir.isDirectory()) {
+			return;
+		}
+
+		FileUtils.trailFilesOfExtension(tweaksDir, "cfg", (file, trail) -> {
+			BiomeFactory.resolveTweaks(file, this.id);
+		});
+	}
+
 	public void loadSurfaces(IForgeRegistry<SurfaceBuilder<?>> surfaceRegistry, Function<ResourceLocation, ISurfaceBuilderTemplate<?>> templateProvider) {
 		if (this.disabled) {
 			return;

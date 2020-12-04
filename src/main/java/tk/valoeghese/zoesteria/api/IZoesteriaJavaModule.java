@@ -1,9 +1,12 @@
 package tk.valoeghese.zoesteria.api;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
+import net.minecraftforge.common.BiomeDictionary;
+import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
@@ -14,6 +17,13 @@ public interface IZoesteriaJavaModule {
 	String packId();
 	Manifest createManifest();
 	List<IZoesteriaBiome> createBiomes();
+
+	/**
+	 * Use this to modify existing biomes with new features.
+	 * @apiNote this method be subject to future change in order to accommodate more complex tweaks, like adding to specific biomes or adding by different biome properties.
+	 */
+	default void addBiomeTweaks(Map<BiomeDictionary.Type, List<BiomeDecorations>> tweaks) {
+	}
 
 	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {
 		return ImmutableList.of();
