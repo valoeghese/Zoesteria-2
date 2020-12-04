@@ -80,7 +80,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(3, 0.1f, 1))))
 				.addDecoration(Decoration.SURFACE_STRUCTURES, ZoesteriaCommonEventHandler.BLUFF_RUINS
 						.withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG)
-						.withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(5))));
+						.withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(420))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
