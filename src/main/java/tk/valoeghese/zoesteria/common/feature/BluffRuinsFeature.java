@@ -130,7 +130,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		pos.setZ(startZ - radius);
 
 		for (int i = -run; i <= run; ++i) {
-			pos.setX(startX + run);
+			pos.setX(startX + i);
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
@@ -142,7 +142,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		pos.setZ(startZ + radius);
 
 		for (int i = -run; i <= run; ++i) {
-			pos.setX(startX + run);
+			pos.setX(startX + i);
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
@@ -154,7 +154,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		pos.setX(startX - radius);
 
 		for (int i = -run; i <= run; ++i) {
-			pos.setZ(startZ + run);
+			pos.setZ(startZ + i);
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
@@ -166,7 +166,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		pos.setX(startX + radius);
 
 		for (int i = -run; i <= run; ++i) {
-			pos.setZ(startZ + run);
+			pos.setZ(startZ + i);
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
@@ -187,6 +187,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 	private static final BlockState[] FLOOR = new BlockState[] {
 			Blocks.SPRUCE_PLANKS.getDefaultState(),
 			Blocks.SPRUCE_PLANKS.getDefaultState(),
+			Blocks.SPRUCE_PLANKS.getDefaultState(),
 			Blocks.SPRUCE_SLAB.getDefaultState(),
 			null,
 			null
@@ -196,7 +197,8 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 			Blocks.COBBLESTONE.getDefaultState(),
 			Blocks.STONE_BRICKS.getDefaultState(),
 			Blocks.STONE_BRICK_SLAB.getDefaultState(),
-			Blocks.COBBLESTONE_SLAB.getDefaultState()
+			Blocks.COBBLESTONE_SLAB.getDefaultState(),
+			null
 	};
 	private static final BlockState[] BATTLEMENT = new BlockState[] {
 			Blocks.MOSSY_COBBLESTONE.getDefaultState(),
