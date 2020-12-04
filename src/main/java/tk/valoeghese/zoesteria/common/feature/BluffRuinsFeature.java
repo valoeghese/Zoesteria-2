@@ -39,7 +39,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 				mutablePos.setX(startX + xo);
 
 				for (int zo = -1; zo <= 1; ++zo) {
-					mutablePos.setX(startZ + zo);
+					mutablePos.setZ(startZ + zo);
 
 					if (!world.hasBlockState(mutablePos, state -> state.isSolid())) {
 						return false;
