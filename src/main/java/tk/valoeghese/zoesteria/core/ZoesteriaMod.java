@@ -18,6 +18,7 @@ import tk.valoeghese.zoesteria.common.Zoesteria;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaItems;
+import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 
 @Mod("zoesteria")
 public class ZoesteriaMod {
@@ -42,6 +43,8 @@ public class ZoesteriaMod {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		LOGGER.info("Setting up Zoesteria!");
+
+		GenModifierPack.forEach(pack -> pack.loadTweaks());
 
 		while (!COMMON_PROCESSING.isEmpty()) {
 			COMMON_PROCESSING.remove().run();

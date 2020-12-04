@@ -28,6 +28,7 @@ import net.minecraft.world.gen.placement.ConfiguredPlacement;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -35,6 +36,7 @@ import tk.valoeghese.common.util.FileUtils;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
+import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
@@ -150,7 +152,7 @@ public final class GenModifierPack {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("rawtypes")
 	public static void addJavaModuleIfAbsent(IZoesteriaJavaModule module) {
 		GenModifierPack.init(); // make sure configs have loaded before java modules
 
@@ -283,34 +285,7 @@ public final class GenModifierPack {
 					List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
 
 					if (!features.isEmpty()) {
-						List<Object> decorations = new ArrayList<>();
-
-						for (Tuple<GenerationStage.Decoration, ConfiguredFeature> decoration : features) {
-							ConfiguredFeature feature = decoration.getB();
-							DecoratedFeatureConfig dfc;
-
-							if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
-								dfc = (DecoratedFeatureConfig) feature.config;
-							} else {
-								ZoesteriaMod.LOGGER.warn("Can only serialise decorated features and decorated flower features in configs! Defaulting to a Passthrough placement?");
-								feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
-								dfc = (DecoratedFeatureConfig) feature.config;
-							}
-
-							Map<String, Object> entry = new LinkedHashMap<>();
-							entry.put("step", decoration.getA().name());
-							entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
-							entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
-
-							// haha funni raw type go brr
-							addFeature((ConfiguredFeature) dfc.feature, entry);
-							addPlacement((ConfiguredPlacement) dfc.decorator, entry);
-
-							// add to decorations list
-							decorations.add(entry);
-						}
-
-						fileData.put("decorations", decorations);
+						addDecorations(features, fileData);
 					}
 
 					// final
@@ -337,11 +312,80 @@ public final class GenModifierPack {
 					ZoesteriaConfig.createWritableConfig(fileData).writeToFile(new File(packDir + "/biomes/" + biome.id() + ".cfg"));
 				}
 
+				// handle tweaks
+				Map<BiomeDictionary.Type, BiomeDecorations> tweaks = new LinkedHashMap<>();
+				module.addBiomeTweaks(tweaks);
+
+				if (!tweaks.isEmpty()) {
+					File tweaksDir = new File(packDirFile, "tweaks");
+					tweaksDir.mkdir();
+
+					tweaks.forEach((type, decorations) -> {
+						// add to game
+						for (Biome biome : BiomeDictionary.getBiomes(type)) {
+							BiomeFactory.addDecorations(biome, decorations, false);
+						}
+
+						// store data
+
+						String typeName = type.getName().toLowerCase();
+
+						Map<String, Object> fileData = new LinkedHashMap<>();
+						// target selector data
+						Map<String, Object> targetData = new LinkedHashMap<>();
+						targetData.put("selector", "biome_dictionary");
+						targetData.put("biomeType", typeName);
+						fileData.put("target", targetData);
+						// decorations
+						addDecorations(decorations.toImmutableList(), fileData);
+
+						// file storage
+						File file = new File(tweaksDir, typeName + "_tweaks.cfg");
+						ZoesteriaConfig.createWritableConfig(fileData).writeToFile(file);
+					});
+
+				}
+
+				// ONLY ADD IT AFTER THE DATA ONES HAVE BEEN RUN
+				// THIS PREVENTS STUFF BEING CONSTRUCTED TWICE
+				// Why add it then? I might make a way to view loaded packs in the future.
 				GenModifierPack.addIfAbsent(packDir);
 			}
 		});
 
 		ZoesteriaRegistryHandler.addJavaModule(module);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static void addDecorations(Iterable<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features, Map<String, Object> fileData) {
+		List<Object> decorations = new ArrayList<>();
+
+		for (Tuple<GenerationStage.Decoration, ConfiguredFeature> decoration : features) {
+			ConfiguredFeature feature = decoration.getB();
+			DecoratedFeatureConfig dfc;
+
+			if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
+				dfc = (DecoratedFeatureConfig) feature.config;
+			} else {
+				ZoesteriaMod.LOGGER.warn("Can only serialise decorated features and decorated flower features in configs! Defaulting to a Passthrough placement?");
+				feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
+				dfc = (DecoratedFeatureConfig) feature.config;
+			}
+
+			Map<String, Object> entry = new LinkedHashMap<>();
+			entry.put("step", decoration.getA().name());
+			entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
+			entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
+
+			// haha funni raw type go brr
+			addFeature((ConfiguredFeature) dfc.feature, entry);
+			addPlacement((ConfiguredPlacement) dfc.decorator, entry);
+
+			// add to decorations list
+			decorations.add(entry);
+		}
+
+		fileData.put("decorations", decorations);
 	}
 
 	private static <T extends IFeatureConfig> void addFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {

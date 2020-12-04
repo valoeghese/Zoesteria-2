@@ -19,10 +19,10 @@ public interface IZoesteriaJavaModule {
 	List<IZoesteriaBiome> createBiomes();
 
 	/**
-	 * Use this to modify existing biomes with new features.
+	 * Use this to add new features to existing biomes.
 	 * @apiNote this method be subject to future change in order to accommodate more complex tweaks, like adding to specific biomes or adding by different biome properties.
 	 */
-	default void addBiomeTweaks(Map<BiomeDictionary.Type, List<BiomeDecorations>> tweaks) {
+	default void addBiomeTweaks(Map<BiomeDictionary.Type, BiomeDecorations> tweaks) {
 	}
 
 	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {

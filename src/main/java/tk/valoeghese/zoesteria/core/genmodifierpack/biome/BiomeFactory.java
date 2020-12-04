@@ -105,6 +105,7 @@ public final class BiomeFactory {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Biome buildBiome(File file, String packId, IForgeRegistry<Biome> biomeRegistry) {
 		Container biomeConfig = ZoesteriaConfig.loadConfigWithDefaults(file, biomeDefaults);
 		Container properties = biomeConfig.getContainer("properties");
@@ -228,7 +229,7 @@ public final class BiomeFactory {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static void addDecorations(Biome biome, BiomeDecorations decorations, boolean addDefaults) {
+	public static void addDecorations(Biome biome, BiomeDecorations decorations, boolean addDefaults) {
 		if (addDefaults) {
 			DefaultBiomeFeatures.addCarvers(biome);
 			DefaultBiomeFeatures.addStructures(biome);
@@ -311,16 +312,15 @@ public final class BiomeFactory {
 
 	// Tweaks
 
-	@SuppressWarnings("unchecked")
 	public static void resolveTweaks(File file, String id) {
-		ZoesteriaConfig.loadConfig(file).asMap().forEach((k, v) -> {
-			// get all the biomes for the type
-			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(k));
+		Container data = ZoesteriaConfig.loadConfig(file);
+		Container target = data.getContainer("target");
 
-			if (v instanceof List) {
-				addDecorations(biomes, (List<Object>) v, false);
-			}
-		});
+		if (target.getStringValue("selector").equals("biome_dictionary")) {
+			String type = target.getStringValue("biomeType");
+			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(type));
+			addDecorations(biomes, data.getList("decorations"), false);
+		}
 	}
 
 	private static final ConfigTemplate biomeDefaults = ConfigTemplate.builder()
