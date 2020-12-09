@@ -1,0 +1,6 @@
+{
+  "parent": "block/leafcarpet",
+  "textures": {
+    "all": "zoesteria:block/shore_bindweed"
+  }
+}

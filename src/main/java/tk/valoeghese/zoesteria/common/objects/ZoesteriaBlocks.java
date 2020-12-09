@@ -44,6 +44,11 @@ public final class ZoesteriaBlocks {
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaPlantBlock> SHORE_BINDWEED = createWithBlockitem(
+			"shore_bindweed",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, b -> b == Blocks.GRAVEL || b == Blocks.STONE || b == Blocks.ANDESITE || b == Blocks.DIORITE || b == Blocks.GRANITE),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	public static final RegistryObject<SaplingBlock> BLUFF_PINE_SAPLING = createWithBlockitem(
 			"bluff_pine_sapling",
 			() -> new SaplingBlock(new BluffPineSaplingTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)),

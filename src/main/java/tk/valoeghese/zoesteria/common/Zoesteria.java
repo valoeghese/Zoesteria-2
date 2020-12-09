@@ -102,7 +102,13 @@ public class Zoesteria implements IZoesteriaJavaModule {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.SPINIFEX_LARGE.get().getDefaultState()),
 								new SimpleBlockPlacer()).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(
+								new SimpleBlockStateProvider(ZoesteriaBlocks.SHORE_BINDWEED.get().getDefaultState()),
+								new SimpleBlockPlacer()).tries(32).build()
+						)
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
 
 		tweaks.put(BiomeDictionary.Type.BEACH, decorations);
 	}
