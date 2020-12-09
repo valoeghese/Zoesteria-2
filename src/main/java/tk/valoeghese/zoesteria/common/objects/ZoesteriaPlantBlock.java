@@ -7,14 +7,15 @@ import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BushBlock;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 
-public class ZoesteriaPlantBlock extends BushBlock {
+public class ZoesteriaPlantBlock extends BushBlock implements IPlantable {
 	public ZoesteriaPlantBlock(Block.Properties properties, double height, @Nullable Predicate<Block> canSurviveOn) {
 		super(properties);
 
@@ -31,13 +32,18 @@ public class ZoesteriaPlantBlock extends BushBlock {
 	}
 
 	@Override
-	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return this.canSurviveOn == null ? super.isValidGround(state, worldIn, pos) : this.canSurviveOn.test(state.getBlock());
+	protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
+		return this.canSurviveOn == null ? super.isValidGround(state, world, pos) : this.canSurviveOn.test(state.getBlock());
+	}
+
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		BlockPos blockpos = pos.down();
+		return this.isValidGround(world.getBlockState(blockpos), world, blockpos);
 	}
 
 	@Override
-	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
-		return this.isValidGround(state, world, pos);
+	public PlantType getPlantType(IBlockReader world, BlockPos pos) {
+		return PlantType.Desert; // closest to what we want.. but we only want sand. still, this is closest.
 	}
 
 	@Override
