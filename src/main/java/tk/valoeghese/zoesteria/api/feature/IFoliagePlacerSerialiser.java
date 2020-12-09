@@ -11,7 +11,7 @@ public interface IFoliagePlacerSerialiser<T extends FoliagePlacer> {
 	/**
 	 * Load the foliage placer data from an existing foliage placer into a new instance.
 	 */
-	IFoliagePlacerSerialiser<T> loadFrom(T config);
+	IFoliagePlacerSerialiser<T> loadFrom(T placer);
 	/**
 	 * Deserialise the foliage placer data into a new instance.
 	 */

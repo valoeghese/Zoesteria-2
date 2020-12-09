@@ -1,14 +1,16 @@
 package tk.valoeghese.zoesteria.core.serialisers.feature;
 
+import java.util.LinkedHashMap;
+
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
+import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
@@ -76,18 +78,18 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 		return new TreeFeatureConfigHandler(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
 				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
-				foliagePlacer == null ? new NoneFoliagePlacer() : FeatureSerialisers.getFoliage(foliagePlacer.getClass()), // TODO foliage placer
-				ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
-				ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
-				ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
-				ZFGUtils.getIntOrDefault(settings, "maxFoliageDepth", -1),
-				settings.getIntegerValue("baseHeight"),
-				settings.getIntegerValue("heightRandA"),
-				settings.getIntegerValue("heightRandB"),
-				(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
-				settings.getIntegerValue("minTrunkTopOffset"),
-				settings.getIntegerValue("maxTrunkTopOffset"),
-				(vines == null ? true : !vines.booleanValue())
+				foliagePlacer == null ? new NoneFoliagePlacer() : FeatureSerialisers.deserialiseFoliage(foliagePlacer), // TODO foliage placer
+						ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
+						ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
+						ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
+						ZFGUtils.getIntOrDefault(settings, "maxFoliageDepth", -1),
+						settings.getIntegerValue("baseHeight"),
+						settings.getIntegerValue("heightRandA"),
+						settings.getIntegerValue("heightRandB"),
+						(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
+						settings.getIntegerValue("minTrunkTopOffset"),
+						settings.getIntegerValue("maxTrunkTopOffset"),
+						(vines == null ? true : !vines.booleanValue())
 				);
 	}
 
@@ -95,6 +97,11 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 	public void serialise(EditableContainer settings) {
 		settings.putMap("leaves", BlockStateProviderHandler.serialiseStateProvider(this.leaves).asMap());
 		settings.putMap("log", BlockStateProviderHandler.serialiseStateProvider(this.log).asMap());
+
+		EditableContainer foliagePlacer = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+		FeatureSerialisers.serialiseFoliage(this.foliagePlacer, foliagePlacer);
+		settings.putMap("foliagePlacer", foliagePlacer.asMap());
+
 		settings.putIntegerValue("baseHeight", this.baseHeight);
 		settings.putIntegerValue("heightRandA", this.heightRandA);
 		settings.putIntegerValue("heightRandB", this.heightRandB);

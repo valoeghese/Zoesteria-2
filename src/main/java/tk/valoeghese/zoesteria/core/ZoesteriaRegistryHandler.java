@@ -15,6 +15,7 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
@@ -29,6 +30,7 @@ import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfi
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.foliage.BlobFoliagePlacerSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.ChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.placement.CountExtraChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigHandler;
@@ -124,13 +126,15 @@ public class ZoesteriaRegistryHandler {
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {
-			module.registerPlacementSettings();
+			module.registerPlacementSerialisers();
 		}
 	}
 
 	public static void registerFeatureSettings() {
 		if (!preventFeatureFire) {
 			preventFeatureFire = true;
+
+			registerFoliageSerialisers();
 
 			FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigHandler.BASE);
@@ -173,8 +177,19 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_CLAW, NoFeatureConfigHandler.INSTANCE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
-				module.registerFeatureSettings();
+				module.registerFeatureSerialisers();
 			}
+		}
+	}
+
+	/**
+	 * Called at the beginning of {@link #registerFeatureSettings()}
+	 */
+	private static void registerFoliageSerialisers() {
+		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("blob_foliage_placer"), BlobFoliagePlacer.class, BlobFoliagePlacerSerialiser.BASE);
+
+		for (IZoesteriaJavaModule module : MODULES) {
+			module.registerFoliageSerialisers();
 		}
 	}
 

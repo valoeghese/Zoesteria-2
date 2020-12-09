@@ -121,7 +121,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public void registerFeatureSettings() {
+	public void registerFeatureSerialisers() {
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigHandler.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigHandler.INSTANCE);

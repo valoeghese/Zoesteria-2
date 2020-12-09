@@ -34,15 +34,21 @@ public interface IZoesteriaJavaModule {
 	}
 
 	/**
-	 * Called at the time of placement settings registration.
+	 * Called at the time of placement setting serialiser registration.
 	 */
-	default void registerPlacementSettings() {
+	default void registerPlacementSerialisers() {
 	}
 
 	/**
-	 * Called at the time of feature settings registration.
+	 * Called at the time of feature setting serialiser registration.
 	 */
-	default void registerFeatureSettings() {
+	default void registerFeatureSerialisers() {
+	}
+
+	/**
+	 * Called at the time of foliage placement serialiser registration.
+	 */
+	default void registerFoliageSerialisers() {
 	}
 
 	/**
