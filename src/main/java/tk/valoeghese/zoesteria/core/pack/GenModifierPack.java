@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.core.genmodifierpack;
+package tk.valoeghese.zoesteria.core.pack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
-import tk.valoeghese.zoesteria.core.genmodifierpack.biome.BiomeFactory;
+import tk.valoeghese.zoesteria.core.pack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
@@ -206,9 +206,7 @@ public final class GenModifierPack {
 					config.writeToFile(surfaceBuilderFile);
 
 					// create and register surface builder
-					// load config again because I didn't make the `get` functions deal with non-strings it seems because it was built for loading data
-					// someone remind me to make such things work in the next ZoesteriaConfig version
-					surfaceRegistry.register(surfaceBuilder.template.create(ZoesteriaConfig.loadConfig(surfaceBuilderFile)).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
+					surfaceRegistry.register(surfaceBuilder.template.create(config).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
 				});
 			}
 		});

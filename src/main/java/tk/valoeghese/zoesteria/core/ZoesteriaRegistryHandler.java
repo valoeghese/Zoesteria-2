@@ -25,7 +25,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
-import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigHandler;

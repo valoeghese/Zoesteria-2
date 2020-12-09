@@ -11,7 +11,7 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
-import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 
 public interface IZoesteriaJavaModule {
 	String packId();

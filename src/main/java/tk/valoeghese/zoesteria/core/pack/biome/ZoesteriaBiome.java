@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.core.genmodifierpack.biome;
+package tk.valoeghese.zoesteria.core.pack.biome;
 
 import java.util.Random;
 

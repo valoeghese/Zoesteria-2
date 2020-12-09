@@ -18,7 +18,7 @@ import tk.valoeghese.zoesteria.common.Zoesteria;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaItems;
-import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 
 @Mod("zoesteria")
 public class ZoesteriaMod {
