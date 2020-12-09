@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -29,6 +30,7 @@ import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
+import tk.valoeghese.zoesteria.core.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigHandler;
 
@@ -49,6 +51,11 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		biomes.add(new BluffBiome());
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		return biomes;
+	}
+
+	@Override
+	public void registerFoliageSerialisers() {
+		//FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("zoesteria", "none"), NoneFoliagePlacer.class, );
 	}
 
 	@Override
