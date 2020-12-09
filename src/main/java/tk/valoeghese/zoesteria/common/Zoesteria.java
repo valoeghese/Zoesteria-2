@@ -1,20 +1,32 @@
 package tk.valoeghese.zoesteria.common;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.Manifest;
+import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.core.serialisers.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
@@ -74,6 +86,25 @@ public class Zoesteria implements IZoesteriaJavaModule {
 						)
 				));
 		return surfaceBuilders;
+	}
+
+	@Override
+	public void addBiomeTweaks(Map<Type, BiomeDecorations> tweaks) {
+		BiomeDecorations decorations = BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(
+								new SimpleBlockStateProvider(ZoesteriaBlocks.SPINIFEX_SMALL.get().getDefaultState()),
+								new SimpleBlockPlacer()).tries(32).xSpread(12).zSpread(12).build()
+						)
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(
+								new SimpleBlockStateProvider(ZoesteriaBlocks.SPINIFEX_LARGE.get().getDefaultState()),
+								new SimpleBlockPlacer()).tries(32).build()
+						)
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
+
+		tweaks.put(BiomeDictionary.Type.BEACH, decorations);
 	}
 
 	@Override

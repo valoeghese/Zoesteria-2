@@ -7,10 +7,12 @@ import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BushBlock;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.IPlantable;
 
 public class ZoesteriaPlantBlock extends BushBlock {
 	public ZoesteriaPlantBlock(Block.Properties properties, double height, @Nullable Predicate<Block> canSurviveOn) {
@@ -31,6 +33,11 @@ public class ZoesteriaPlantBlock extends BushBlock {
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return this.canSurviveOn == null ? super.isValidGround(state, worldIn, pos) : this.canSurviveOn.test(state.getBlock());
+	}
+
+	@Override
+	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
+		return this.isValidGround(state, world, pos);
 	}
 
 	@Override
