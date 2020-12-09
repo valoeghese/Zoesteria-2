@@ -1,11 +1,11 @@
 package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.ChanceConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class ChanceConfigHandler implements IZoesteriaPlacementConfig<ChanceConfig> {
+public class ChanceConfigHandler implements IPlacementConfigSerialiser<ChanceConfig> {
 	private ChanceConfigHandler(ChanceConfig config) {
 		this(config.chance);
 	}
@@ -17,12 +17,12 @@ public class ChanceConfigHandler implements IZoesteriaPlacementConfig<ChanceConf
 	private final int rarity;
 
 	@Override
-	public IZoesteriaPlacementConfig<ChanceConfig> loadFrom(ChanceConfig config) {
+	public IPlacementConfigSerialiser<ChanceConfig> loadFrom(ChanceConfig config) {
 		return new ChanceConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaPlacementConfig<ChanceConfig> deserialise(Container settings) {
+	public IPlacementConfigSerialiser<ChanceConfig> deserialise(Container settings) {
 		return new ChanceConfigHandler(settings.getIntegerValue("rarity"));
 	}
 

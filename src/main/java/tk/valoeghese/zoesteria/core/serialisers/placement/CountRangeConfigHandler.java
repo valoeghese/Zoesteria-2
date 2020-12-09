@@ -1,11 +1,11 @@
 package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.CountRangeConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class CountRangeConfigHandler implements IZoesteriaPlacementConfig<CountRangeConfig> {
+public class CountRangeConfigHandler implements IPlacementConfigSerialiser<CountRangeConfig> {
 	private CountRangeConfigHandler(CountRangeConfig config) {
 		this(config.topOffset, config.bottomOffset, config.count, config.maximum);
 	}
@@ -23,12 +23,12 @@ public class CountRangeConfigHandler implements IZoesteriaPlacementConfig<CountR
 	private final int maximum;
 
 	@Override
-	public IZoesteriaPlacementConfig<CountRangeConfig> loadFrom(CountRangeConfig config) {
+	public IPlacementConfigSerialiser<CountRangeConfig> loadFrom(CountRangeConfig config) {
 		return new CountRangeConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaPlacementConfig<CountRangeConfig> deserialise(Container settings) {
+	public IPlacementConfigSerialiser<CountRangeConfig> deserialise(Container settings) {
 		return new CountRangeConfigHandler(
 				settings.getIntegerValue("topOffset"),
 				settings.getIntegerValue("bottomOffset"),

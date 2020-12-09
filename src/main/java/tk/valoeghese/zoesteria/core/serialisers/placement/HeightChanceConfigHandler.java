@@ -1,11 +1,11 @@
 package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class HeightChanceConfigHandler implements IZoesteriaPlacementConfig<HeightWithChanceConfig> {
+public class HeightChanceConfigHandler implements IPlacementConfigSerialiser<HeightWithChanceConfig> {
 	private HeightChanceConfigHandler(HeightWithChanceConfig config) {
 		this.count = config.count;
 		this.chance = config.chance;
@@ -20,12 +20,12 @@ public class HeightChanceConfigHandler implements IZoesteriaPlacementConfig<Heig
 	private final float chance;
 
 	@Override
-	public IZoesteriaPlacementConfig<HeightWithChanceConfig> loadFrom(HeightWithChanceConfig config) {
+	public IPlacementConfigSerialiser<HeightWithChanceConfig> loadFrom(HeightWithChanceConfig config) {
 		return new HeightChanceConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaPlacementConfig<HeightWithChanceConfig> deserialise(Container settings) {
+	public IPlacementConfigSerialiser<HeightWithChanceConfig> deserialise(Container settings) {
 		int count = settings.getIntegerValue("count");
 		float chance = settings.getFloatValue("chance");
 		return new HeightChanceConfigHandler(count, chance);

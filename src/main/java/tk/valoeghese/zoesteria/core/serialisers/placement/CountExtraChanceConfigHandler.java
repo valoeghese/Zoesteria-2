@@ -1,11 +1,11 @@
 package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class CountExtraChanceConfigHandler implements IZoesteriaPlacementConfig<AtSurfaceWithExtraConfig> {
+public class CountExtraChanceConfigHandler implements IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> {
 	private CountExtraChanceConfigHandler(AtSurfaceWithExtraConfig config) {
 		this(config.count, config.extraChance, config.extraCount);
 	}
@@ -21,12 +21,12 @@ public class CountExtraChanceConfigHandler implements IZoesteriaPlacementConfig<
 	private final int extraCount;
 
 	@Override
-	public IZoesteriaPlacementConfig<AtSurfaceWithExtraConfig> loadFrom(AtSurfaceWithExtraConfig config) {
+	public IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> loadFrom(AtSurfaceWithExtraConfig config) {
 		return new CountExtraChanceConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaPlacementConfig<AtSurfaceWithExtraConfig> deserialise(Container settings) {
+	public IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> deserialise(Container settings) {
 		return new CountExtraChanceConfigHandler(
 				settings.getIntegerValue("count"),
 				settings.getFloatValue("extraChance"),

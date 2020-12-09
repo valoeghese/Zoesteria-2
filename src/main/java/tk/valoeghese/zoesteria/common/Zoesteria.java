@@ -29,8 +29,8 @@ import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
-import tk.valoeghese.zoesteria.core.serialisers.NoFeatureConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigHandler;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override

@@ -40,8 +40,8 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteria.core.ZoesteriaRegistryHandler;
@@ -389,7 +389,7 @@ public final class GenModifierPack {
 	}
 
 	private static <T extends IFeatureConfig> void addFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
-		IZoesteriaFeatureConfig<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
+		IFeatureConfigSerialiser<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
 		fc = fc.loadFrom(feature.config); // load from config
 
 		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
@@ -398,7 +398,7 @@ public final class GenModifierPack {
 	}
 
 	private static <T extends IPlacementConfig> void addPlacement(ConfiguredPlacement<T> placement, Map<String, Object> map) {
-		IZoesteriaPlacementConfig<T> fc = FeatureSerialisers.getPlacement(placement.decorator);
+		IPlacementConfigSerialiser<T> fc = FeatureSerialisers.getPlacement(placement.decorator);
 		fc = fc.loadFrom(placement.config);
 
 		EditableContainer settings = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());

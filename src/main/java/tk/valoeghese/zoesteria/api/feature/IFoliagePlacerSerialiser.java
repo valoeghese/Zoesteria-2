@@ -7,15 +7,15 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 /**
  * Serialisation and Deserialisation handler for Foliage Placers. Register in {@link FeatureSerialisers}.
  */
-public interface IZoesteriaFoliagePlacer<T extends FoliagePlacer> {
+public interface IFoliagePlacerSerialiser<T extends FoliagePlacer> {
 	/**
-	 * Load the foliage placer data from an existing config into a new instance.
+	 * Load the foliage placer data from an existing foliage placer into a new instance.
 	 */
-	IZoesteriaFoliagePlacer<T> loadFrom(T config);
+	IFoliagePlacerSerialiser<T> loadFrom(T config);
 	/**
 	 * Deserialise the foliage placer data into a new instance.
 	 */
-	IZoesteriaFoliagePlacer<T> deserialise(Container settings);
+	IFoliagePlacerSerialiser<T> deserialise(Container settings);
 	/**
 	 * Serialise the foliage placer data of this instance into the settings.
 	 */

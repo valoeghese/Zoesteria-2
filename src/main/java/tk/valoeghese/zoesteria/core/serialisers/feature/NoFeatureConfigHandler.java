@@ -1,20 +1,20 @@
-package tk.valoeghese.zoesteria.core.serialisers;
+package tk.valoeghese.zoesteria.core.serialisers.feature;
 
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public enum NoFeatureConfigHandler implements IZoesteriaFeatureConfig<NoFeatureConfig> {
+public enum NoFeatureConfigHandler implements IFeatureConfigSerialiser<NoFeatureConfig> {
 	INSTANCE;
 
 	@Override
-	public IZoesteriaFeatureConfig<NoFeatureConfig> loadFrom(NoFeatureConfig config) {
+	public IFeatureConfigSerialiser<NoFeatureConfig> loadFrom(NoFeatureConfig config) {
 		return INSTANCE;
 	}
 
 	@Override
-	public IZoesteriaFeatureConfig<NoFeatureConfig> deserialise(Container settings) {
+	public IFeatureConfigSerialiser<NoFeatureConfig> deserialise(Container settings) {
 		return INSTANCE;
 	}
 

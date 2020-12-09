@@ -1,15 +1,18 @@
-package tk.valoeghese.zoesteria.core.serialisers;
+package tk.valoeghese.zoesteria.core.serialisers.feature;
 
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.NoneFoliagePlacer;
+import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFeatureConfig> {
+public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFeatureConfig> {
 	private TreeFeatureConfigHandler(TreeFeatureConfig config) {
 		this.leaves = config.leavesProvider;
 		this.log = config.trunkProvider;
@@ -60,19 +63,20 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	private final boolean vines;
 
 	@Override
-	public IZoesteriaFeatureConfig<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
+	public IFeatureConfigSerialiser<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
 		return new TreeFeatureConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaFeatureConfig<TreeFeatureConfig> deserialise(Container settings) {
+	public IFeatureConfigSerialiser<TreeFeatureConfig> deserialise(Container settings) {
 		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
 		Boolean vines = settings.getBooleanValue("vines");
+		Container foliagePlacer = settings.getContainer("foliagePlacer");
 
 		return new TreeFeatureConfigHandler(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
 				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
-				new BlobFoliagePlacer(2, 1), // TODO foliage placer
+				foliagePlacer == null ? new NoneFoliagePlacer() : FeatureSerialisers.getFoliage(foliagePlacer.getClass()), // TODO foliage placer
 				ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),

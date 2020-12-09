@@ -7,15 +7,15 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 /**
  * Serialisation and Deserialisation handler for Placement Configs. Register in {@link FeatureSerialisers}.
  */
-public interface IZoesteriaPlacementConfig<T extends IPlacementConfig> {
+public interface IPlacementConfigSerialiser<T extends IPlacementConfig> {
 	/**
 	 * Load the placement config data from an existing config into a new instance.
 	 */
-	IZoesteriaPlacementConfig<T> loadFrom(T config);
+	IPlacementConfigSerialiser<T> loadFrom(T config);
 	/**
 	 * Deserialise the placement config data into a new instance.
 	 */
-	IZoesteriaPlacementConfig<T> deserialise(Container settings);
+	IPlacementConfigSerialiser<T> deserialise(Container settings);
 	/**
 	 * Serialise the placement config data of this instance into the settings.
 	 */

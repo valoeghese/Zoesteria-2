@@ -1,14 +1,14 @@
-package tk.valoeghese.zoesteria.core.serialisers;
+package tk.valoeghese.zoesteria.core.serialisers.feature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class OreFeatureConfigHandler implements IZoesteriaFeatureConfig<OreFeatureConfig> {
+public class OreFeatureConfigHandler implements IFeatureConfigSerialiser<OreFeatureConfig> {
 	private OreFeatureConfigHandler(OreFeatureConfig config) {
 		this.size = config.size;
 		this.state = config.state;
@@ -26,12 +26,12 @@ public class OreFeatureConfigHandler implements IZoesteriaFeatureConfig<OreFeatu
 	private FillerBlockType target;
 
 	@Override
-	public IZoesteriaFeatureConfig<OreFeatureConfig> loadFrom(OreFeatureConfig config) {
+	public IFeatureConfigSerialiser<OreFeatureConfig> loadFrom(OreFeatureConfig config) {
 		return new OreFeatureConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaFeatureConfig<OreFeatureConfig> deserialise(Container settings) {
+	public IFeatureConfigSerialiser<OreFeatureConfig> deserialise(Container settings) {
 		return new OreFeatureConfigHandler(
 				settings.getIntegerValue("size"),
 				ZFGUtils.getBlockState(settings, "state"),

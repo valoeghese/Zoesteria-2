@@ -1,11 +1,11 @@
 package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.FrequencyConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class FrequencyConfigHandler implements IZoesteriaPlacementConfig<FrequencyConfig> {
+public class FrequencyConfigHandler implements IPlacementConfigSerialiser<FrequencyConfig> {
 	private FrequencyConfigHandler(FrequencyConfig config) {
 		this(config.count);
 	}
@@ -17,12 +17,12 @@ public class FrequencyConfigHandler implements IZoesteriaPlacementConfig<Frequen
 	private final int count;
 
 	@Override
-	public IZoesteriaPlacementConfig<FrequencyConfig> loadFrom(FrequencyConfig config) {
+	public IPlacementConfigSerialiser<FrequencyConfig> loadFrom(FrequencyConfig config) {
 		return new FrequencyConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaPlacementConfig<FrequencyConfig> deserialise(Container settings) {
+	public IPlacementConfigSerialiser<FrequencyConfig> deserialise(Container settings) {
 		return new FrequencyConfigHandler(settings.getIntegerValue("count"));
 	}
 

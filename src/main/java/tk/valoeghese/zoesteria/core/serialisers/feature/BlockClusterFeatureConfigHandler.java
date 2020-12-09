@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.core.serialisers;
+package tk.valoeghese.zoesteria.core.serialisers.feature;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,11 +7,12 @@ import net.minecraft.world.gen.blockplacer.BlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class BlockClusterFeatureConfigHandler implements IZoesteriaFeatureConfig<BlockClusterFeatureConfig> {
+public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialiser<BlockClusterFeatureConfig> {
 	private BlockClusterFeatureConfigHandler(BlockClusterFeatureConfig config) {
 		this(config.stateProvider, config.blockPlacer, config.tryCount, config.xSpread, config.ySpread, config.zSpread, config.isReplaceable, config.requiresWater);
 	}
@@ -37,12 +38,12 @@ public class BlockClusterFeatureConfigHandler implements IZoesteriaFeatureConfig
 	private final boolean requiresWater;
 
 	@Override
-	public IZoesteriaFeatureConfig<BlockClusterFeatureConfig> loadFrom(BlockClusterFeatureConfig config) {
+	public IFeatureConfigSerialiser<BlockClusterFeatureConfig> loadFrom(BlockClusterFeatureConfig config) {
 		return new BlockClusterFeatureConfigHandler(config);
 	}
 
 	@Override
-	public IZoesteriaFeatureConfig<BlockClusterFeatureConfig> deserialise(Container settings) {
+	public IFeatureConfigSerialiser<BlockClusterFeatureConfig> deserialise(Container settings) {
 		return new BlockClusterFeatureConfigHandler(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("stateProvider")),
 				new SimpleBlockPlacer(), // TODO deserialise block placers properly

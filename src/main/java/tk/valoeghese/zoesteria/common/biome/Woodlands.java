@@ -65,6 +65,7 @@ public class Woodlands implements IZoesteriaBiome {
 
 	@Override
 	public BiomeDecorations getDecorations() {
+		// TODO make BiomeDecorations able to handle structures
 		BiomeDecorations decorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION,
 						Feature.NORMAL_TREE

@@ -33,8 +33,8 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
-import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -265,12 +265,12 @@ public final class BiomeFactory {
 					throw new NullPointerException("Invalid or unregistered feature given in decorations!");
 				}
 
-				IZoesteriaFeatureConfig config = FeatureSerialisers.getFeatureSettings(feature)
+				IFeatureConfigSerialiser config = FeatureSerialisers.getFeatureSettings(feature)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
 
 				Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
 
-				IZoesteriaPlacementConfig placement = FeatureSerialisers.getPlacement(placementType)
+				IPlacementConfigSerialiser placement = FeatureSerialisers.getPlacement(placementType)
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
 				biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
