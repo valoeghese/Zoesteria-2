@@ -206,7 +206,7 @@ public final class GenModifierPack {
 					config.writeToFile(surfaceBuilderFile);
 
 					// create and register surface builder
-					surfaceRegistry.register(surfaceBuilder.template.create(config).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
+					surfaceRegistry.register(surfaceBuilder.template.create(ZoesteriaConfig.loadConfig(surfaceBuilderFile)).setRegistryName(new ResourceLocation(packId, surfaceBuilder.id)));
 				});
 			}
 		});
