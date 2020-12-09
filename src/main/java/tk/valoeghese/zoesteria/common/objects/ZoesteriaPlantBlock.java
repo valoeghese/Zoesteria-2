@@ -16,15 +16,17 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
 public class ZoesteriaPlantBlock extends BushBlock implements IPlantable {
-	public ZoesteriaPlantBlock(Block.Properties properties, double height, @Nullable Predicate<Block> canSurviveOn) {
+	public ZoesteriaPlantBlock(Block.Properties properties, double height, Block.OffsetType offsetType, @Nullable Predicate<Block> canSurviveOn) {
 		super(properties);
 
 		this.canSurviveOn = canSurviveOn;
 		this.aabb = makeAABB(height);
+		this.offsetType = offsetType;
 	}
 
 	private final Predicate<Block> canSurviveOn;
 	private final VoxelShape aabb;
+	private final Block.OffsetType offsetType;
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -48,7 +50,7 @@ public class ZoesteriaPlantBlock extends BushBlock implements IPlantable {
 
 	@Override
 	public Block.OffsetType getOffsetType() {
-		return Block.OffsetType.XYZ;
+		return this.offsetType;
 	}
 
 	private static VoxelShape makeAABB(double height) {

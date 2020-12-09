@@ -36,17 +36,17 @@ public final class ZoesteriaBlocks {
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_SMALL = createWithBlockitem(
 			"spinifex_small",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, Block.OffsetType.XYZ, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_LARGE = createWithBlockitem(
 			"spinifex_large",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, Block.OffsetType.XYZ, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SHORE_BINDWEED = createWithBlockitem(
 			"shore_bindweed",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, b -> b == Blocks.GRAVEL || b == Blocks.STONE || b == Blocks.ANDESITE || b == Blocks.DIORITE || b == Blocks.GRANITE),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, b -> b == Blocks.GRAVEL || b == Blocks.STONE || b == Blocks.ANDESITE || b == Blocks.DIORITE || b == Blocks.GRANITE),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<SaplingBlock> BLUFF_PINE_SAPLING = createWithBlockitem(
