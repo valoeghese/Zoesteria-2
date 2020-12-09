@@ -25,15 +25,15 @@ import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.genmodifierpack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.BlockClusterFeatureConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.ChanceConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.CountExtraChanceConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.CountRangeConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.DepthAverageConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.FrequencyConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.HeightChanceConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.NoFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.OreFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.TreeFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.ChanceConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.CountExtraChanceConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.DepthAverageConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.HeightChanceConfigHandler;
 
 /**
  * Event registry handler for core stuff.

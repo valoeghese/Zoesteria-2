@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.core.serialisers;
+package tk.valoeghese.zoesteria.core.serialisers.placement;
 
 import net.minecraft.world.gen.placement.ChanceConfig;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaPlacementConfig;

@@ -26,6 +26,7 @@ import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
+import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.core.serialisers.NoFeatureConfigHandler;
@@ -46,6 +47,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	public List<IZoesteriaBiome> createBiomes() {
 		List<IZoesteriaBiome> biomes = Lists.newArrayList();
 		biomes.add(new BluffBiome());
+		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		return biomes;
 	}
 

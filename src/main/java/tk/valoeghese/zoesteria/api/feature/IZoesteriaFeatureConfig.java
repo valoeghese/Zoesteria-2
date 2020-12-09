@@ -9,7 +9,7 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
  */
 public interface IZoesteriaFeatureConfig<T extends IFeatureConfig> {
 	/**
-	 * Load the placement config data from an existing config into a new instance.
+	 * Load the config data from an existing config into a new instance.
 	 */
 	IZoesteriaFeatureConfig<T> loadFrom(T config);
 	/**

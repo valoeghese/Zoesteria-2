@@ -3,6 +3,7 @@ package tk.valoeghese.zoesteria.core.serialisers;
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.feature.IZoesteriaFeatureConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
@@ -12,6 +13,7 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	private TreeFeatureConfigHandler(TreeFeatureConfig config) {
 		this.leaves = config.leavesProvider;
 		this.log = config.trunkProvider;
+		this.foliagePlacer = config.foliagePlacer;
 		this.minTrunkHeight = config.trunkHeight;
 		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight - 1;
 		this.minFoliageDepth = config.foliageHeight;
@@ -22,11 +24,13 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.maxBlocksUnderwater = config.maxWaterDepth;
 		this.minTrunkTopOffset = config.trunkTopOffset;
 		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset - 1;
+		this.vines = !config.ignoreVines;
 	}
 
-	private TreeFeatureConfigHandler(BlockStateProvider leaves, BlockStateProvider log, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM) {
+	private TreeFeatureConfigHandler(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v) {
 		this.leaves = leaves;
 		this.log = log;
+		this.foliagePlacer = placer;
 		this.minTrunkHeight = lt;
 		this.maxTrunkHeight = ht;
 		this.minFoliageDepth = lf;
@@ -37,10 +41,12 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		this.maxBlocksUnderwater = mBU;
 		this.minTrunkTopOffset = tOm;
 		this.maxTrunkTopOffset = tOM;
+		this.vines = v;
 	}
 
 	private final BlockStateProvider leaves;
 	private final BlockStateProvider log;
+	private final FoliagePlacer foliagePlacer;
 	private final int baseHeight;
 	private final int heightRandA;
 	private final int heightRandB;
@@ -51,6 +57,7 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	private final int minTrunkTopOffset;
 	private final int maxTrunkTopOffset;
 	private final int maxBlocksUnderwater;
+	private final boolean vines;
 
 	@Override
 	public IZoesteriaFeatureConfig<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
@@ -60,10 +67,12 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 	@Override
 	public IZoesteriaFeatureConfig<TreeFeatureConfig> deserialise(Container settings) {
 		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
+		Boolean vines = settings.getBooleanValue("vines");
 
 		return new TreeFeatureConfigHandler(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
 				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
+				new BlobFoliagePlacer(2, 1), // TODO foliage placer
 				ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
 				ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
@@ -73,7 +82,8 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 				settings.getIntegerValue("heightRandB"),
 				(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
 				settings.getIntegerValue("minTrunkTopOffset"),
-				settings.getIntegerValue("maxTrunkTopOffset")
+				settings.getIntegerValue("maxTrunkTopOffset"),
+				(vines == null ? true : !vines.booleanValue())
 				);
 	}
 
@@ -101,13 +111,18 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 		if (this.maxBlocksUnderwater != 0) {
 			settings.putIntegerValue("maxBlocksUnderwater", this.maxBlocksUnderwater);
 		}
+
+		if (this.vines) {
+			settings.putBooleanValue("vines", true);
+		}
 	}
 
 	@Override
 	public TreeFeatureConfig create() {
-		return new TreeFeatureConfig.Builder(
+		TreeFeatureConfig.Builder config = new TreeFeatureConfig.Builder(
 				this.log,
-				this.leaves, new BlobFoliagePlacer(2, 1))
+				this.leaves,
+				this.foliagePlacer)
 				.baseHeight(this.baseHeight)
 				.heightRandA(this.heightRandA)
 				.heightRandB(this.heightRandB)
@@ -117,9 +132,13 @@ public class TreeFeatureConfigHandler implements IZoesteriaFeatureConfig<TreeFea
 				.foliageHeightRandom(this.maxFoliageDepth - this.minFoliageDepth)
 				.trunkTopOffset(this.minTrunkTopOffset)
 				.trunkTopOffsetRandom(this.maxTrunkTopOffset - this.minTrunkTopOffset + 1)
-				.maxWaterDepth(this.maxBlocksUnderwater)
-				.build();
+				.maxWaterDepth(this.maxBlocksUnderwater);
+
+		if (!this.vines) {
+			config.ignoreVines();
+		}
+		return config.build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 }
