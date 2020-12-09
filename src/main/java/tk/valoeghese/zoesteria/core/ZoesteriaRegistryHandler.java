@@ -16,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.event.RegistryEvent;
@@ -82,11 +81,6 @@ public class ZoesteriaRegistryHandler {
 	@SubscribeEvent
 	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
 		registerPlacementSettings();
-	}
-
-	@SubscribeEvent
-	public static void onFoliagePlacerRegister(RegistryEvent.Register<FoliagePlacerType<?>> event) {
-		event.getRegistry().register(NONE_FOLIAGE);
 	}
 
 	public static void registerPlacementSettings() {
@@ -205,5 +199,4 @@ public class ZoesteriaRegistryHandler {
 	private static final List<IZoesteriaJavaModule> MODULES = new ArrayList<>();
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;
-	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
 }

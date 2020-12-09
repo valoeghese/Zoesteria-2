@@ -8,7 +8,7 @@ import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
-import tk.valoeghese.zoesteria.core.NoneFoliagePlacer;
+import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
