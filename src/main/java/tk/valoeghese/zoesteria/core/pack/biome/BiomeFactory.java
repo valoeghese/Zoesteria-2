@@ -258,15 +258,8 @@ public final class BiomeFactory {
 			if (rawEntry instanceof Map) {
 				decorationCounter++;
 				Map<String, Object> entry = (Map<String, Object>) rawEntry;
-				ResourceLocation featureResource = new ResourceLocation((String) entry.get("feature"));
-				Feature feature = ForgeRegistries.FEATURES.getValue(featureResource);
 
-				if (feature == null) {
-					throw new NullPointerException("Invalid or unregistered feature given in decorations!");
-				}
-
-				IFeatureConfigSerialiser config = FeatureSerialisers.getFeatureSettings(feature)
-						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
+				ConfiguredFeature configuredFeature = deserialiseConfiguredFeature(entry);
 
 				Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
 
@@ -274,8 +267,7 @@ public final class BiomeFactory {
 						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
 				biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
-						feature.withConfiguration(config.create())
-						.withPlacement(placementType.configure(placement.create())));
+						configuredFeature.withPlacement(placementType.configure(placement.create())));
 			}
 		}
 
@@ -286,6 +278,21 @@ public final class BiomeFactory {
 		if (addDefaults) {
 			ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
 		}
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static ConfiguredFeature deserialiseConfiguredFeature(Map<String, Object> entry) {
+		ResourceLocation featureResource = new ResourceLocation((String) entry.get("feature"));
+		Feature feature = ForgeRegistries.FEATURES.getValue(featureResource);
+
+		if (feature == null) {
+			throw new NullPointerException("Invalid or unregistered feature given in decorations!");
+		}
+
+		IFeatureConfigSerialiser config = FeatureSerialisers.getFeatureSettings(feature)
+				.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
+
+		return feature.withConfiguration(config.create());
 	}
 
 	private static SurfaceBuilderConfig getSurfaceConfig(IBiomeProperties properties) {
