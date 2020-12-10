@@ -372,11 +372,10 @@ public final class GenModifierPack {
 
 			Map<String, Object> entry = new LinkedHashMap<>();
 			entry.put("step", decoration.getA().name());
-			entry.put("feature", ForgeRegistries.FEATURES.getKey(dfc.feature.feature).toString());
+			serialiseConfiguredFeature(entry, dfc.feature); // serialise the configured feature
 			entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
 
 			// haha funni raw type go brr
-			addFeature((ConfiguredFeature) dfc.feature, entry);
 			addPlacement((ConfiguredPlacement) dfc.decorator, entry);
 
 			// add to decorations list
@@ -386,7 +385,10 @@ public final class GenModifierPack {
 		fileData.put("decorations", decorations);
 	}
 
-	private static <T extends IFeatureConfig> void addFeature(ConfiguredFeature<T, Feature<T>> feature, Map<String, Object> map) {
+	public static <T extends IFeatureConfig> void serialiseConfiguredFeature(Map<String, Object> map, ConfiguredFeature<T, ? extends Feature<T>> feature) {
+		map.put("feature", ForgeRegistries.FEATURES.getKey(feature.feature).toString());
+
+		// feature config
 		IFeatureConfigSerialiser<T> fc = FeatureSerialisers.getFeatureSettings(feature.feature);
 		fc = fc.loadFrom(feature.config); // load from config
 
