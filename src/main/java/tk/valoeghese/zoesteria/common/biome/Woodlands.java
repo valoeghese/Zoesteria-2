@@ -21,12 +21,14 @@ public class Woodlands implements IZoesteriaBiome {
 		this.tpc = tpc;
 		this.baseHeight = baseHeight;
 		this.heightVariation = heightVariation;
+		this.high = this.baseHeight > 1.0f;
 	}
 
 	private final String id;
 	private final int tpc;
 	private final float baseHeight;
 	private final float heightVariation;
+	private final boolean high;
 
 	@Override
 	public String id() {
@@ -45,7 +47,7 @@ public class Woodlands implements IZoesteriaBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.WARM, 10);
+		biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
 	}
 
 	@Override
