@@ -48,6 +48,7 @@ public class Woodlands implements IZoesteriaBiome {
 				.scale(this.heightVariation)
 				.temperature(0.5F)
 				.downfall(0.68F)
+				.surfaceBuilder("zoesteria:woodlands")
 				.build();
 	}
 
