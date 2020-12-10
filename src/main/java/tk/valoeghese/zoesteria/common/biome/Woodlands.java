@@ -17,11 +17,16 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 
 public class Woodlands implements IZoesteriaBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
+		this(id, tpc, baseHeight, heightVariation, false);
+	}
+
+	public Woodlands(String id, int tpc, float baseHeight, float heightVariation, boolean subBiome) {
 		this.id = id;
 		this.tpc = tpc;
 		this.baseHeight = baseHeight;
 		this.heightVariation = heightVariation;
 		this.high = this.baseHeight > 1.0f;
+		this.subBiome = subBiome;
 	}
 
 	private final String id;
@@ -29,6 +34,7 @@ public class Woodlands implements IZoesteriaBiome {
 	private final float baseHeight;
 	private final float heightVariation;
 	private final boolean high;
+	private final boolean subBiome;
 
 	@Override
 	public String id() {
@@ -47,7 +53,9 @@ public class Woodlands implements IZoesteriaBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
+		if (!this.subBiome) {
+			biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
+		}
 	}
 
 	@Override
@@ -76,8 +84,7 @@ public class Woodlands implements IZoesteriaBiome {
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
-		BiomeDefaultFeatures.addSparseGrass(decorations);
+		BiomeDefaultFeatures.addGrass(decorations, 5);
 		return decorations;
 	}
-
 }

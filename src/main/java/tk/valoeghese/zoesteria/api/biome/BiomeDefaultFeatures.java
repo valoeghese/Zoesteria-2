@@ -34,8 +34,8 @@ public final class BiomeDefaultFeatures {
 		decorations.addDecoration(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LAPIS_ORE, 7)).withPlacement(Placement.COUNT_DEPTH_AVERAGE.configure(new DepthAverageConfig(1, 16, 16))));
 	}
 
-	public static void addSparseGrass(BiomeDecorations decorations) {
-		decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
+	public static void addGrass(BiomeDecorations decorations, int density) {
+		decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(density))));
 	}
 
 	private static final BlockState DIRT = Blocks.DIRT.getDefaultState();

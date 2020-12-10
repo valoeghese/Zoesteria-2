@@ -84,7 +84,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
-		BiomeDefaultFeatures.addSparseGrass(decorations);
+		BiomeDefaultFeatures.addGrass(decorations, 1);
 		return decorations;
 	}
 }
