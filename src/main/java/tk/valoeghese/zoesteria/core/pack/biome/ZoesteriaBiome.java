@@ -101,7 +101,7 @@ class ZoesteriaBiome extends Biome {
 		if (this.computedHills) {
 			return this.hills.apply(rand);
 		} else {
-			// fuck threads
+			// f*ck threads
 			synchronized (this.hillsList) {
 				if (!this.computedHills) {
 					switch (this.hillsList.size()) {
@@ -120,9 +120,9 @@ class ZoesteriaBiome extends Biome {
 						this.hills = n -> hillBiomeList.get(n.random(randomBound));
 						break;
 					}
+					this.computedHills = true;
 				}
 
-				this.computedHills = true;
 				return this.hills.apply(rand);
 			}
 		}

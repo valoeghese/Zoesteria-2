@@ -1,5 +1,10 @@
 package tk.valoeghese.zoesteria.common.biome;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.google.common.collect.ImmutableList;
+
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -75,5 +80,10 @@ public class Woodlands implements IZoesteriaBiome {
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addGrass(decorations, 5);
 		return decorations;
+	}
+
+	@Override
+	public Optional<List<String>> getHillsBiomes() {
+		return Optional.of(ImmutableList.of("zoesteria:woodlands_hills"));
 	}
 }

@@ -51,6 +51,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		biomes.add(new BluffBiome());
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		biomes.add(new Woodlands("high_woodlands", 6, 1.3f, 0.03f));
+		biomes.add(new Woodlands("woodlands_hills", 6, 0.45f, 0.38f, true));
 		return biomes;
 	}
 
