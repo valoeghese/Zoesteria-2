@@ -28,6 +28,7 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
+import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
@@ -49,6 +50,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		List<IZoesteriaBiome> biomes = Lists.newArrayList();
 		biomes.add(new BluffBiome());
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
+		biomes.add(new Woodlands("high_woodlands", 6, 1.3f, 0.03f));
 		return biomes;
 	}
 
@@ -131,6 +133,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigHandler.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigHandler.INSTANCE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.TRIPLE_SELECTOR, TripleFeatureConfigSerialiser.BASE);
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> ALTER_BLOCKS = new AlterBlocksTemplate();

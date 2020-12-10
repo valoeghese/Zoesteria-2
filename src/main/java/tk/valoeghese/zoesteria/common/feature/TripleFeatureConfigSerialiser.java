@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.pack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
@@ -31,7 +32,9 @@ public class TripleFeatureConfigSerialiser implements IFeatureConfigSerialiser<T
 
 	@Override
 	public IFeatureConfigSerialiser<TripleFeatureConfig> deserialise(Container settings) {
-		ConfiguredFeature<?, ?> 
+		ConfiguredFeature<?, ?> feature0 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature0"));
+		ConfiguredFeature<?, ?> feature1 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature1"));
+		ConfiguredFeature<?, ?> feature2 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature2"));
 		return new TripleFeatureConfigSerialiser(feature0, feature1, feature2);
 	}
 
