@@ -78,7 +78,8 @@ public final class BiomeFactory {
 
 		Details details = new Details();
 		details.skyColour = biome.customSkyColour().orElse(null);
-		details.river = biome.getRiver().orElse(null);
+		details.river = biome.getRiverBiome().orElse(null);
+		details.hills = biome.getHillsBiomes().orElse(null);
 
 		// create map to store data of biome placement in the world
 		Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
@@ -147,6 +148,7 @@ public final class BiomeFactory {
 		Details details = new Details();
 		details.skyColour = properties.getIntegerValue("skyColor");
 		details.river = biomeConfig.getStringValue("river");
+		details.hills = biomeConfig.getList("hills");
 
 		// transfer loaded data about the placement of the biome in the world to the Details of the biome
 		addGeneration(details, biomePlacement);
@@ -345,6 +347,7 @@ public final class BiomeFactory {
 	static final class Details {
 		Integer skyColour;
 		String river;
+		List<? extends Object> hills;
 		Object2IntMap<BiomeManager.BiomeType> placement = new Object2IntArrayMap<>();
 		boolean spawnBiome;
 	}

@@ -1,11 +1,17 @@
 package tk.valoeghese.zoesteria.core.pack.biome;
 
+import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftConfig;
@@ -42,10 +48,10 @@ class ZoesteriaBiome extends Biome {
 		}
 
 		if (biomeDetails.river != null) {
-			this.customRiver = true;
+			this.hasCustomRiver = true;
 			this.riverId = new ResourceLocation(biomeDetails.river);
 		} else {
-			this.customRiver = false;
+			this.hasCustomRiver = false;
 		}
 
 		biomeRegistry.register(this);
@@ -57,14 +63,22 @@ class ZoesteriaBiome extends Biome {
 		if (biomeDetails.spawnBiome) {
 			BiomeManager.addSpawnBiome(this);
 		}
+
+		this.hillsList = biomeDetails.hills;
 	}
 
 	private final boolean customSkyColour;
 	private int skyColour;
 
-	private final boolean customRiver;
+	private final boolean hasCustomRiver;
 	private ResourceLocation riverId;
 	private Biome river = null;
+
+	@Nullable
+	private List<? extends Object> hillsList;
+
+	private Function<INoiseRandom, Biome> hills;
+	private boolean computedHills = false;
 
 	// in case of overriding
 	// haha 1.16 will destroy this when I port
@@ -79,7 +93,38 @@ class ZoesteriaBiome extends Biome {
 
 	@Override
 	public Biome getRiver() {
-		return this.customRiver ? this.river() : super.getRiver();
+		return this.hasCustomRiver ? this.river() : super.getRiver();
+	}
+
+	@Override
+	public Biome getHill(INoiseRandom rand) {
+		if (this.computedHills) {
+			return this.hills.apply(rand);
+		} else {
+			// fuck threads
+			synchronized (this.hillsList) {
+				if (!this.computedHills) {
+					switch (this.hillsList.size()) {
+					case 0:
+						this.hills = n -> null;
+						break;
+					case 1:
+						Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation((String) this.hillsList.get(0)));
+						this.hills = n -> biome;
+						break;
+					default:
+						List<Biome> hillBiomeList = this.hillsList.stream()
+						.map(id -> ForgeRegistries.BIOMES.getValue(new ResourceLocation((String) id)))
+						.collect(Collectors.toList());
+						final int randomBound = hillBiomeList.size();
+						this.hills = n -> hillBiomeList.get(n.random(randomBound));
+						break;
+					}
+				}
+
+				return this.hills.apply(rand);
+			}
+		}
 	}
 
 	@Override

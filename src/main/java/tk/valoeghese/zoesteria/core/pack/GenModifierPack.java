@@ -289,10 +289,18 @@ public final class GenModifierPack {
 					// final
 					fileData.put("properties", biomePropertiesData);
 
-					Optional<String> river = biome.getRiver();
+					// river biome in config
+					Optional<String> river = biome.getRiverBiome();
 
 					if (river.isPresent()) {
 						fileData.put("river", river.get());
+					}
+
+					// hills biomes in config
+					Optional<List<String>> hills = biome.getHillsBiomes();
+
+					if (hills.isPresent()) {
+						fileData.put("hills", hills.get());
 					}
 
 					Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();

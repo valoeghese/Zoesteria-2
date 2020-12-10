@@ -1,7 +1,5 @@
 package tk.valoeghese.zoesteria.common.biome;
 
-import java.util.Optional;
-
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -57,16 +55,6 @@ public class Woodlands implements IZoesteriaBiome {
 		if (!this.subBiome) {
 			biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
 		}
-	}
-
-	@Override
-	public Optional<Integer> customSkyColour() {
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<String> getRiver() {
-		return Optional.empty();
 	}
 
 	@Override

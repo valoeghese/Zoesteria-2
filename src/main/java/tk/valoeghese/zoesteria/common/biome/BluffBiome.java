@@ -46,16 +46,6 @@ public final class BluffBiome implements IZoesteriaBiome {
 	}
 
 	@Override
-	public Optional<Integer> customSkyColour() {
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<String> getRiver() {
-		return Optional.of("zoesteria:bluff");
-	}
-
-	@Override
 	public boolean canSpawnInBiome() {
 		return true;
 	}
@@ -86,5 +76,10 @@ public final class BluffBiome implements IZoesteriaBiome {
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addGrass(decorations, 1);
 		return decorations;
+	}
+	
+	@Override
+	public Optional<String> getRiverBiome() {
+		return Optional.of("zoesteria:bluff");
 	}
 }
