@@ -8,6 +8,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.valoeghese.zoesteria.common.feature.BluffPineFeature;
 import tk.valoeghese.zoesteria.common.feature.BluffRuinsFeature;
+import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
+import tk.valoeghese.zoesteria.common.feature.TripleSelectorFeature;
 
 /**
  * Event registry handler for common stuff.
@@ -18,6 +20,7 @@ public class ZoesteriaCommonEventHandler {
 		event.getRegistry().register(BLUFF_PINE.setRegistryName("bluff_pine"));
 		event.getRegistry().register(BLUFF_PINE_SAPLING.setRegistryName("bluff_pine_sapling"));
 		event.getRegistry().register(BLUFF_RUINS.setRegistryName("bluff_ruins"));
+		event.getRegistry().register(TRIPLE_SELECTOR.setRegistryName("triple_selector"));
 	}
 
 	@SubscribeEvent
@@ -28,5 +31,6 @@ public class ZoesteriaCommonEventHandler {
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature(true);
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE_SAPLING = new BluffPineFeature(false);
 	public static final Feature<NoFeatureConfig> BLUFF_RUINS = new BluffRuinsFeature();
+	public static final Feature<TripleFeatureConfig> TRIPLE_SELECTOR = new TripleSelectorFeature();
 	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
 }
