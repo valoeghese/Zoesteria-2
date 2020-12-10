@@ -70,7 +70,7 @@ public class Woodlands implements IZoesteriaBiome {
 				.addDecoration(Decoration.VEGETAL_DECORATION,
 						Feature.NORMAL_TREE
 						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 4))));
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 5))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
