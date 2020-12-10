@@ -20,15 +20,15 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 		this.log = config.trunkProvider;
 		this.foliagePlacer = config.foliagePlacer;
 		this.minTrunkHeight = config.trunkHeight;
-		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight - 1;
+		this.maxTrunkHeight = config.trunkHeightRandom + config.trunkHeight;
 		this.minFoliageDepth = config.foliageHeight;
-		this.maxFoliageDepth = config.foliageHeightRandom + config.foliageHeight - 1;
+		this.maxFoliageDepth = config.foliageHeightRandom + config.foliageHeight;
 		this.baseHeight = config.baseHeight;
 		this.heightRandA = config.heightRandA;
 		this.heightRandB = config.heightRandB;
 		this.maxBlocksUnderwater = config.maxWaterDepth;
 		this.minTrunkTopOffset = config.trunkTopOffset;
-		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset - 1;
+		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset;
 		this.vines = !config.ignoreVines;
 	}
 
@@ -138,11 +138,11 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 				.heightRandA(this.heightRandA)
 				.heightRandB(this.heightRandB)
 				.trunkHeight(this.minTrunkHeight)
-				.trunkHeightRandom(this.maxTrunkHeight - this.minTrunkHeight + 1)
+				.trunkHeightRandom(this.maxTrunkHeight - this.minTrunkHeight)
 				.foliageHeight(this.minFoliageDepth)
 				.foliageHeightRandom(this.maxFoliageDepth - this.minFoliageDepth)
 				.trunkTopOffset(this.minTrunkTopOffset)
-				.trunkTopOffsetRandom(this.maxTrunkTopOffset - this.minTrunkTopOffset + 1)
+				.trunkTopOffsetRandom(this.maxTrunkTopOffset - this.minTrunkTopOffset)
 				.maxWaterDepth(this.maxBlocksUnderwater);
 
 		if (!this.vines) {

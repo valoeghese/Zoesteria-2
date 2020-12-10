@@ -23,7 +23,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 	@Override
 	protected boolean place(IWorldGenerationReader world, Random rand, BlockPos pos, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, TreeFeatureConfig config) {
 		final int startY = pos.getY();
-		int height = config.baseHeight + rand.nextInt(config.heightRandA) + rand.nextInt(config.heightRandB);
+		int height = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
 
 		// check height
 		if (startY < 1 || startY + height >= world.getMaxHeight()) {
@@ -75,10 +75,10 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		final int startZ = pos.getZ();
 
 		// trunk height thus indicates the height of the bare trunk, and the rest is foliage-covered
-		final int trunkHeight = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom));
+		final int trunkHeight = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1));
 
 		// trunk top offset in the config thus indicates the amount of bare foliage at the end
-		final int foliageDepth = height - (config.trunkTopOffset + rand.nextInt(config.trunkTopOffsetRandom));
+		final int foliageDepth = height - (config.trunkTopOffset + rand.nextInt(config.trunkTopOffsetRandom + 1));
 
 		// final xo
 		int fxo = 0;

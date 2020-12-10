@@ -70,12 +70,12 @@ public final class BluffBiome implements IZoesteriaBiome {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.BLUFF_PINE_LEAVES.get().getDefaultState()),
 								new BlobFoliagePlacer(1, 1))
 								.baseHeight(11)
-								.heightRandA(4)
-								.heightRandB(5)
+								.heightRandA(3)
+								.heightRandB(4)
 								.trunkTopOffset(1)
-								.trunkTopOffsetRandom(1)
+								.trunkTopOffsetRandom(0)
 								.trunkHeight(1)
-								.trunkHeightRandom(1)
+								.trunkHeightRandom(0)
 								.build())
 						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(3, 0.1f, 1))))
 				.addDecoration(Decoration.SURFACE_STRUCTURES, ZoesteriaCommonEventHandler.BLUFF_RUINS
