@@ -9,7 +9,6 @@ import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -18,6 +17,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
@@ -68,7 +68,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 								new SimpleBlockStateProvider(
 										Blocks.SPRUCE_LOG.getDefaultState()),
 								new SimpleBlockStateProvider(ZoesteriaBlocks.BLUFF_PINE_LEAVES.get().getDefaultState()),
-								new BlobFoliagePlacer(1, 1))
+								new NoneFoliagePlacer())
 								.baseHeight(11)
 								.heightRandA(3)
 								.heightRandB(4)
