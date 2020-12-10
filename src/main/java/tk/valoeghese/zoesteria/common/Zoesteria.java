@@ -95,6 +95,16 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 						)
 				));
+		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
+				"woodlands",
+				ALTER_BLOCKS,
+				ImmutableList.of(
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_exceeds").withParameter("value", 1.6),
+								Optional.of(Blocks.COARSE_DIRT),
+								Optional.of(Blocks.COARSE_DIRT),
+								Optional.empty(),
+								true))));
 		return surfaceBuilders;
 	}
 
