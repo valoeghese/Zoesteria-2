@@ -122,6 +122,7 @@ class ZoesteriaBiome extends Biome {
 					}
 				}
 
+				this.computedHills = true;
 				return this.hills.apply(rand);
 			}
 		}
