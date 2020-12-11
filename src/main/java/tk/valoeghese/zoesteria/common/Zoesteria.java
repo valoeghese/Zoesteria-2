@@ -111,7 +111,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public void addBiomeTweaks(Map<Type, BiomeDecorations> tweaks) {
-		BiomeDecorations decorations = BiomeDecorations.create()
+		BiomeDecorations beachDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.SPINIFEX_SMALL.get().getDefaultState()),
@@ -131,7 +131,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
 
-		tweaks.put(BiomeDictionary.Type.BEACH, decorations);
+		tweaks.put(BiomeDictionary.Type.BEACH, beachDecorations);
 	}
 
 	@Override
