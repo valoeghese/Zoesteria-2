@@ -14,6 +14,7 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
@@ -28,11 +29,12 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.BluffBiome;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
+import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
-import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
@@ -141,9 +143,10 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public void registerFeatureSerialisers() {
-		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigHandler.BASE);
-		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigHandler.BASE);
-		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigHandler.INSTANCE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE, TreeFeatureConfigSerialiser.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigSerialiser.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigSerialiser.INSTANCE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.FALLEN_LOG, TreeLikeFeatureConfigSerialiser.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.TRIPLE_SELECTOR, TripleFeatureConfigSerialiser.BASE);
 	}
 

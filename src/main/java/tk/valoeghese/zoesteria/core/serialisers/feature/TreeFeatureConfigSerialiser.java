@@ -14,8 +14,8 @@ import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFeatureConfig> {
-	private TreeFeatureConfigHandler(TreeFeatureConfig config) {
+public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<TreeFeatureConfig> {
+	private TreeFeatureConfigSerialiser(TreeFeatureConfig config) {
 		this.leaves = config.leavesProvider;
 		this.log = config.trunkProvider;
 		this.foliagePlacer = config.foliagePlacer;
@@ -32,7 +32,7 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 		this.vines = !config.ignoreVines;
 	}
 
-	private TreeFeatureConfigHandler(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v) {
+	private TreeFeatureConfigSerialiser(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v) {
 		this.leaves = leaves;
 		this.log = log;
 		this.foliagePlacer = placer;
@@ -66,7 +66,7 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 
 	@Override
 	public IFeatureConfigSerialiser<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
-		return new TreeFeatureConfigHandler(config);
+		return new TreeFeatureConfigSerialiser(config);
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 		Boolean vines = settings.getBooleanValue("vines");
 		Container foliagePlacer = settings.getContainer("foliagePlacer");
 
-		return new TreeFeatureConfigHandler(
+		return new TreeFeatureConfigSerialiser(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
 				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
 				foliagePlacer == null ? new NoneFoliagePlacer() : FeatureSerialisers.deserialiseFoliage(foliagePlacer), // TODO foliage placer
@@ -151,5 +151,5 @@ public class TreeFeatureConfigHandler implements IFeatureConfigSerialiser<TreeFe
 		return config.build();
 	}
 
-	public static final TreeFeatureConfigHandler BASE = new TreeFeatureConfigHandler(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+	public static final TreeFeatureConfigSerialiser BASE = new TreeFeatureConfigSerialiser(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 }

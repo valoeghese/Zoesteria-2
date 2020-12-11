@@ -5,7 +5,7 @@ import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public enum NoFeatureConfigHandler implements IFeatureConfigSerialiser<NoFeatureConfig> {
+public enum NoFeatureConfigSerialiser implements IFeatureConfigSerialiser<NoFeatureConfig> {
 	INSTANCE;
 
 	@Override

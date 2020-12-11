@@ -42,4 +42,6 @@ public class TreeLikeFeatureConfigSerialiser implements IFeatureConfigSerialiser
 	public TreeLikeFeatureConfig create() {
 		return new TreeLikeFeatureConfig(this.log, this.minSize, this.maxSize - this.minSize);
 	}
+
+	public static final TreeLikeFeatureConfigSerialiser BASE = new TreeLikeFeatureConfigSerialiser(null, 0, 0);
 }
