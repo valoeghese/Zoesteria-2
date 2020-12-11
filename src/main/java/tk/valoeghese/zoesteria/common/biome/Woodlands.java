@@ -84,7 +84,7 @@ public class Woodlands implements IZoesteriaBiome {
 										new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState()),
 										new BlobFoliagePlacer(2, 1))
 								.baseHeight(5)
-								.heightRandA(3)
+								.heightRandA(2)
 								.foliageHeight(3)
 								.ignoreVines()
 								.build()
