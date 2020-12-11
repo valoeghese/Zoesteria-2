@@ -33,7 +33,7 @@ public class TreeLikeFeatureConfigSerialiser implements IFeatureConfigSerialiser
 
 	@Override
 	public void serialise(EditableContainer settings) {
-		BlockStateProviderHandler.serialiseStateProvider(this.log);
+		settings.putMap("log", BlockStateProviderHandler.serialiseStateProvider(this.log).asMap());
 		settings.putIntegerValue("minSize", this.minSize);
 		settings.putIntegerValue("maxSize", this.maxSize);
 	}
