@@ -5,7 +5,9 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
@@ -64,7 +66,7 @@ class ZoesteriaBiome extends Biome {
 			BiomeManager.addSpawnBiome(this);
 		}
 
-		this.hillsList = biomeDetails.hills;
+		this.hillsList = biomeDetails.hills == null ? ImmutableList.of() : biomeDetails.hills;
 	}
 
 	private final boolean customSkyColour;
@@ -74,7 +76,7 @@ class ZoesteriaBiome extends Biome {
 	private ResourceLocation riverId;
 	private Biome river = null;
 
-	@Nullable
+	@Nonnull
 	private List<? extends Object> hillsList;
 
 	private Function<INoiseRandom, Biome> hills;
@@ -102,7 +104,7 @@ class ZoesteriaBiome extends Biome {
 			return this.hills.apply(rand);
 		} else {
 			// f*ck threads
-			synchronized (this.hillsList) {
+			synchronized (this) {
 				if (!this.computedHills) {
 					switch (this.hillsList.size()) {
 					case 0:

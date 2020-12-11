@@ -1,7 +1,8 @@
-package tk.valoeghese.zoesteria.common.feature;
+package tk.valoeghese.zoesteria.common.feature.serialiser;
 
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;

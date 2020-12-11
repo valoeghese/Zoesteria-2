@@ -1,10 +1,11 @@
-package tk.valoeghese.zoesteria.common.feature;
+package tk.valoeghese.zoesteria.common.feature.serialiser;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.pack.biome.BiomeFactory;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
