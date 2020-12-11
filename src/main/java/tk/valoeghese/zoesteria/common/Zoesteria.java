@@ -102,7 +102,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				ALTER_BLOCKS,
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
-								new Condition("noise_outside").withParameter("min", -2.7).withParameter("max", 2.6),
+								new Condition("noise_outside").withParameter("min", -2.45).withParameter("max", 2.65),
 								Optional.of(Blocks.COARSE_DIRT),
 								Optional.of(Blocks.COARSE_DIRT),
 								Optional.empty(),
