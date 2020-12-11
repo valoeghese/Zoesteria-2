@@ -86,7 +86,7 @@ public class BluffPineFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		int fzo = 0;
 
 		// test if it can generate and set fxo/fzo where possible
-		for (int yo = 0; yo < trunkHeight; ++yo) {
+		for (int yo = 0; yo < height; ++yo) {
 			mutablePos.setY(startY + yo);
 
 			if (!canBeReplacedByLogs(world, mutablePos)) {
