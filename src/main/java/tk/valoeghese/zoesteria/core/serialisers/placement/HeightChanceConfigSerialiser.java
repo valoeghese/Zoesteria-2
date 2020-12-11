@@ -5,13 +5,13 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class HeightChanceConfigHandler implements IPlacementConfigSerialiser<HeightWithChanceConfig> {
-	private HeightChanceConfigHandler(HeightWithChanceConfig config) {
+public class HeightChanceConfigSerialiser implements IPlacementConfigSerialiser<HeightWithChanceConfig> {
+	private HeightChanceConfigSerialiser(HeightWithChanceConfig config) {
 		this.count = config.count;
 		this.chance = config.chance;
 	}
 
-	private HeightChanceConfigHandler(int count, float chance) {
+	private HeightChanceConfigSerialiser(int count, float chance) {
 		this.count = count;
 		this.chance = chance;
 	}
@@ -21,14 +21,14 @@ public class HeightChanceConfigHandler implements IPlacementConfigSerialiser<Hei
 
 	@Override
 	public IPlacementConfigSerialiser<HeightWithChanceConfig> loadFrom(HeightWithChanceConfig config) {
-		return new HeightChanceConfigHandler(config);
+		return new HeightChanceConfigSerialiser(config);
 	}
 
 	@Override
 	public IPlacementConfigSerialiser<HeightWithChanceConfig> deserialise(Container settings) {
 		int count = settings.getIntegerValue("count");
 		float chance = settings.getFloatValue("chance");
-		return new HeightChanceConfigHandler(count, chance);
+		return new HeightChanceConfigSerialiser(count, chance);
 	}
 
 	@Override
@@ -42,5 +42,5 @@ public class HeightChanceConfigHandler implements IPlacementConfigSerialiser<Hei
 		return new HeightWithChanceConfig(this.count, this.chance);
 	}
 	
-	public static final HeightChanceConfigHandler BASE = new HeightChanceConfigHandler(0, 0.0F);
+	public static final HeightChanceConfigSerialiser BASE = new HeightChanceConfigSerialiser(0, 0.0F);
 }

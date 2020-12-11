@@ -5,12 +5,12 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class CountExtraChanceConfigHandler implements IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> {
-	private CountExtraChanceConfigHandler(AtSurfaceWithExtraConfig config) {
+public class CountExtraChanceConfigSerialiser implements IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> {
+	private CountExtraChanceConfigSerialiser(AtSurfaceWithExtraConfig config) {
 		this(config.count, config.extraChance, config.extraCount);
 	}
 
-	private CountExtraChanceConfigHandler(int count, float extraChance, int extraCount) {
+	private CountExtraChanceConfigSerialiser(int count, float extraChance, int extraCount) {
 		this.count = count;
 		this.extraChance = extraChance;
 		this.extraCount = extraCount;
@@ -22,12 +22,12 @@ public class CountExtraChanceConfigHandler implements IPlacementConfigSerialiser
 
 	@Override
 	public IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> loadFrom(AtSurfaceWithExtraConfig config) {
-		return new CountExtraChanceConfigHandler(config);
+		return new CountExtraChanceConfigSerialiser(config);
 	}
 
 	@Override
 	public IPlacementConfigSerialiser<AtSurfaceWithExtraConfig> deserialise(Container settings) {
-		return new CountExtraChanceConfigHandler(
+		return new CountExtraChanceConfigSerialiser(
 				settings.getIntegerValue("count"),
 				settings.getFloatValue("extraChance"),
 				settings.getIntegerValue("extraCount"));
@@ -45,5 +45,5 @@ public class CountExtraChanceConfigHandler implements IPlacementConfigSerialiser
 		return new AtSurfaceWithExtraConfig(this.count, this.extraChance, this.extraCount);
 	}
 
-	public static final CountExtraChanceConfigHandler BASE = new CountExtraChanceConfigHandler(0, 0, 0);
+	public static final CountExtraChanceConfigSerialiser BASE = new CountExtraChanceConfigSerialiser(0, 0, 0);
 }

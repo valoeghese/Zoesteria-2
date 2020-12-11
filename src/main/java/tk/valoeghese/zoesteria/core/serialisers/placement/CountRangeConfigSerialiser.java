@@ -5,12 +5,12 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class CountRangeConfigHandler implements IPlacementConfigSerialiser<CountRangeConfig> {
-	private CountRangeConfigHandler(CountRangeConfig config) {
+public class CountRangeConfigSerialiser implements IPlacementConfigSerialiser<CountRangeConfig> {
+	private CountRangeConfigSerialiser(CountRangeConfig config) {
 		this(config.topOffset, config.bottomOffset, config.count, config.maximum);
 	}
 
-	private CountRangeConfigHandler(int topOffset, int bottomOffset, int count, int maximum) {
+	private CountRangeConfigSerialiser(int topOffset, int bottomOffset, int count, int maximum) {
 		this.topOffset = topOffset;
 		this.bottomOffset = bottomOffset;
 		this.count = count;
@@ -24,12 +24,12 @@ public class CountRangeConfigHandler implements IPlacementConfigSerialiser<Count
 
 	@Override
 	public IPlacementConfigSerialiser<CountRangeConfig> loadFrom(CountRangeConfig config) {
-		return new CountRangeConfigHandler(config);
+		return new CountRangeConfigSerialiser(config);
 	}
 
 	@Override
 	public IPlacementConfigSerialiser<CountRangeConfig> deserialise(Container settings) {
-		return new CountRangeConfigHandler(
+		return new CountRangeConfigSerialiser(
 				settings.getIntegerValue("topOffset"),
 				settings.getIntegerValue("bottomOffset"),
 				settings.getIntegerValue("count"),
@@ -50,5 +50,5 @@ public class CountRangeConfigHandler implements IPlacementConfigSerialiser<Count
 		return new CountRangeConfig(this.count, this.bottomOffset, this.topOffset, this.maximum);
 	}
 
-	public static final CountRangeConfigHandler BASE = new CountRangeConfigHandler(0, 0, 0, 0);
+	public static final CountRangeConfigSerialiser BASE = new CountRangeConfigSerialiser(0, 0, 0, 0);
 }

@@ -27,15 +27,15 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
-import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.foliage.BlobFoliagePlacerSerialiser;
-import tk.valoeghese.zoesteria.core.serialisers.placement.ChanceConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.placement.CountExtraChanceConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.ChanceConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.placement.CountExtraChanceConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.DepthAverageConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigHandler;
-import tk.valoeghese.zoesteria.core.serialisers.placement.HeightChanceConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.placement.HeightChanceConfigSerialiser;
 
 /**
  * Event registry handler for core stuff.
@@ -87,36 +87,36 @@ public class ZoesteriaRegistryHandler {
 		if (!preventPlacementFire) {
 			preventPlacementFire = true;
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigSerialiser.BASE);
 
 			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigHandler.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigHandler.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
+			FeatureSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {
@@ -134,7 +134,7 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigSerialiser.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigHandler.BASE);
+			FeatureSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigSerialiser.BASE);
 
 			FeatureSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);

@@ -5,12 +5,12 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class FrequencyConfigHandler implements IPlacementConfigSerialiser<FrequencyConfig> {
-	private FrequencyConfigHandler(FrequencyConfig config) {
+public class FrequencyConfigSerialiser implements IPlacementConfigSerialiser<FrequencyConfig> {
+	private FrequencyConfigSerialiser(FrequencyConfig config) {
 		this(config.count);
 	}
 
-	private FrequencyConfigHandler(int count) {
+	private FrequencyConfigSerialiser(int count) {
 		this.count = count;
 	}
 
@@ -18,12 +18,12 @@ public class FrequencyConfigHandler implements IPlacementConfigSerialiser<Freque
 
 	@Override
 	public IPlacementConfigSerialiser<FrequencyConfig> loadFrom(FrequencyConfig config) {
-		return new FrequencyConfigHandler(config);
+		return new FrequencyConfigSerialiser(config);
 	}
 
 	@Override
 	public IPlacementConfigSerialiser<FrequencyConfig> deserialise(Container settings) {
-		return new FrequencyConfigHandler(settings.getIntegerValue("count"));
+		return new FrequencyConfigSerialiser(settings.getIntegerValue("count"));
 	}
 
 	@Override
@@ -36,5 +36,5 @@ public class FrequencyConfigHandler implements IPlacementConfigSerialiser<Freque
 		return new FrequencyConfig(this.count);
 	}
 
-	public static final FrequencyConfigHandler BASE = new FrequencyConfigHandler(0);
+	public static final FrequencyConfigSerialiser BASE = new FrequencyConfigSerialiser(0);
 }

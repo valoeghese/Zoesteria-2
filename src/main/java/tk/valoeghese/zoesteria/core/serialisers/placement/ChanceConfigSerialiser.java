@@ -5,12 +5,12 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class ChanceConfigHandler implements IPlacementConfigSerialiser<ChanceConfig> {
-	private ChanceConfigHandler(ChanceConfig config) {
+public class ChanceConfigSerialiser implements IPlacementConfigSerialiser<ChanceConfig> {
+	private ChanceConfigSerialiser(ChanceConfig config) {
 		this(config.chance);
 	}
 
-	private ChanceConfigHandler(int rarity) {
+	private ChanceConfigSerialiser(int rarity) {
 		this.rarity = rarity;
 	}
 
@@ -18,12 +18,12 @@ public class ChanceConfigHandler implements IPlacementConfigSerialiser<ChanceCon
 
 	@Override
 	public IPlacementConfigSerialiser<ChanceConfig> loadFrom(ChanceConfig config) {
-		return new ChanceConfigHandler(config);
+		return new ChanceConfigSerialiser(config);
 	}
 
 	@Override
 	public IPlacementConfigSerialiser<ChanceConfig> deserialise(Container settings) {
-		return new ChanceConfigHandler(settings.getIntegerValue("rarity"));
+		return new ChanceConfigSerialiser(settings.getIntegerValue("rarity"));
 	}
 
 	@Override
@@ -36,5 +36,5 @@ public class ChanceConfigHandler implements IPlacementConfigSerialiser<ChanceCon
 		return new ChanceConfig(this.rarity);
 	}
 
-	public static final ChanceConfigHandler BASE = new ChanceConfigHandler(0);
+	public static final ChanceConfigSerialiser BASE = new ChanceConfigSerialiser(0);
 }

@@ -8,14 +8,14 @@ import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class OreFeatureConfigHandler implements IFeatureConfigSerialiser<OreFeatureConfig> {
-	private OreFeatureConfigHandler(OreFeatureConfig config) {
+public class OreFeatureConfigSerialiser implements IFeatureConfigSerialiser<OreFeatureConfig> {
+	private OreFeatureConfigSerialiser(OreFeatureConfig config) {
 		this.size = config.size;
 		this.state = config.state;
 		this.target = config.target;
 	}
 
-	private OreFeatureConfigHandler(int size, BlockState state, FillerBlockType target) {
+	private OreFeatureConfigSerialiser(int size, BlockState state, FillerBlockType target) {
 		this.size = size;
 		this.state = state;
 		this.target = target;
@@ -27,12 +27,12 @@ public class OreFeatureConfigHandler implements IFeatureConfigSerialiser<OreFeat
 
 	@Override
 	public IFeatureConfigSerialiser<OreFeatureConfig> loadFrom(OreFeatureConfig config) {
-		return new OreFeatureConfigHandler(config);
+		return new OreFeatureConfigSerialiser(config);
 	}
 
 	@Override
 	public IFeatureConfigSerialiser<OreFeatureConfig> deserialise(Container settings) {
-		return new OreFeatureConfigHandler(
+		return new OreFeatureConfigSerialiser(
 				settings.getIntegerValue("size"),
 				ZFGUtils.getBlockState(settings, "state"),
 				FillerBlockType.byName(settings.getStringValue("target")));
@@ -50,5 +50,5 @@ public class OreFeatureConfigHandler implements IFeatureConfigSerialiser<OreFeat
 		return new OreFeatureConfig(this.target, this.state, this.size);
 	}
 
-	public static final OreFeatureConfigHandler BASE = new OreFeatureConfigHandler(0, null, null);
+	public static final OreFeatureConfigSerialiser BASE = new OreFeatureConfigSerialiser(0, null, null);
 }
