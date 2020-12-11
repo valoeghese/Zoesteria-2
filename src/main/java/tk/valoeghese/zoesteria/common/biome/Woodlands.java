@@ -8,10 +8,11 @@ import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager.BiomeType;
@@ -77,7 +78,17 @@ public class Woodlands implements IZoesteriaBiome {
 		BiomeDecorations decorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION,
 						Feature.NORMAL_TREE
-						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)
+						.withConfiguration(
+								new TreeFeatureConfig.Builder(
+										new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
+										new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState()),
+										new BlobFoliagePlacer(2, 1))
+								.baseHeight(5)
+								.heightRandA(3)
+								.foliageHeight(3)
+								.ignoreVines()
+								.build()
+								)
 						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))))
 				.addDecoration(Decoration.VEGETAL_DECORATION,
 						ZoesteriaCommonEventHandler.FALLEN_LOG
