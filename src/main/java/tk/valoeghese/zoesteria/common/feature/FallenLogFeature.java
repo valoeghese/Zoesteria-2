@@ -2,16 +2,21 @@ package tk.valoeghese.zoesteria.common.feature;
 
 import java.util.Random;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.LogBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 
-public class FallenLogFeature extends Feature<TreeLikeFeatureConfig> {
+public class FallenLogFeature extends Feature<TreeLikeFeatureConfig> implements IPlantable {
 	public FallenLogFeature() {
 		super(TreeLikeFeatureConfig::deserialize);
 	}
@@ -27,14 +32,29 @@ public class FallenLogFeature extends Feature<TreeLikeFeatureConfig> {
 		final Axis axis = direction.getAxis();
 
 		BlockPos.Mutable pos = new BlockPos.Mutable(start);
+		BlockPos down = start.down();
 
-		// start at start and increase at the end of each time. So 1-size instead of 0-(size-1)
-		for (int i = 1; i <= size; ++i) {
-			this.setBlockState(world, pos, config.logProvider.getBlockState(rand, pos).with(LogBlock.AXIS, axis));
-			pos.setX(xoff * i + startX);
-			pos.setZ(zoff * i + startZ);
+		if (world.hasBlockState(down, state -> state.canSustainPlant(world, down, Direction.UP, this))) {
+			// start at start and increase at the end of each time. So 1-size instead of 0-(size-1)
+			for (int i = 1; i <= size; ++i) {
+				this.setBlockState(world, pos, config.logProvider.getBlockState(rand, pos).with(LogBlock.AXIS, axis));
+				pos.setX(xoff * i + startX);
+				pos.setZ(zoff * i + startZ);
+			}
+
+			return true;
+		} else {
+			return false;
 		}
+	}
 
-		return true;
+	@Override
+	public PlantType getPlantType(IBlockReader world, BlockPos pos) {
+		return PlantType.Plains;
+	}
+
+	@Override
+	public BlockState getPlant(IBlockReader world, BlockPos pos) {
+		return Blocks.OAK_LOG.getDefaultState();
 	}
 }
