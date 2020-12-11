@@ -6,17 +6,22 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
+import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 
 public class Woodlands implements IZoesteriaBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
@@ -74,7 +79,14 @@ public class Woodlands implements IZoesteriaBiome {
 				.addDecoration(Decoration.VEGETAL_DECORATION,
 						Feature.NORMAL_TREE
 						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))));
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))))
+				.addDecoration(Decoration.VEGETAL_DECORATION,
+						ZoesteriaCommonEventHandler.FALLEN_LOG
+						.withConfiguration(new TreeLikeFeatureConfig(
+								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
+								4, 
+								3))
+						.withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(1))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
