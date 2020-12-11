@@ -74,6 +74,6 @@ public final class BiomeDefaultFeatures {
 	private static final BlockState LAPIS_ORE = Blocks.LAPIS_ORE.getDefaultState();
 
 	public static final BlockClusterFeatureConfig GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
-	public static final BlockClusterFeatureConfig MUSHROOM_WHITE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
-	public static final BlockClusterFeatureConfig MUSHROOM_RED_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
+	public static final BlockClusterFeatureConfig MUSHROOM_WHITE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(64).func_227317_b_().build();
+	public static final BlockClusterFeatureConfig MUSHROOM_RED_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(64).func_227317_b_().build();
 }
