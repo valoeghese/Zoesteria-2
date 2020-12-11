@@ -6,8 +6,10 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
@@ -38,6 +40,27 @@ public final class BiomeDefaultFeatures {
 		decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(density))));
 	}
 
+	public static void addMushrooms(BiomeDecorations decorations, int densityWhite, int densityRed) {
+		if (densityWhite > 0) {
+			decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(MUSHROOM_WHITE_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(densityWhite))));
+		}
+		if (densityRed > 0) {
+			decorations.addDecoration(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(MUSHROOM_RED_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(densityRed))));
+		}
+	}
+
+	public static void addWaterLakes(BiomeDecorations decorations, BlockState state, int chance) {
+		decorations.addDecoration(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Feature.LAKE
+				.withConfiguration(new BlockStateFeatureConfig(state))
+				.withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(chance))));
+	}
+
+	public static void addLavaLakes(BiomeDecorations decorations, BlockState state, int chance) {
+		decorations.addDecoration(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Feature.LAKE
+				.withConfiguration(new BlockStateFeatureConfig(state))
+				.withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(chance))));
+	}
+
 	private static final BlockState DIRT = Blocks.DIRT.getDefaultState();
 	private static final BlockState GRAVEL = Blocks.GRAVEL.getDefaultState();
 	private static final BlockState GRANITE = Blocks.GRANITE.getDefaultState();
@@ -51,4 +74,6 @@ public final class BiomeDefaultFeatures {
 	private static final BlockState LAPIS_ORE = Blocks.LAPIS_ORE.getDefaultState();
 
 	public static final BlockClusterFeatureConfig GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
+	public static final BlockClusterFeatureConfig MUSHROOM_WHITE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
+	public static final BlockClusterFeatureConfig MUSHROOM_RED_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.getDefaultState()), new SimpleBlockPlacer())).tries(32).build();
 }

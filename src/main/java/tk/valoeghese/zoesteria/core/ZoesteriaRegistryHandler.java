@@ -26,6 +26,7 @@ import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.BlockStateFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
@@ -138,6 +139,9 @@ public class ZoesteriaRegistryHandler {
 
 			FeatureSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
 			FeatureSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);
+
+			FeatureSerialisers.registerFeatureSettings(Feature.ICEBERG, BlockStateFeatureConfigSerialiser.BASE);
+			FeatureSerialisers.registerFeatureSettings(Feature.LAKE, BlockStateFeatureConfigSerialiser.BASE);
 
 			FeatureSerialisers.registerFeatureSettings(Feature.PILLAGER_OUTPOST, NoFeatureConfigSerialiser.INSTANCE);
 			FeatureSerialisers.registerFeatureSettings(Feature.WOODLAND_MANSION, NoFeatureConfigSerialiser.INSTANCE);

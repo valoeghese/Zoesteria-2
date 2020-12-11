@@ -75,37 +75,43 @@ public class Woodlands implements IZoesteriaBiome {
 	@Override
 	public BiomeDecorations getDecorations() {
 		// TODO make BiomeDecorations able to handle structures
-		BiomeDecorations decorations = BiomeDecorations.create()
-				.addDecoration(Decoration.VEGETAL_DECORATION,
-						Feature.NORMAL_TREE
-						.withConfiguration(
-								new TreeFeatureConfig.Builder(
-										new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
-										new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState()),
-										new BlobFoliagePlacer(2, 1))
-								.baseHeight(5)
-								.heightRandA(2)
-								.foliageHeight(3)
-								.ignoreVines()
-								.build()
-								)
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))))
-				.addDecoration(Decoration.VEGETAL_DECORATION,
-						ZoesteriaCommonEventHandler.FALLEN_LOG
-						.withConfiguration(new TreeLikeFeatureConfig(
+		BiomeDecorations decorations = BiomeDecorations.create();
+
+		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 3);
+		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 98);
+
+		decorations.addDecoration(Decoration.VEGETAL_DECORATION,
+				Feature.NORMAL_TREE
+				.withConfiguration(
+						new TreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
-								4, 
-								3))
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))));
+								new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState()),
+								new BlobFoliagePlacer(2, 1))
+						.baseHeight(5)
+						.heightRandA(2)
+						.foliageHeight(3)
+						.ignoreVines()
+						.build()
+						)
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))))
+		.addDecoration(Decoration.VEGETAL_DECORATION,
+				ZoesteriaCommonEventHandler.FALLEN_LOG
+				.withConfiguration(new TreeLikeFeatureConfig(
+						new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
+						4, 
+						3))
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addGrass(decorations, 5);
+		BiomeDefaultFeatures.addMushrooms(decorations, 2, 1);
+
 		return decorations;
 	}
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return Optional.of(ImmutableList.of("zoesteria:woodlands_hills"));
+		return (this.high || this.subBiome) ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:woodlands_hills"));
 	}
 }
