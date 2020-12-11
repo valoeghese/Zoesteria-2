@@ -14,7 +14,6 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
@@ -103,7 +102,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				ALTER_BLOCKS,
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
-								new Condition("noise_exceeds").withParameter("value", 1.6),
+								new Condition("noise_outside").withParameter("min", -2.7).withParameter("max", 2.6),
 								Optional.of(Blocks.COARSE_DIRT),
 								Optional.of(Blocks.COARSE_DIRT),
 								Optional.empty(),

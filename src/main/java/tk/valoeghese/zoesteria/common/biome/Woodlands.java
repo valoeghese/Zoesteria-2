@@ -13,7 +13,6 @@ import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
@@ -86,7 +85,7 @@ public class Woodlands implements IZoesteriaBiome {
 								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
 								4, 
 								3))
-						.withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(1))));
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
