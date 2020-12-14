@@ -20,6 +20,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 
@@ -93,7 +94,21 @@ public class Woodlands implements IZoesteriaBiome {
 						.ignoreVines()
 						.build()
 						)
-				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc, 0.1f, 7))))
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc - 2, 0.1f, 7))))
+		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.LOLLIPOP_TREE
+				.withConfiguration(new TreeFeatureConfig.Builder(
+						new SimpleBlockStateProvider(Blocks.BIRCH_LOG.getDefaultState()),
+						new SimpleBlockStateProvider(Blocks.BIRCH_LEAVES.getDefaultState()),
+						new NoneFoliagePlacer())
+						.baseHeight(5)
+						.heightRandA(3)
+						.heightRandB(2)
+						.trunkHeight(1)
+						.trunkHeightRandom(1)
+						.trunkTopOffset(1)
+						.trunkTopOffsetRandom(0)
+						.build()
+						))
 		.addDecoration(Decoration.VEGETAL_DECORATION,
 				ZoesteriaCommonEventHandler.FALLEN_LOG
 				.withConfiguration(new TreeLikeFeatureConfig(

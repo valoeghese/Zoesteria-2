@@ -146,6 +146,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_PINE_SAPLING, TreeFeatureConfigSerialiser.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.BLUFF_RUINS, NoFeatureConfigSerialiser.INSTANCE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.FALLEN_LOG, TreeLikeFeatureConfigSerialiser.BASE);
+		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.LOLLIPOP_TREE, TreeFeatureConfigSerialiser.BASE);
 		FeatureSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.TRIPLE_SELECTOR, TripleFeatureConfigSerialiser.BASE);
 	}
 

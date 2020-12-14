@@ -10,8 +10,8 @@ import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
-public class LolipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
-	public LolipopFeature() {
+public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
+	public LollipopFeature() {
 		super(TreeFeatureConfig::deserializeFoliage);
 	}
 
