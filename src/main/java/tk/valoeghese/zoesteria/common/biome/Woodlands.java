@@ -108,7 +108,8 @@ public class Woodlands implements IZoesteriaBiome {
 						.trunkTopOffset(1)
 						.trunkTopOffsetRandom(0)
 						.build()
-						))
+						)
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 1))))
 		.addDecoration(Decoration.VEGETAL_DECORATION,
 				ZoesteriaCommonEventHandler.FALLEN_LOG
 				.withConfiguration(new TreeLikeFeatureConfig(
