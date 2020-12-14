@@ -52,6 +52,9 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 
 		if (isSoil(world, start.down(), null)) {
 			// this code was adapted from an old mod I wrote last year
+			final int largeStart = foliageStart + 2;
+			final int largeEnd = height - 2;
+
 			for (int yOff = foliageStart; yOff <= height; ++yOff) {
 				pos.setY(startY + yOff);
 
@@ -66,13 +69,13 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 						for (int zOff = -1; zOff < 2; ++zOff) {
 							pos.setZ(startZ + zOff);
 
-							if (xOff != 0 && zOff != 0) {
+							if (xOff != 0 || zOff != 0) {
 								this.setLeaf(world, rand, pos, leaves, box, config);
 							}
 						}
 					}
 
-					if (yOff == 1 || yOff == trunkEnd) {
+					if (yOff > largeStart && yOff < largeEnd) {
 						this.plusShape(world, rand, pos, leaves, box, startX, startZ, 2, config);
 					}
 				}
@@ -81,8 +84,8 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 			pos.setX(startX);
 			pos.setZ(startZ);
 
-			for (int i = 0; i < height; ++i) {
-				pos.setY(startY + i);
+			for (int yOff = 0; yOff < height; ++yOff) {
+				pos.setY(startY + yOff);
 				this.setLog(world, rand, pos, logs, box, config);
 			}
 

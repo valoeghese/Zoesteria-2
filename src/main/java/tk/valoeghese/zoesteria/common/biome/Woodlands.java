@@ -100,7 +100,7 @@ public class Woodlands implements IZoesteriaBiome {
 						new SimpleBlockStateProvider(Blocks.BIRCH_LOG.getDefaultState()),
 						new SimpleBlockStateProvider(Blocks.BIRCH_LEAVES.getDefaultState()),
 						new NoneFoliagePlacer())
-						.baseHeight(5)
+						.baseHeight(6)
 						.heightRandA(3)
 						.heightRandB(2)
 						.trunkHeight(1)
