@@ -93,6 +93,7 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 	}
 
 	private void plusShape(IWorldGenerationReader world, Random rand, Mutable pos, Set<BlockPos> leaves, MutableBoundingBox box, int startX, int startZ, int offset, TreeFeatureConfig config) {
+		pos.setX(startX);
 		pos.setZ(startZ - offset);
 		this.setLeaf(world, rand, pos, leaves, box, config);
 		pos.setZ(startZ + offset);
@@ -101,7 +102,7 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 
 		pos.setX(startX - offset);
 		this.setLeaf(world, rand, pos, leaves, box, config);
-		pos.setX(startX - offset);
+		pos.setX(startX + offset);
 		this.setLeaf(world, rand, pos, leaves, box, config);
 		pos.setX(startX);
 		this.setLeaf(world, rand, pos, leaves, box, config);
