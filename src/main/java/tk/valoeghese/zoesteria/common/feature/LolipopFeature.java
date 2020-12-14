@@ -39,21 +39,26 @@ public class LolipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 
 		// trunk height thus indicates the height of the bare trunk, and the rest is foliage-covered
 		final int trunkHeight = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1));
+		final int foliageStart = trunkHeight + 1;
+
+		if (foliageStart > height) {
+			return false;
+		}
 
 		// trunk top offset in the config thus indicates the amount of bare foliage at the end
-		final int foliageDepth = height - (config.trunkTopOffset + rand.nextInt(config.trunkTopOffsetRandom + 1));
+		final int trunkEnd = height - (config.trunkTopOffset + rand.nextInt(config.trunkTopOffsetRandom + 1));
 
 		pos.setPos(start);
 
 		if (isSoil(world, start.down(), null)) {
 			// this code was adapted from an old mod I wrote last year
-			for (int yOff = 0; yOff <= height; ++yOff) {
+			for (int yOff = foliageStart; yOff <= height; ++yOff) {
 				pos.setY(startY + yOff);
 
 				if (yOff == height) {
 					this.setLeaf(world, rand, pos, leaves, box, config);
-				} else if (yOff == height - 1 || yOff == 0) {
-					this.plusShape(world, rand, pos, leaves, box, startX, startZ, config);
+				} else if (yOff == height - 1 || yOff == foliageStart) {
+					this.plusShape(world, rand, pos, leaves, box, startX, startZ, 1, config);
 				} else {
 					for (int xOff = -1; xOff < 2; ++xOff) {
 						pos.setX(startX + xOff);
@@ -61,24 +66,24 @@ public class LolipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 						for (int zOff = -1; zOff < 2; ++zOff) {
 							pos.setZ(startZ + zOff);
 
-							if(xOff != 0 && zOff !=0) {
+							if (xOff != 0 && zOff != 0) {
 								this.setLeaf(world, rand, pos, leaves, box, config);
 							}
 						}
 					}
 
-					if (yOff == 1 || yOff == height - 2) {
-						generator.setBlock(origin.add(0, yOff, -2), LEAVES, true); // It happened here once
-						// appears to crash either with leaves or at a certain distance away? :thonkjang:
-						generator.setBlock(origin.add(0, yOff, 2), LEAVES, true);
-						generator.setBlock(origin.add(-2, yOff, 0), LEAVES, true);
-						generator.setBlock(origin.add(2, yOff, 0), LEAVES, true);
+					if (yOff == 1 || yOff == trunkEnd) {
+						this.plusShape(world, rand, pos, leaves, box, startX, startZ, 2, config);
 					}
 				}
 			}
 
+			pos.setX(startX);
+			pos.setZ(startZ);
+
 			for (int i = 0; i < height; ++i) {
-				generator.setBlock(pos.add(0, i, 0), LOG, false);
+				pos.setY(startY + i);
+				this.setLog(world, rand, pos, logs, box, config);
 			}
 
 			return true;
