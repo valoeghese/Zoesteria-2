@@ -37,9 +37,8 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 			}
 		}
 
-		// trunk height thus indicates the height of the bare trunk, and the rest is foliage-covered
-		final int trunkHeight = height - (config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1));
-		final int foliageStart = trunkHeight + 1;
+		// trunk height thus indicates the height of the bare trunk, and the rest is foliage-covered.
+		final int foliageStart = 1 + (config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1));
 
 		if (foliageStart > height) {
 			return false;
@@ -69,13 +68,11 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 						for (int zOff = -1; zOff < 2; ++zOff) {
 							pos.setZ(startZ + zOff);
 
-							if (xOff != 0 || zOff != 0) {
-								this.setLeaf(world, rand, pos, leaves, box, config);
-							}
+							this.setLeaf(world, rand, pos, leaves, box, config);
 						}
 					}
 
-					if (yOff > largeStart && yOff < largeEnd) {
+					if (yOff >= largeStart && yOff < largeEnd) {
 						this.plusShape(world, rand, pos, leaves, box, startX, startZ, 2, config);
 					}
 				}
@@ -84,7 +81,7 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 			pos.setX(startX);
 			pos.setZ(startZ);
 
-			for (int yOff = 0; yOff < height; ++yOff) {
+			for (int yOff = 0; yOff < trunkEnd; ++yOff) {
 				pos.setY(startY + yOff);
 				this.setLog(world, rand, pos, logs, box, config);
 			}
@@ -107,5 +104,6 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		pos.setX(startX - offset);
 		this.setLeaf(world, rand, pos, leaves, box, config);
 		pos.setX(startX);
+		this.setLeaf(world, rand, pos, leaves, box, config);
 	}
 }
