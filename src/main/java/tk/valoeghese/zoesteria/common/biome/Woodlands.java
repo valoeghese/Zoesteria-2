@@ -23,6 +23,7 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class Woodlands implements IZoesteriaBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
@@ -98,7 +99,7 @@ public class Woodlands implements IZoesteriaBiome {
 		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.LOLLIPOP_TREE
 				.withConfiguration(new TreeFeatureConfig.Builder(
 						new SimpleBlockStateProvider(Blocks.BIRCH_LOG.getDefaultState()),
-						new SimpleBlockStateProvider(Blocks.BIRCH_LEAVES.getDefaultState()),
+						new SimpleBlockStateProvider(ZoesteriaBlocks.ASPEN_LEAVES.get().getDefaultState()),
 						new NoneFoliagePlacer())
 						.baseHeight(6)
 						.heightRandA(3)

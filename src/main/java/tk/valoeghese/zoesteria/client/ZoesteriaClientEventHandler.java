@@ -27,6 +27,10 @@ public class ZoesteriaClientEventHandler {
 				return BiomeColors.getGrassColor(lightReader, pos);
 			}
 		}, ZoesteriaBlocks.OVERGROWN_STONE.get());
+
+		blockColourManager.register((state, lightReader, pos, tintIndex) -> {
+			return 0xFCED23;
+		}, ZoesteriaBlocks.ASPEN_LEAVES.get());
 	}
 
 	@SubscribeEvent

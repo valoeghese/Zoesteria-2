@@ -24,9 +24,18 @@ public final class ZoesteriaBlocks {
 	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, "zoesteria");
 	public static final SoundType OVERGROWN_STONE_SOUND = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_STONE_BREAK, SoundEvents.BLOCK_GRASS_STEP, SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
 
+	// SOILS / GROUND
+
 	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_STONE = createWithBlockitem(
 			"overgrown_stone",
 			() -> new OvergrownStoneBlock(Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	// LEAVES
+
+	public static final RegistryObject<LeavesBlock> ASPEN_LEAVES = createWithBlockitem(
+			"aspen_leaves",
+			() -> new LeavesBlock(Block.Properties.from(Blocks.SPRUCE_LEAVES)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<LeavesBlock> BLUFF_PINE_LEAVES = createWithBlockitem(
@@ -34,6 +43,7 @@ public final class ZoesteriaBlocks {
 			() -> new LeavesBlock(Block.Properties.from(Blocks.SPRUCE_LEAVES)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	// PLANTS
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_SMALL = createWithBlockitem(
 			"spinifex_small",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, Block.OffsetType.XYZ, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
@@ -47,6 +57,13 @@ public final class ZoesteriaBlocks {
 	public static final RegistryObject<ZoesteriaPlantBlock> SHORE_BINDWEED = createWithBlockitem(
 			"shore_bindweed",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, b -> b == Blocks.GRAVEL || b == Blocks.STONE || b == Blocks.ANDESITE || b == Blocks.DIORITE || b == Blocks.GRANITE),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	// SAPLINGS
+
+	public static final RegistryObject<SaplingBlock> ASPEN_SAPLING = createWithBlockitem(
+			"aspen_sapling",
+			() -> new SaplingBlock(new BluffPineSaplingTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<SaplingBlock> BLUFF_PINE_SAPLING = createWithBlockitem(
