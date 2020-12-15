@@ -25,9 +25,9 @@ public class TripleNoiseSelectorFeature extends Feature<TripleFeatureConfig> {
 		int zoff = 100 * (int) (10 * (double) iseed2 / (double) Integer.MAX_VALUE);
 		double noise = NOISE.sample(0.001D * (pos.getX() + xoff) + config.offset, 0.001D * (pos.getZ() + zoff));
 
-		if (noise > 0.22) {
+		if (noise > 0.24) {
 			return config.feature0.place(world, generator, rand, pos);
-		} else if (noise < -0.22) {
+		} else if (noise < -0.24) {
 			return config.feature2.place(world, generator, rand, pos);
 		} else {
 			return config.feature1.place(world, generator, rand, pos);
