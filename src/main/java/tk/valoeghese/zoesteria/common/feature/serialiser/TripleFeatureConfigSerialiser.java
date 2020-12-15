@@ -12,23 +12,21 @@ import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 public class TripleFeatureConfigSerialiser implements IFeatureConfigSerialiser<TripleFeatureConfig> {
-	private TripleFeatureConfigSerialiser(ConfiguredFeature<?, ?> feature0, ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2) {
+	private TripleFeatureConfigSerialiser(ConfiguredFeature<?, ?> feature0, ConfiguredFeature<?, ?> feature1, ConfiguredFeature<?, ?> feature2, double offset) {
 		this.feature0 = feature0;
 		this.feature1 = feature1;
 		this.feature2 = feature2;
-	}
-
-	private TripleFeatureConfigSerialiser(TripleFeatureConfig config) {
-		this(config.feature0, config.feature1, config.feature2);
+		this.offset = offset;
 	}
 
 	private final ConfiguredFeature<?, ?> feature0;
 	private final ConfiguredFeature<?, ?> feature1;
 	private final ConfiguredFeature<?, ?> feature2;
+	private final double offset;
 
 	@Override
 	public IFeatureConfigSerialiser<TripleFeatureConfig> loadFrom(TripleFeatureConfig config) {
-		return new TripleFeatureConfigSerialiser(config);
+		return new TripleFeatureConfigSerialiser(config.feature0, config.feature1, config.feature2, config.offset);
 	}
 
 	@Override
@@ -36,7 +34,8 @@ public class TripleFeatureConfigSerialiser implements IFeatureConfigSerialiser<T
 		ConfiguredFeature<?, ?> feature0 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature0"));
 		ConfiguredFeature<?, ?> feature1 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature1"));
 		ConfiguredFeature<?, ?> feature2 = BiomeFactory.deserialiseConfiguredFeature(settings.getMap("feature2"));
-		return new TripleFeatureConfigSerialiser(feature0, feature1, feature2);
+		double offset = settings.getDoubleValue("offset");
+		return new TripleFeatureConfigSerialiser(feature0, feature1, feature2, offset);
 	}
 
 	@Override
@@ -52,12 +51,13 @@ public class TripleFeatureConfigSerialiser implements IFeatureConfigSerialiser<T
 		settings.putMap("feature0", feature0Data);
 		settings.putMap("feature1", feature1Data);
 		settings.putMap("feature2", feature2Data);
+		settings.putDoubleValue("offset", this.offset);
 	}
 
 	@Override
 	public TripleFeatureConfig create() {
-		return new TripleFeatureConfig(this.feature0, this.feature1, this.feature2);
+		return new TripleFeatureConfig(this.feature0, this.feature1, this.feature2, this.offset);
 	}
 
-	public static final TripleFeatureConfigSerialiser BASE = new TripleFeatureConfigSerialiser(null, null, null);
+	public static final TripleFeatureConfigSerialiser BASE = new TripleFeatureConfigSerialiser(null, null, null, 0.0D);
 }

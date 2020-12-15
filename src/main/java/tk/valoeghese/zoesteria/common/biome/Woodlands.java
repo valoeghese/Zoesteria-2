@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
@@ -20,10 +21,9 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
-import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
-import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 
 public class Woodlands implements IZoesteriaBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
@@ -95,21 +95,12 @@ public class Woodlands implements IZoesteriaBiome {
 						.ignoreVines()
 						.build()
 						)
-				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc - 2, 0.1f, 7))))
-		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.LOLLIPOP_TREE
-				.withConfiguration(new TreeFeatureConfig.Builder(
-						new SimpleBlockStateProvider(Blocks.BIRCH_LOG.getDefaultState()),
-						new SimpleBlockStateProvider(ZoesteriaBlocks.ASPEN_LEAVES.get().getDefaultState()),
-						new NoneFoliagePlacer())
-						.baseHeight(6)
-						.heightRandA(3)
-						.heightRandB(2)
-						.trunkHeight(1)
-						.trunkHeightRandom(1)
-						.trunkTopOffset(1)
-						.trunkTopOffsetRandom(0)
-						.build()
-						)
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc - 1, 0.1f, 7))))
+		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.TRIPLE_SELECTOR
+				.withConfiguration(new TripleFeatureConfig(
+						ZoesteriaCommonEventHandler.CONFIGURED_ASPEN,
+						Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG),
+						Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.PINE_TREE_CONFIG)))
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 1))))
 		.addDecoration(Decoration.VEGETAL_DECORATION,
 				ZoesteriaCommonEventHandler.FALLEN_LOG

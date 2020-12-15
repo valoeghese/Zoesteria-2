@@ -1,5 +1,8 @@
 package tk.valoeghese.zoesteria.common;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -14,6 +17,7 @@ import tk.valoeghese.zoesteria.common.feature.LollipopFeature;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleSelectorFeature;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 /**
  * Event registry handler for common stuff.
@@ -36,6 +40,7 @@ public class ZoesteriaCommonEventHandler {
 		event.getRegistry().register(NONE_FOLIAGE);
 	}
 
+	// Features
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature(true);
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE_SAPLING = new BluffPineFeature(false);
 	public static final Feature<NoFeatureConfig> BLUFF_RUINS = new BluffRuinsFeature();
@@ -43,4 +48,35 @@ public class ZoesteriaCommonEventHandler {
 	public static final Feature<TripleFeatureConfig> TRIPLE_SELECTOR = new TripleSelectorFeature();
 	public static final Feature<TreeFeatureConfig> LOLLIPOP_TREE = new LollipopFeature();
 	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
+
+	// Configured Features
+	public static final ConfiguredFeature<TreeFeatureConfig, ?> CONFIGURED_ASPEN = LOLLIPOP_TREE
+			.withConfiguration(new TreeFeatureConfig.Builder(
+					new SimpleBlockStateProvider(Blocks.BIRCH_LOG.getDefaultState()),
+					new SimpleBlockStateProvider(ZoesteriaBlocks.ASPEN_LEAVES.get().getDefaultState()),
+					new NoneFoliagePlacer())
+					.baseHeight(6)
+					.heightRandA(3)
+					.heightRandB(2)
+					.trunkHeight(1)
+					.trunkHeightRandom(1)
+					.trunkTopOffset(1)
+					.trunkTopOffsetRandom(0)
+					.build()
+					);
+
+	public static final ConfiguredFeature<TreeFeatureConfig, ?> CONFIGURED_BLUFF_PINE_SAPLING = BLUFF_PINE_SAPLING
+			.withConfiguration(new TreeFeatureConfig.Builder(
+					new SimpleBlockStateProvider(
+							Blocks.SPRUCE_LOG.getDefaultState()),
+					new SimpleBlockStateProvider(ZoesteriaBlocks.BLUFF_PINE_LEAVES.get().getDefaultState()),
+					new NoneFoliagePlacer()) // unused
+					.baseHeight(11)
+					.heightRandA(4)
+					.heightRandB(5)
+					.trunkTopOffset(1)
+					.trunkTopOffsetRandom(1)
+					.trunkHeight(1)
+					.trunkHeightRandom(1)
+					.build());;
 }
