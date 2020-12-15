@@ -10,17 +10,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
@@ -29,7 +25,6 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
-import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class Woodlands implements IZoesteriaBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
@@ -114,16 +109,7 @@ public class Woodlands implements IZoesteriaBiome {
 						new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
 						4, 
 						3))
-				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))))
-		.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
-				new BlockClusterFeatureConfig.Builder(
-						new SimpleBlockStateProvider(ZoesteriaBlocks.OAK_LEAFCARPET.get().getDefaultState()),
-						new SimpleBlockPlacer()).tries(32).build()
-				)
-				/**
-				 * The noise spread is the same as the original Zoesteria, but other constants are different.
-				 */
-				.withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(3, 5 * 16 /*0.2 x chunkpos*/, 1.3, Heightmap.Type.OCEAN_FLOOR_WG))));
+				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))));
 
 		BiomeDefaultFeatures.addOres(decorations);
 		BiomeDefaultFeatures.addSedimentDisks(decorations);
