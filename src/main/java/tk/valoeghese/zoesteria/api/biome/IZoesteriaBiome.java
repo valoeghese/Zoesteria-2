@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 
 public interface IZoesteriaBiome {
@@ -12,6 +13,7 @@ public interface IZoesteriaBiome {
 	void addPlacement(Object2IntMap<BiomeManager.BiomeType> biomePlacement);
 	boolean canSpawnInBiome();
 	BiomeDecorations getDecorations();
+	List<BiomeDictionary.Type> biomeDictionaryTypes();
 
 	default Optional<Integer> customSkyColour() {
 		return Optional.empty();

@@ -2,6 +2,7 @@ package tk.valoeghese.zoesteria.core.pack.biome;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -135,8 +136,8 @@ public final class BiomeFactory {
 		}
 
 		Biome.Builder propertiesBuilder = new Biome.Builder()
-				.category(Biome.Category.valueOf(properties.getStringValue("category").toUpperCase())) // required
-				.precipitation(Biome.RainType.valueOf(properties.getStringValue("precipitation").toUpperCase()))
+				.category(Biome.Category.valueOf(properties.getStringValue("category").toUpperCase(Locale.ROOT))) // required
+				.precipitation(Biome.RainType.valueOf(properties.getStringValue("precipitation").toUpperCase(Locale.ROOT)))
 				.depth(properties.getFloatValue("depth"))
 				.scale(properties.getFloatValue("scale"))
 				.temperature(properties.getFloatValue("temperature"))

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -235,8 +236,8 @@ public final class GenModifierPack {
 					Map<String, Object> biomePropertiesData = Maps.newLinkedHashMap();
 
 					// add biome properties data to config
-					biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase());
-					biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase());
+					biomePropertiesData.put("category", biomeProperties.category().name().toLowerCase(Locale.ROOT));
+					biomePropertiesData.put("precipitation", biomeProperties.precipitation().name().toLowerCase(Locale.ROOT));
 					biomePropertiesData.put("depth", biomeProperties.depth());
 					biomePropertiesData.put("scale", biomeProperties.scale());
 					biomePropertiesData.put("temperature", biomeProperties.temperature());
@@ -280,15 +281,25 @@ public final class GenModifierPack {
 						biomePropertiesData.put("surface", surfaceData);
 					}
 
+					// add the properties data to thing
+					fileData.put("properties", biomePropertiesData);
+
+					// Biome Dictionary for Biome
+					{
+						List<String> biomeDictionary = new ArrayList<>();
+						List<BiomeDictionary.Type> types = biome.biomeDictionaryTypes();
+						
+						for (BiomeDictionary.Type type : types) {
+							biomeDictionary.add(type.getName().toLowerCase(Locale.ROOT));
+						}
+					}
+					
 					// features
 					List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
 
 					if (!features.isEmpty()) {
 						addDecorations(features, fileData);
 					}
-
-					// final
-					fileData.put("properties", biomePropertiesData);
 
 					// river biome in config
 					Optional<String> river = biome.getRiverBiome();
@@ -309,7 +320,7 @@ public final class GenModifierPack {
 
 					Map<String, Object> biomePlacementData = Maps.newLinkedHashMap();
 
-					biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(), weight.toString()));
+					biomePlacement.forEach((biomeType, weight) -> biomePlacementData.put(biomeType.name().toLowerCase(Locale.ROOT), weight.toString()));
 					biomePlacementData.put("canSpawnInBiome", String.valueOf(biome.canSpawnInBiome()));
 
 					fileData.put("biomePlacement", biomePlacementData);
@@ -335,7 +346,7 @@ public final class GenModifierPack {
 
 						// store data
 
-						String typeName = type.getName().toLowerCase();
+						String typeName = type.getName().toLowerCase(Locale.ROOT);
 
 						Map<String, Object> fileData = new LinkedHashMap<>();
 						// target selector data
