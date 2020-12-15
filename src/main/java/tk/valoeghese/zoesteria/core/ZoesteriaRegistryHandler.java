@@ -34,6 +34,7 @@ import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialise
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.SphereReplaceConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.feature.VillageConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.foliage.AcaciaFoliagePlacerSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.foliage.BlobFoliagePlacerSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.foliage.PineFoliagePlacerSerialiser;
@@ -180,8 +181,10 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_TREE, NoFeatureConfigSerialiser.INSTANCE);
 			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_MUSHROOM, NoFeatureConfigSerialiser.INSTANCE);
 			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_CLAW, NoFeatureConfigSerialiser.INSTANCE);
-			
+
 			FeatureSerialisers.registerFeatureSettings(Feature.DISK, SphereReplaceConfigSerialiser.BASE);
+
+			FeatureSerialisers.registerFeatureSettings(Feature.VILLAGE, VillageConfigSerialiser.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSerialisers();
