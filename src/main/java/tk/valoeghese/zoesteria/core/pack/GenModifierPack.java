@@ -370,21 +370,26 @@ public final class GenModifierPack {
 			ConfiguredFeature feature = decoration.getB();
 			DecoratedFeatureConfig dfc;
 
-			if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
-				dfc = (DecoratedFeatureConfig) feature.config;
-			} else {
-				ZoesteriaMod.LOGGER.warn("Can only serialise decorated features and decorated flower features in configs! Defaulting to a Passthrough placement?");
-				feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
-				dfc = (DecoratedFeatureConfig) feature.config;
-			}
-
 			Map<String, Object> entry = new LinkedHashMap<>();
 			entry.put("step", decoration.getA().name());
-			serialiseConfiguredFeature(entry, dfc.feature); // serialise the configured feature
-			entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
 
-			// haha funni raw type go brr
-			addPlacement((ConfiguredPlacement) dfc.decorator, entry);
+			if (FeatureSerialisers.isStructure(feature.feature)) {
+				serialiseConfiguredFeature(entry, feature); // serialise the configured feature data for the structure.
+			} else {
+				if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
+					dfc = (DecoratedFeatureConfig) feature.config;
+				} else {
+					ZoesteriaMod.LOGGER.warn("Can only serialise decorated features and decorated flower features in configs! Defaulting to a Passthrough placement?");
+					feature = feature.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
+					dfc = (DecoratedFeatureConfig) feature.config;
+				}
+
+				serialiseConfiguredFeature(entry, dfc.feature); // serialise the configured feature
+				entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
+
+				// haha funni raw type go brr
+				addPlacement((ConfiguredPlacement) dfc.decorator, entry);
+			}
 
 			// add to decorations list
 			decorations.add(entry);

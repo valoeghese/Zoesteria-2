@@ -111,6 +111,7 @@ public class Woodlands implements IZoesteriaBiome {
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1f, 1))));
 
 		BiomeDefaultFeatures.addOres(decorations);
+		BiomeDefaultFeatures.addSedimentDisks(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addGrass(decorations, 5);
 		BiomeDefaultFeatures.addMushrooms(decorations, 2, 1);

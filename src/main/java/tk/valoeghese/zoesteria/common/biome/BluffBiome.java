@@ -73,6 +73,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 						.withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(420))));
 
 		BiomeDefaultFeatures.addOres(decorations);
+		BiomeDefaultFeatures.addLessSedimentDisks(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addGrass(decorations, 1);
 		return decorations;
