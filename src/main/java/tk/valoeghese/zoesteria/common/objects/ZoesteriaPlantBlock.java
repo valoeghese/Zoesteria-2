@@ -24,6 +24,7 @@ public class ZoesteriaPlantBlock extends BushBlock implements IPlantable {
 		this.offsetType = offsetType;
 	}
 
+	@Nullable
 	private final Predicate<Block> canSurviveOn;
 	private final VoxelShape aabb;
 	private final Block.OffsetType offsetType;

@@ -60,6 +60,21 @@ public final class ZoesteriaBlocks {
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, b -> b == Blocks.GRAVEL || b == Blocks.STONE || b == Blocks.ANDESITE || b == Blocks.DIORITE || b == Blocks.GRANITE),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaPlantBlock> OAK_LEAFCARPET = createWithBlockitem(
+			"oak_leafcarpet",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.NONE, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_BUSH = createWithBlockitem(
+			"small_bush",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_BERRY_BUSH = createWithBlockitem(
+			"small_bush",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	// SAPLINGS
 
 	public static final RegistryObject<SaplingBlock> ASPEN_SAPLING = createWithBlockitem(

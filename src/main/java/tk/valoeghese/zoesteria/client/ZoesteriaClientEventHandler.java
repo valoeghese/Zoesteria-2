@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.BlockItem;
+import net.minecraft.world.FoliageColors;
 import net.minecraft.world.GrassColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -29,6 +30,14 @@ public class ZoesteriaClientEventHandler {
 		}, ZoesteriaBlocks.OVERGROWN_STONE.get());
 
 		blockColourManager.register((state, lightReader, pos, tintIndex) -> {
+			if (lightReader == null || pos == null) {
+				return FoliageColors.get(0.5D, 1.0D);
+			} else {
+				return BiomeColors.getFoliageColor(lightReader, pos);
+			}
+		}, ZoesteriaBlocks.OAK_LEAFCARPET.get());
+
+		blockColourManager.register((state, lightReader, pos, tintIndex) -> {
 			return 0xFFEF1C;
 		}, ZoesteriaBlocks.ASPEN_LEAVES.get());
 	}
@@ -42,16 +51,24 @@ public class ZoesteriaClientEventHandler {
 				((BlockItem) stack.getItem()).getBlock().getDefaultState(),
 				null,
 				null,
-				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem(), ZoesteriaBlocks.ASPEN_LEAVES.get().asItem());
+				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem(), ZoesteriaBlocks.ASPEN_LEAVES.get().asItem(), ZoesteriaBlocks.OAK_LEAFCARPET.get().asItem());
 	}
 
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		ZoesteriaMod.LOGGER.info("Running Zoesteria client Setup.");
+		// for overlay to work
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutoutMipped());
+
+		// plants
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_SMALL.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_LARGE.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SHORE_BINDWEED.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OAK_LEAFCARPET.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SMALL_BUSH.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SMALL_BERRY_BUSH.get(), RenderType.getCutoutMipped());
+
+		// saplings
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.BLUFF_PINE_SAPLING.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.ASPEN_SAPLING.get(), RenderType.getCutoutMipped());
 	}
