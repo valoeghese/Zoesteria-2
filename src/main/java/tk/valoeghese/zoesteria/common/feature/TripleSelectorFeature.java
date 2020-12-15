@@ -23,7 +23,7 @@ public class TripleSelectorFeature extends Feature<TripleFeatureConfig> {
 		int iseed2 = (int) ((world.getSeed() >> 32) & 0x7fffffffL);
 		int xoff = 100 * (int) (10 * (double) iseed / (double) Integer.MAX_VALUE);
 		int zoff = 100 * (int) (10 * (double) iseed2 / (double) Integer.MAX_VALUE);
-		double noise = NOISE.sample(pos.getX() + xoff, pos.getZ() + zoff);
+		double noise = NOISE.sample(0.001D * (pos.getX() + xoff) + config.offset, 0.001D * (pos.getZ() + zoff));
 
 		if (noise > 0.22) {
 			return config.feature0.place(world, generator, rand, pos);
