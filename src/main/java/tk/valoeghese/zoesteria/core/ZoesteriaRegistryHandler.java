@@ -15,7 +15,10 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.PineFoliagePlacer;
+import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.event.RegistryEvent;
@@ -30,7 +33,10 @@ import tk.valoeghese.zoesteria.core.serialisers.feature.BlockStateFeatureConfigS
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.foliage.AcaciaFoliagePlacerSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.foliage.BlobFoliagePlacerSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.foliage.PineFoliagePlacerSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.foliage.SpruceFoliagePlacerSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.ChanceConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.CountExtraChanceConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigSerialiser;
@@ -185,6 +191,9 @@ public class ZoesteriaRegistryHandler {
 	 */
 	private static void registerFoliageSerialisers() {
 		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("blob_foliage_placer"), BlobFoliagePlacer.class, BlobFoliagePlacerSerialiser.BASE);
+		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("spruce_foliage_placer"), SpruceFoliagePlacer.class, SpruceFoliagePlacerSerialiser.BASE);
+		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("pine_foliage_placer"), PineFoliagePlacer.class, PineFoliagePlacerSerialiser.BASE);
+		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("acacia_foliage_placer"), AcaciaFoliagePlacer.class, AcaciaFoliagePlacerSerialiser.BASE);
 
 		for (IZoesteriaJavaModule module : MODULES) {
 			module.registerFoliageSerialisers();
