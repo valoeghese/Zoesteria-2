@@ -1,6 +1,6 @@
 {
-  "parent": "block/cross",
+  "parent": "zoesteria:block/leafcarpet",
   "textures": {
-    "cross": "zoesteria:block/oak_leafcarpet"
+    "all": "block/oak_leaves"
   }
 }
