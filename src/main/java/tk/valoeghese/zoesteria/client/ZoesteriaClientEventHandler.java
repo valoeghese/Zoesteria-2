@@ -29,7 +29,7 @@ public class ZoesteriaClientEventHandler {
 		}, ZoesteriaBlocks.OVERGROWN_STONE.get());
 
 		blockColourManager.register((state, lightReader, pos, tintIndex) -> {
-			return 0xFCED23;
+			return 0xFFEF1C;
 		}, ZoesteriaBlocks.ASPEN_LEAVES.get());
 	}
 
