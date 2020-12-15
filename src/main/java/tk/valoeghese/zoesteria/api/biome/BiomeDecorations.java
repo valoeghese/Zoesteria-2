@@ -16,6 +16,10 @@ public class BiomeDecorations {
 
 	private List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> decorations = new ArrayList<>();
 
+	public BiomeDecorations addStructure(ConfiguredFeature feature) {
+		return this.addDecoration(null, feature);
+	}
+
 	public BiomeDecorations addDecoration(GenerationStage.Decoration stage, ConfiguredFeature feature) {
 		this.decorations.add(new Tuple<>(stage, feature));
 		return this;

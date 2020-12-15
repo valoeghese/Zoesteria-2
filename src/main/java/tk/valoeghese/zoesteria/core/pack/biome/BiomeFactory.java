@@ -20,6 +20,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -230,7 +231,7 @@ public final class BiomeFactory {
 		details.spawnBiome = ZFGUtils.getBooleanOrDefault(biomePlacement, "canSpawnInBiome", false);
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addDecorations(Biome biome, BiomeDecorations decorations, boolean addDefaults) {
 		if (addDefaults) {
 			DefaultBiomeFeatures.addCarvers(biome);
@@ -239,7 +240,13 @@ public final class BiomeFactory {
 		}
 
 		for (Tuple<Decoration, ConfiguredFeature> entry : decorations.toImmutableList()) {
-			biome.addFeature(entry.getA(), entry.getB());
+			ConfiguredFeature feature = entry.getB();
+
+			if (feature.feature instanceof Structure) {
+				biome.addStructure(feature);
+			} else {
+				biome.addFeature(entry.getA(), feature);
+			}
 		}
 	}
 
@@ -263,13 +270,17 @@ public final class BiomeFactory {
 
 				ConfiguredFeature configuredFeature = deserialiseConfiguredFeature(entry);
 
-				Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
+				if (configuredFeature.feature instanceof Structure) {
+					biomeDecorations.addStructure(configuredFeature);
+				} else {
+					Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
 
-				IPlacementConfigSerialiser placement = FeatureSerialisers.getPlacement(placementType)
-						.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
+					IPlacementConfigSerialiser placement = FeatureSerialisers.getPlacement(placementType)
+							.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
-				biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
-						configuredFeature.withPlacement(placementType.configure(placement.create())));
+					biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
+							configuredFeature.withPlacement(placementType.configure(placement.create())));
+				}
 			}
 		}
 

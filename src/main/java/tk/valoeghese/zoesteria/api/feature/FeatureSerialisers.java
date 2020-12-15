@@ -3,8 +3,6 @@ package tk.valoeghese.zoesteria.api.feature;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
@@ -22,25 +20,12 @@ public class FeatureSerialisers {
 	}
 
 	/**
-	 * Register a feature config serialiser for the serialisation of the data of a feature which <b>is not a structure</b>.
+	 * Register a feature config serialiser for the serialisation of the data of a feature.
 	 * @param feature the feature this is to be registered for.
 	 * @param configHandler the serialiser for the feature config.
-	 * @see {@link #registerStructureSettings}.
 	 */
 	public static <T extends IFeatureConfig> void registerFeatureSettings(Feature<T> feature, IFeatureConfigSerialiser<T> configHandler) {
 		FEATURE_CONFIGS.put(feature, configHandler);
-		STRUCTURE.put(feature, false);
-	}
-
-	/**
-	 * Register a feature config serialiser for the serialisation of the data of a feature which <b>is a structure</b>.
-	 * @param feature the feature this is to be registered for.
-	 * @param configHandler the serialiser for the feature config.
-	 * @see {@link #registerFeatureSettings}.
-	 */
-	public static <T extends IFeatureConfig> void registerStructureSettings(Feature<T> feature, IFeatureConfigSerialiser<T> configHandler) {
-		FEATURE_CONFIGS.put(feature, configHandler);
-		STRUCTURE.put(feature, true);
 	}
 
 	public static <T extends IPlacementConfig> void registerPlacementSettings(Placement<T> placement, IPlacementConfigSerialiser<T> configHandler) {
@@ -75,10 +60,6 @@ public class FeatureSerialisers {
 		return serialiser.deserialise(foliagePlacer).create();
 	}
 
-	public static boolean isStructure(Feature<?> feature) {
-		return STRUCTURE.getBoolean(feature);
-	}
-
 	@SuppressWarnings("unchecked")
 	public static <T extends FoliagePlacer> void serialiseFoliage(T placer, EditableContainer foliagePlacer) {
 		Class<? extends FoliagePlacer> clazz = placer.getClass();
@@ -94,5 +75,4 @@ public class FeatureSerialisers {
 	private static final Map<Class<?>, IFoliagePlacerSerialiser<? extends FoliagePlacer>> FOLIAGE_PLACERS = new HashMap<>();
 	private static final Map<ResourceLocation, IFoliagePlacerSerialiser<? extends FoliagePlacer>> FOLIAGE_PLACERS_BY_ID = new HashMap<>();
 	private static final Map<Class<?>, ResourceLocation> IDS_BY_FOLIAGE_PLACER = new HashMap<>();
-	private static final Object2BooleanMap<Feature<?>> STRUCTURE = new Object2BooleanArrayMap<>();
 }

@@ -24,6 +24,7 @@ import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.DecoratedFlowerFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.ConfiguredPlacement;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -371,9 +372,10 @@ public final class GenModifierPack {
 			DecoratedFeatureConfig dfc;
 
 			Map<String, Object> entry = new LinkedHashMap<>();
-			entry.put("step", decoration.getA().name());
 
-			if (FeatureSerialisers.isStructure(feature.feature)) {
+			if (feature.feature instanceof Structure) {
+				// Structure is just serialised directly since they're not done as a decorated feature, and are a structure feature in every biome anyway.
+				// Also addStructure doesn't take a generation step
 				serialiseConfiguredFeature(entry, feature); // serialise the configured feature data for the structure.
 			} else {
 				if (feature.feature instanceof DecoratedFeature || feature.feature instanceof DecoratedFlowerFeature) {
@@ -384,6 +386,7 @@ public final class GenModifierPack {
 					dfc = (DecoratedFeatureConfig) feature.config;
 				}
 
+				entry.put("step", decoration.getA().name());
 				serialiseConfiguredFeature(entry, dfc.feature); // serialise the configured feature
 				entry.put("placementType", ForgeRegistries.DECORATORS.getKey(dfc.decorator.decorator).toString());
 
