@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "zoesteria:block/small_berry_bush"
+  }
+}

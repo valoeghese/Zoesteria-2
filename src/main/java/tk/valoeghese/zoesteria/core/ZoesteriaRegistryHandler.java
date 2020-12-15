@@ -45,6 +45,7 @@ import tk.valoeghese.zoesteria.core.serialisers.placement.CountRangeConfigSerial
 import tk.valoeghese.zoesteria.core.serialisers.placement.DepthAverageConfigHandler;
 import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.HeightChanceConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.placement.TopSolidWithNoiseConfigSerialiser;
 
 /**
  * Event registry handler for core stuff.
@@ -126,6 +127,8 @@ public class ZoesteriaRegistryHandler {
 			FeatureSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
 			FeatureSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
+
+			FeatureSerialisers.registerPlacementSettings(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED, TopSolidWithNoiseConfigSerialiser.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {
