@@ -96,7 +96,7 @@ public class Woodlands implements IZoesteriaBiome {
 						.build()
 						)
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc - 1, 0.1f, 7))))
-		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.TRIPLE_SELECTOR
+		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.TRIPLE_NOISE_SELECTOR
 				.withConfiguration(new TripleFeatureConfig(
 						Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG),
 						ZoesteriaCommonEventHandler.CONFIGURED_ASPEN,

@@ -9,8 +9,8 @@ import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import tk.valoeghese.zoesteria.common.util.OpenSimplexNoise;
 
-public class TripleSelectorFeature extends Feature<TripleFeatureConfig> {
-	public TripleSelectorFeature() {
+public class TripleNoiseSelectorFeature extends Feature<TripleFeatureConfig> {
+	public TripleNoiseSelectorFeature() {
 		super(TripleFeatureConfig::deserialize);
 	}
 

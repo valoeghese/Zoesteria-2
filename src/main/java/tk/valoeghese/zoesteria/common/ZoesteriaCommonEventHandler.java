@@ -16,7 +16,7 @@ import tk.valoeghese.zoesteria.common.feature.FallenLogFeature;
 import tk.valoeghese.zoesteria.common.feature.LollipopFeature;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
-import tk.valoeghese.zoesteria.common.feature.TripleSelectorFeature;
+import tk.valoeghese.zoesteria.common.feature.TripleNoiseSelectorFeature;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 /**
@@ -32,7 +32,7 @@ public class ZoesteriaCommonEventHandler {
 		registry.register(BLUFF_RUINS.setRegistryName("bluff_ruins"));
 		registry.register(FALLEN_LOG.setRegistryName("fallen_log"));
 		registry.register(LOLLIPOP_TREE.setRegistryName("lollipop_tree"));
-		registry.register(TRIPLE_SELECTOR.setRegistryName("triple_selector"));
+		registry.register(TRIPLE_NOISE_SELECTOR.setRegistryName("triple_noise_selector"));
 	}
 
 	@SubscribeEvent
@@ -45,7 +45,7 @@ public class ZoesteriaCommonEventHandler {
 	public static final Feature<TreeFeatureConfig> BLUFF_PINE_SAPLING = new BluffPineFeature(false);
 	public static final Feature<NoFeatureConfig> BLUFF_RUINS = new BluffRuinsFeature();
 	public static final Feature<TreeLikeFeatureConfig> FALLEN_LOG = new FallenLogFeature();
-	public static final Feature<TripleFeatureConfig> TRIPLE_SELECTOR = new TripleSelectorFeature();
+	public static final Feature<TripleFeatureConfig> TRIPLE_NOISE_SELECTOR = new TripleNoiseSelectorFeature();
 	public static final Feature<TreeFeatureConfig> LOLLIPOP_TREE = new LollipopFeature();
 	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
 
