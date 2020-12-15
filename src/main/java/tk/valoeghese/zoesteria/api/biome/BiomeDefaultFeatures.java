@@ -1,5 +1,7 @@
 package tk.valoeghese.zoesteria.api.biome;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage;
@@ -9,6 +11,7 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.SphereReplaceConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
@@ -61,8 +64,17 @@ public final class BiomeDefaultFeatures {
 				.withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(chance))));
 	}
 
+	public static void addSedimentDisks(BiomeDecorations decorations) {
+		decorations.addDecoration(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.DISK.withConfiguration(new SphereReplaceConfig(SAND, 7, 2, Lists.newArrayList(DIRT, GRASS_BLOCK))).withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(3))));
+		decorations.addDecoration(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.DISK.withConfiguration(new SphereReplaceConfig(CLAY, 4, 1, Lists.newArrayList(DIRT, CLAY))).withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(1))));
+		decorations.addDecoration(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.DISK.withConfiguration(new SphereReplaceConfig(GRAVEL, 6, 2, Lists.newArrayList(DIRT, GRASS_BLOCK))).withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(1))));
+	}
+
+	private static final BlockState GRASS_BLOCK = Blocks.GRASS_BLOCK.getDefaultState();
 	private static final BlockState DIRT = Blocks.DIRT.getDefaultState();
 	private static final BlockState GRAVEL = Blocks.GRAVEL.getDefaultState();
+	private static final BlockState SAND = Blocks.SAND.getDefaultState();
+	private static final BlockState CLAY = Blocks.CLAY.getDefaultState();
 	private static final BlockState GRANITE = Blocks.GRANITE.getDefaultState();
 	private static final BlockState DIORITE = Blocks.DIORITE.getDefaultState();
 	private static final BlockState ANDESITE = Blocks.ANDESITE.getDefaultState();
