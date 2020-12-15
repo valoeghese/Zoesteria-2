@@ -38,12 +38,11 @@ public class ZoesteriaClientEventHandler {
 		final BlockColors blockColourManager = event.getBlockColors();
 		final ItemColors itemColourManager = event.getItemColors();
 
-		// block items with grass colouring ONLY
 		itemColourManager.register((stack, tintIndex) -> blockColourManager.getColor(
 				((BlockItem) stack.getItem()).getBlock().getDefaultState(),
 				null,
 				null,
-				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem());
+				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem(), ZoesteriaBlocks.ASPEN_LEAVES.get().asItem());
 	}
 
 	@SubscribeEvent
@@ -54,6 +53,7 @@ public class ZoesteriaClientEventHandler {
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_LARGE.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SHORE_BINDWEED.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.BLUFF_PINE_SAPLING.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.ASPEN_SAPLING.get(), RenderType.getCutoutMipped());
 	}
 
 	public static void safeRunClient() {
