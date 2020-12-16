@@ -152,7 +152,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1)))
 						)
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.BERRY_BUSH
-						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(2))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
 
 		tweaks.put(BiomeDictionary.Type.FOREST, forestDecorations);
 
