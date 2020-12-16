@@ -1,7 +1,9 @@
 package tk.valoeghese.zoesteria.common;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -78,5 +80,15 @@ public class ZoesteriaCommonEventHandler {
 					.trunkTopOffsetRandom(1)
 					.trunkHeight(1)
 					.trunkHeightRandom(1)
-					.build());;
+					.build());
+	public static final ConfiguredFeature<?, ?> SIMPLE_BUSH = Feature.RANDOM_PATCH.withConfiguration(
+			new BlockClusterFeatureConfig.Builder(
+					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BUSH.get().getDefaultState()),
+					new SimpleBlockPlacer()).tries(32).build()
+			);
+	public static final ConfiguredFeature<?, ?> BERRY_BUSH = Feature.RANDOM_PATCH.withConfiguration(
+			new BlockClusterFeatureConfig.Builder(
+					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BERRY_BUSH.get().getDefaultState()),
+					new SimpleBlockPlacer()).tries(32).build()
+			);
 }

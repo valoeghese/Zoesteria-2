@@ -15,6 +15,7 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
@@ -136,17 +137,30 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 		tweaks.put(BiomeDictionary.Type.BEACH, beachDecorations);
 
+		// ==== FOREST ====
 		BiomeDecorations forestDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.OAK_LEAFCARPET.get().getDefaultState()),
-								new SimpleBlockPlacer()).tries(32).build()
+								new SimpleBlockPlacer()).xSpread(0).ySpread(0).zSpread(0).tries(1).build()
 						)
 						/**
 						 * The noise spread is the same as the original Zoesteria, but other constants are different.
 						 */
-						.withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(3, 5 * 16 /*0.2 x chunkpos*/, 1.3, Heightmap.Type.OCEAN_FLOOR_WG))));
+						.withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(3, 5 * 16 /*0.2 x chunkpos*/, 1.3, Heightmap.Type.OCEAN_FLOOR_WG))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_BUSH
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1)))
+						)
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.BERRY_BUSH
+						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(2))));
+
 		tweaks.put(BiomeDictionary.Type.FOREST, forestDecorations);
+
+		// ==== LUSH ====
+		BiomeDecorations lushDecorations = BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_BUSH
+						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(2))));
+		tweaks.put(BiomeDictionary.Type.LUSH, lushDecorations);
 	}
 
 	@Override
