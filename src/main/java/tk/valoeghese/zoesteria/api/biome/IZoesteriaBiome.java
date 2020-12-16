@@ -13,7 +13,7 @@ public interface IZoesteriaBiome {
 	void addPlacement(Object2IntMap<BiomeManager.BiomeType> biomePlacement);
 	boolean canSpawnInBiome();
 	BiomeDecorations getDecorations();
-	List<BiomeDictionary.Type> biomeDictionaryTypes();
+	List<BiomeDictionary.Type> biomeTypes();
 
 	default Optional<Integer> customSkyColour() {
 		return Optional.empty();

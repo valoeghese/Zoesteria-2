@@ -287,13 +287,15 @@ public final class GenModifierPack {
 					// Biome Dictionary for Biome
 					{
 						List<String> biomeDictionary = new ArrayList<>();
-						List<BiomeDictionary.Type> types = biome.biomeDictionaryTypes();
-						
+						List<BiomeDictionary.Type> types = biome.biomeTypes();
+
 						for (BiomeDictionary.Type type : types) {
 							biomeDictionary.add(type.getName().toLowerCase(Locale.ROOT));
 						}
+
+						fileData.put("biomeTypes", biomeDictionary);
 					}
-					
+
 					// features
 					List<Tuple<GenerationStage.Decoration, ConfiguredFeature>> features = biome.getDecorations().toImmutableList();
 

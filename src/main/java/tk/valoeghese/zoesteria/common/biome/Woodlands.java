@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
@@ -17,6 +18,7 @@ import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
@@ -37,7 +39,7 @@ public class Woodlands implements IZoesteriaBiome {
 		this.baseHeight = baseHeight;
 		this.heightVariation = heightVariation;
 		this.high = this.baseHeight > 1.0f;
-		this.subBiome = subBiome;
+		this.hills = subBiome;
 	}
 
 	private final String id;
@@ -45,7 +47,7 @@ public class Woodlands implements IZoesteriaBiome {
 	private final float baseHeight;
 	private final float heightVariation;
 	private final boolean high;
-	private final boolean subBiome;
+	private final boolean hills;
 
 	@Override
 	public String id() {
@@ -65,7 +67,7 @@ public class Woodlands implements IZoesteriaBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		if (!this.subBiome) {
+		if (!this.hills) {
 			biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
 		}
 	}
@@ -76,8 +78,22 @@ public class Woodlands implements IZoesteriaBiome {
 	}
 
 	@Override
+	public List<Type> biomeTypes() {
+		List<Type> result = Lists.newArrayList(
+				Type.FOREST,
+				Type.OVERWORLD);
+
+		if (this.high) {
+			result.add(Type.PLATEAU);
+		} else if (this.hills) {
+			result.add(Type.HILLS);
+		}
+
+		return result;
+	}
+
+	@Override
 	public BiomeDecorations getDecorations() {
-		// TODO make BiomeDecorations able to handle structures
 		BiomeDecorations decorations = BiomeDecorations.create();
 
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 3);
@@ -126,6 +142,6 @@ public class Woodlands implements IZoesteriaBiome {
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return (this.high || this.subBiome) ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:woodlands_hills"));
+		return (this.high || this.hills) ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:woodlands_hills"));
 	}
 }

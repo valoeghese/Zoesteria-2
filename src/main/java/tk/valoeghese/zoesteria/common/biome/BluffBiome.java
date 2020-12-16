@@ -1,6 +1,9 @@
 package tk.valoeghese.zoesteria.common.biome;
 
+import java.util.List;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
@@ -12,12 +15,14 @@ import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
+import tk.valoeghese.zoesteria.common.Zoesteria;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
@@ -51,6 +56,16 @@ public final class BluffBiome implements IZoesteriaBiome {
 	}
 
 	@Override
+	public List<Type> biomeTypes() {
+		return ImmutableList.of(
+				Type.CONIFEROUS,
+				Type.RARE,
+				Type.MOUNTAIN,
+				Type.OVERWORLD,
+				Zoesteria.AMPLIFIED);
+	}
+
+	@Override
 	public BiomeDecorations getDecorations() {
 		BiomeDecorations decorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.BLUFF_PINE
@@ -78,7 +93,7 @@ public final class BluffBiome implements IZoesteriaBiome {
 		BiomeDefaultFeatures.addGrass(decorations, 1);
 		return decorations;
 	}
-	
+
 	@Override
 	public Optional<String> getRiverBiome() {
 		return Optional.of("zoesteria:bluff");

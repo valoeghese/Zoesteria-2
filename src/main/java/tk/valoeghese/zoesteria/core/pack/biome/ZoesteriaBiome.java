@@ -24,6 +24,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -67,6 +68,8 @@ class ZoesteriaBiome extends Biome {
 		}
 
 		this.hillsList = biomeDetails.hills == null ? ImmutableList.of() : biomeDetails.hills;
+
+		BiomeDictionary.addTypes(this, biomeDetails.biomeTypes.toArray(new BiomeDictionary.Type[0]));
 	}
 
 	private final boolean customSkyColour;

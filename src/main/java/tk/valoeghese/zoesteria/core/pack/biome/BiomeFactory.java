@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -82,6 +83,7 @@ public final class BiomeFactory {
 		details.skyColour = biome.customSkyColour().orElse(null);
 		details.river = biome.getRiverBiome().orElse(null);
 		details.hills = biome.getHillsBiomes().orElse(null);
+		details.biomeTypes = biome.biomeTypes();
 
 		// create map to store data of biome placement in the world
 		Object2IntMap<BiomeManager.BiomeType> biomePlacement = new Object2IntArrayMap<>();
@@ -151,6 +153,11 @@ public final class BiomeFactory {
 		details.skyColour = properties.getIntegerValue("skyColor");
 		details.river = biomeConfig.getStringValue("river");
 		details.hills = biomeConfig.getList("hills");
+
+		details.biomeTypes = biomeConfig.getList("biomeTypes")
+				.stream()
+				.map(str -> BiomeDictionary.Type.getType(((String) str).toUpperCase(Locale.ROOT)))
+				.collect(Collectors.toList());
 
 		// transfer loaded data about the placement of the biome in the world to the Details of the biome
 		addGeneration(details, biomePlacement);
@@ -339,7 +346,7 @@ public final class BiomeFactory {
 
 		if (target.getStringValue("selector").equals("biome_dictionary")) {
 			String type = target.getStringValue("biomeType");
-			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(type));
+			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(type.toUpperCase(Locale.ROOT)));
 			addDecorations(biomes, data.getList("decorations"), false);
 		}
 	}
@@ -360,6 +367,7 @@ public final class BiomeFactory {
 		Integer skyColour;
 		String river;
 		List<? extends Object> hills;
+		List<BiomeDictionary.Type> biomeTypes;
 		Object2IntMap<BiomeManager.BiomeType> placement = new Object2IntArrayMap<>();
 		boolean spawnBiome;
 	}

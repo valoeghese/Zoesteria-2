@@ -165,4 +165,5 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> ALTER_BLOCKS = new AlterBlocksTemplate();
+	public static final BiomeDictionary.Type AMPLIFIED = BiomeDictionary.Type.getType("AMPLIFIED");
 }
