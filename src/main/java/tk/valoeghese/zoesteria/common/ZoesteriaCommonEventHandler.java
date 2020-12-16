@@ -84,11 +84,11 @@ public class ZoesteriaCommonEventHandler {
 	public static final ConfiguredFeature<?, ?> SIMPLE_BUSH = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BUSH.get().getDefaultState()),
-					new SimpleBlockPlacer()).tries(32).build()
+					new SimpleBlockPlacer()).tries(8).build()
 			);
 	public static final ConfiguredFeature<?, ?> BERRY_BUSH = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BERRY_BUSH.get().getDefaultState()),
-					new SimpleBlockPlacer()).tries(32).build()
+					new SimpleBlockPlacer()).tries(8).build()
 			);
 }
