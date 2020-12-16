@@ -67,12 +67,12 @@ public final class ZoesteriaBlocks {
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_BUSH = createWithBlockitem(
 			"small_bush",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 14.0D, Block.OffsetType.XZ, null),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_BERRY_BUSH = createWithBlockitem(
 			"small_berry_bush",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 14.0D, Block.OffsetType.XZ, null),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// SAPLINGS
