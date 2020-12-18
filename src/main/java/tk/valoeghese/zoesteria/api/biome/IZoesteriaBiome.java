@@ -14,6 +14,7 @@ public interface IZoesteriaBiome {
 	boolean canSpawnInBiome();
 	BiomeDecorations getDecorations();
 	List<BiomeDictionary.Type> biomeTypes();
+	List<SpawnEntry> mobSpawns();
 
 	default Optional<Integer> customSkyColour() {
 		return Optional.empty();

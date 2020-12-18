@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
@@ -170,5 +171,10 @@ class ZoesteriaBiome extends Biome {
 		} else {
 			return (this.river = ForgeRegistries.BIOMES.getValue(this.riverId));
 		}
+	}
+	
+	@Override
+	public void addSpawn(EntityClassification type, SpawnListEntry spawnListEntry) {
+		super.addSpawn(type, spawnListEntry);
 	}
 }

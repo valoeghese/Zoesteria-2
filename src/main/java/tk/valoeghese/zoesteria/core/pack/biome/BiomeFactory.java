@@ -14,9 +14,11 @@ import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -35,6 +37,7 @@ import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
@@ -106,6 +109,15 @@ public final class BiomeFactory {
 			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
 			addDecorations(result, decorations, true);
 		}
+		
+		for (SpawnEntry entry : biome.mobSpawns()) {
+			EntityType<?> type = entry.getEntityType();
+			result.addSpawn(type.getClassification(), new SpawnListEntry(
+					type,
+					entry.getSpawnWeight(),
+					entry.getMinGroupCount(),
+					entry.getMaxGroupCount()));
+		}
 
 		return result;
 	}
@@ -175,6 +187,19 @@ public final class BiomeFactory {
 			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
 				ZoesteriaMod.LOGGER.info("Decorating biome " + id);
 				addDecorations(ImmutableSet.of(result), decorations, true);
+
+				List<Object> spawnEntries = biomeConfig.getList("mobSpawns");
+
+				// Add spawn entries
+				for (Object o : spawnEntries) {
+					Map<String, Object> data = (Map<String, Object>) o;
+					EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation((String) data.get("type")));
+					result.addSpawn(type.getClassification(), new SpawnListEntry(
+							type,
+							(Integer) data.get("spawnWeight"),
+							(Integer) data.get("minGroupCount"),
+							(Integer) data.get("maxGroupCount")));
+				}
 			});
 		}
 

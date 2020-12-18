@@ -41,6 +41,7 @@ import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
@@ -326,6 +327,21 @@ public final class GenModifierPack {
 					biomePlacementData.put("canSpawnInBiome", String.valueOf(biome.canSpawnInBiome()));
 
 					fileData.put("biomePlacement", biomePlacementData);
+
+					// Mobs
+					List<SpawnEntry> spawnEntries = biome.mobSpawns();
+					List<Object> entriesSerialised = new ArrayList<>();
+
+					for (SpawnEntry entry : spawnEntries) {
+						Map<String, Object> data = new LinkedHashMap<>();
+						data.put("type", ForgeRegistries.ENTITIES.getKey(entry.getEntityType()).toString());
+						data.put("spawnWeight", entry.getSpawnWeight());
+						data.put("minGroupCount", entry.getMinGroupCount());
+						data.put("maxGroupCount", entry.getMaxGroupCount());
+						entriesSerialised.add(data);
+					}
+
+					fileData.put("mobSpawns", entriesSerialised);
 
 					// write to file
 					ZoesteriaMod.LOGGER.info("Writing biome " + biome.id() + " to config file.");
