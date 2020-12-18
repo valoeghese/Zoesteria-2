@@ -86,7 +86,7 @@ public final class ZoesteriaBlocks {
 
 	public static final RegistryObject<ZoesteriaPlantBlock> CACTLET = createWithBlockitem(
 			"cactlet",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 12.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 12.0D, Block.OffsetType.XZ, SAND_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaDoublePlantBlock> LARGE_CACTLET = createWithBlockitem(
@@ -97,6 +97,16 @@ public final class ZoesteriaBlocks {
 	public static final RegistryObject<ZoesteriaPlantBlock> PINGAO = createWithBlockitem(
 			"pingao",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> TOADSTOOL = createWithBlockitem(
+			"toadstool",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), 8.0D, Block.OffsetType.XYZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> TOADSTOOLS = createWithBlockitem(
+			"toadstools",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), 12.0D, Block.OffsetType.XYZ, null),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// SAPLINGS
