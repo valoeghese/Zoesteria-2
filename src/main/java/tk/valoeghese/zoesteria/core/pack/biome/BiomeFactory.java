@@ -196,9 +196,9 @@ public final class BiomeFactory {
 					EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation((String) data.get("type")));
 					result.addSpawn(type.getClassification(), new SpawnListEntry(
 							type,
-							(Integer) data.get("spawnWeight"),
-							(Integer) data.get("minGroupCount"),
-							(Integer) data.get("maxGroupCount")));
+							Integer.parseInt((String) data.get("spawnWeight")),
+							Integer.parseInt((String) data.get("minGroupCount")),
+							Integer.parseInt((String) data.get("maxGroupCount"))));
 				}
 			});
 		}
