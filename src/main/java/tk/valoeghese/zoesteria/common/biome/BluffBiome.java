@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -21,6 +22,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.common.Zoesteria;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
@@ -53,6 +55,27 @@ public final class BluffBiome implements IZoesteriaBiome {
 	@Override
 	public boolean canSpawnInBiome() {
 		return true;
+	}
+
+	@Override
+	public List<SpawnEntry> mobSpawns() {
+		return ImmutableList.of(
+				new SpawnEntry(EntityType.CHICKEN).spawnWeight(3).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.COW).spawnWeight(3).spawnGroupCount(2, 3),
+				new SpawnEntry(EntityType.WOLF).spawnWeight(4).spawnGroupCount(2, 5),
+				new SpawnEntry(EntityType.SHEEP).spawnWeight(10).spawnGroupCount(2, 5),
+				new SpawnEntry(EntityType.RABBIT).spawnWeight(10).spawnGroupCount(2, 4),
+
+				new SpawnEntry(EntityType.BAT).spawnWeight(10).spawnGroupCount(8, 8),
+
+				new SpawnEntry(EntityType.SPIDER).spawnWeight(100).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.ZOMBIE).spawnWeight(95).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.ZOMBIE_VILLAGER).spawnWeight(5).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.SKELETON).spawnWeight(100).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.CREEPER).spawnWeight(100).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.SLIME).spawnWeight(100).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.ENDERMAN).spawnWeight(10).spawnGroupCount(2, 4),
+				new SpawnEntry(EntityType.WITCH).spawnWeight(5).spawnGroupCount(2, 4));
 	}
 
 	@Override
