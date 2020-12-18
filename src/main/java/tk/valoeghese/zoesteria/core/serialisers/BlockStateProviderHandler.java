@@ -50,7 +50,7 @@ public final class BlockStateProviderHandler {
 			EditableContainer result = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
 			result.putStringValue("stateProvider", "forest_flower");
 			return result;
-		}
+		} //else if (stateProvider instanceof WeightedBlockStateProvider)
 		else
 		{
 			throw new RuntimeException("Zoesteria cannot currently handle the state provider:" + stateProvider);
