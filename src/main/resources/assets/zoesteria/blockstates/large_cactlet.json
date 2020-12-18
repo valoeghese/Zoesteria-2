@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "zoesteria:block/large_cactlet"
+    },
+    "half=upper": {
+      "model": "zoesteria:block/large_cactlet_top"
+    }
+  }
+}

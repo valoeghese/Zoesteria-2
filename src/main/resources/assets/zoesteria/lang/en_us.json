@@ -10,7 +10,11 @@
   "block.zoesteria.small_bush": "Small Bush",
   "block.zoesteria.small_berry_bush": "Small Berry Bush",
   "block.zoesteria.oak_leafcarpet": "Oak Leaf Carpet",
-  
+  "block.zoesteria.small_cactlet": "Small Cactlet",
+  "block.zoesteria.cactlet": "Cactlet",
+  "block.zoesteria.large_cactlet": "Large Cactlet",
+  "block.zoesteria.pingao": "Pingao",
+
   "biome.zoesteria.bluff": "Bluff",
   "biome.zoesteria.high_woodlands": "High Woodlands",
   "biome.zoesteria.low_woodlands": "Low Woodlands",

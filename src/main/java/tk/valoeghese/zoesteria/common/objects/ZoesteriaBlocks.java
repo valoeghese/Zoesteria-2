@@ -1,5 +1,6 @@
 package tk.valoeghese.zoesteria.common.objects;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
@@ -11,6 +12,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvents;
+import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -45,14 +47,16 @@ public final class ZoesteriaBlocks {
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// PLANTS
+	private static final Predicate<Block> SAND_TYPE = b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT;
+
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_SMALL = createWithBlockitem(
 			"spinifex_small",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, Block.OffsetType.XYZ, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 5.4D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_LARGE = createWithBlockitem(
 			"spinifex_large",
-			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, Block.OffsetType.XYZ, b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT),
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SHORE_BINDWEED = createWithBlockitem(
@@ -73,6 +77,26 @@ public final class ZoesteriaBlocks {
 	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_BERRY_BUSH = createWithBlockitem(
 			"small_berry_bush",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 14.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> SMALL_CACTLET = createWithBlockitem(
+			"small_cactlet",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 9.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> CACTLET = createWithBlockitem(
+			"cactlet",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 12.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaDoublePlantBlock> LARGE_CACTLET = createWithBlockitem(
+			"large_cactlet",
+			() -> new ZoesteriaDoublePlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, SAND_TYPE),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> PINGAO = createWithBlockitem(
+			"pingao",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 8.0D, Block.OffsetType.XYZ, SAND_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// SAPLINGS
