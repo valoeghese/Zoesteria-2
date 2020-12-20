@@ -78,6 +78,10 @@ public class ZoesteriaSerialisers {
 		serialiser.loadFrom(placer).serialise(foliagePlacer);
 	}
 
+	public static IBiomePredicate getPredicate(ResourceLocation id) {
+		return BIOME_PREDICATES.get(id);
+	}
+
 	private static final Map<Feature<?>, IFeatureConfigSerialiser<?>> FEATURE_CONFIGS = new HashMap<>();
 	private static final Map<Placement<?>, IPlacementConfigSerialiser<?>> PLACEMENT_CONFIGS = new HashMap<>();
 
