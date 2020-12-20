@@ -368,7 +368,7 @@ public final class GenModifierPack {
 						targetData.putStringValue("selector", predicate.id().toString());
 						predicate.serialise(targetData);
 
-						fileData.put("target", targetData);
+						fileData.put("target", targetData.asMap());
 						// decorations
 						addDecorations(decorations.toImmutableList(), fileData);
 

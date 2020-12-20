@@ -100,6 +100,6 @@ public class ZoesteriaCommonEventHandler {
 					new WeightedBlockStateProvider()
 					.addWeightedBlockstate(ZoesteriaBlocks.TOADSTOOL.get().getDefaultState(), 3)
 					.addWeightedBlockstate(ZoesteriaBlocks.TOADSTOOLS.get().getDefaultState(), 1),
-					new SimpleBlockPlacer()).tries(16).build()
+					new SimpleBlockPlacer()).xSpread(4).zSpread(4).tries(16).build()
 			);
 }
