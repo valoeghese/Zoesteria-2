@@ -30,13 +30,18 @@ public class AustralianOutback implements IZoesteriaBiome {
 
 	@Override
 	public IBiomeProperties properties() {
-		return IBiomeProperties.builder(Category.DESERT)
+		IBiomeProperties.Builder builder = IBiomeProperties.builder(Category.DESERT)
 				.depth(0.3f)
 				.scale(0.11f)
 				.temperature(1.6f)
-				.downfall(0.1f)
-				.surfaceBuilder("zoesteria:outback")
-				.build();
+				.downfall(0.1f);
+		
+		if (this.plateau) {
+		} else {
+			builder.surfaceBuilder("zoesteria:outback").topBlock("minecraft:red_sand").fillerBlock("minecraft:red_sandstone").underwaterBlock("minecraft:red_sand");
+		}
+
+		return builder.build();
 	}
 
 	@Override

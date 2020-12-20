@@ -112,6 +112,32 @@ public class Zoesteria implements IZoesteriaJavaModule {
 								Optional.of(Blocks.COARSE_DIRT),
 								Optional.empty(),
 								true))));
+		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
+				"outback",
+				ALTER_BLOCKS,
+				ImmutableList.of(
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_preceeds").withParameter("value", -2.0),
+								Optional.of(Blocks.RED_SANDSTONE),
+								Optional.empty(),
+								Optional.empty(),
+								true),
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_exceeds").withParameter("value", 2.6),
+								Optional.of(Blocks.GRASS_BLOCK),
+								Optional.of(Blocks.DIRT),
+								Optional.empty(),
+								true),
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_exceeds").withParameter("value", 1.4),
+								ImmutableList.of(
+										new AlterBlocksTemplate.Step(
+												new Condition("chance").withParameter("value", 3),
+												Optional.of(Blocks.GRASS_BLOCK),
+												Optional.empty(),
+												Optional.empty(),
+												true)),
+								false))));
 		return surfaceBuilders;
 	}
 
