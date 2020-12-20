@@ -31,7 +31,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 class ZoesteriaBiome extends Biome {
-	ZoesteriaBiome(String packId, String id, Builder properties, BiomeFactory.Details biomeDetails, IForgeRegistry<Biome> biomeRegistry) {
+	ZoesteriaBiome(String packId, String id, Builder properties, BiomeFactory.Details biomeDetails, IForgeRegistry<Biome> biomeRegistry, float entitySpawnChance) {
 		super(properties);
 
 		// TODO configurable
@@ -58,6 +58,8 @@ class ZoesteriaBiome extends Biome {
 			this.hasCustomRiver = false;
 		}
 
+		this.entitySpawnChance = entitySpawnChance;
+
 		biomeRegistry.register(this);
 
 		biomeDetails.placement.forEach((type, weight) -> {
@@ -79,6 +81,8 @@ class ZoesteriaBiome extends Biome {
 	private final boolean hasCustomRiver;
 	private ResourceLocation riverId;
 	private Biome river = null;
+
+	private final float entitySpawnChance;
 
 	@Nonnull
 	private List<? extends Object> hillsList;
@@ -176,5 +180,10 @@ class ZoesteriaBiome extends Biome {
 	@Override
 	public void addSpawn(EntityClassification type, SpawnListEntry spawnListEntry) {
 		super.addSpawn(type, spawnListEntry);
+	}
+	
+	@Override
+	public float getSpawningChance() {
+		return this.entitySpawnChance;
 	}
 }

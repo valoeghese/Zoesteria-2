@@ -28,7 +28,7 @@ import tk.valoeghese.zoesteria.common.Zoesteria;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
-public final class BluffBiome implements IZoesteriaBiome {
+public final class Bluff implements IZoesteriaBiome {
 	@Override
 	public String id() {
 		return "bluff";

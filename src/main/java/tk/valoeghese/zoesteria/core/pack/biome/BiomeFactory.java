@@ -99,7 +99,7 @@ public final class BiomeFactory {
 		addGeneration(details, biomePlacement, biome.canSpawnInBiome());
 
 		// create the biome instance
-		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry, properties.getEntitySpawnChance());
 
 		if (flag) {
 			ZoesteriaMod.COMMON_PROCESSING.add(() -> {
@@ -177,7 +177,7 @@ public final class BiomeFactory {
 		// transfer loaded data about the placement of the biome in the world to the Details of the biome
 		addGeneration(details, biomePlacement);
 
-		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry);
+		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry, properties.getFloatValue("entitySpawnChance"));
 
 		if (flag) {
 			ZoesteriaMod.COMMON_PROCESSING.add(() -> {

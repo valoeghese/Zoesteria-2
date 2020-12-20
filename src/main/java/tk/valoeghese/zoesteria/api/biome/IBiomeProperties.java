@@ -15,6 +15,7 @@ public interface IBiomeProperties {
 	Biome.RainType precipitation();
 	int waterColour();
 	int waterFogColour();
+	float getEntitySpawnChance();
 	Optional<String> topBlock();
 	Optional<String> fillerBlock();
 	Optional<String> underwaterBlock();
@@ -42,6 +43,7 @@ public interface IBiomeProperties {
 		private int waterColour = 4159204;
 		private int waterFogColour = 329011;
 		private Optional<String> surfaceBuilder = Optional.empty();
+		private float entitySpawnChance = 0.1f;
 
 		public Builder depth(float depth) {
 			this.depth = depth;
@@ -98,6 +100,11 @@ public interface IBiomeProperties {
 			return this;
 		}
 
+		public Builder entitySpawnChance(float chance) {
+			this.entitySpawnChance = chance;
+			return this;
+		}
+
 		public IBiomeProperties build() {
 			return new IBiomeProperties() {
 				@Override
@@ -147,6 +154,10 @@ public interface IBiomeProperties {
 				@Override
 				public Optional<String> surfaceBuilder() {
 					return surfaceBuilder;
+				}
+				@Override
+				public float getEntitySpawnChance() {
+					return entitySpawnChance;
 				}
 			};
 		}

@@ -243,6 +243,7 @@ public final class GenModifierPack {
 					biomePropertiesData.put("scale", biomeProperties.scale());
 					biomePropertiesData.put("temperature", biomeProperties.temperature());
 					biomePropertiesData.put("downfall", biomeProperties.downfall());
+					biomePropertiesData.put("entitySpawnChance", biomeProperties.getEntitySpawnChance());
 					biomeProperties.surfaceBuilder().ifPresent(id -> biomePropertiesData.put("surfaceBuilder", id));
 
 					// create surface
