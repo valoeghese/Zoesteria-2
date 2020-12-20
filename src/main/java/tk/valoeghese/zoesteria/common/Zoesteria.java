@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
@@ -170,6 +171,17 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_BUSH
 						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(2))));
 		tweaks.addTweak("lush_biome_tweaks", new OverworldBiomeDictionaryPredicate(BiomeDictionary.Type.LUSH), lushDecorations);
+
+		// === DESERT BIOMES ===
+		BiomeDecorations desertDecorations = BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_CACTLET
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
+		tweaks.addTweak("cactlets", new BiomeListPredicate(Lists.newArrayList(
+				Biomes.DESERT,
+				Biomes.DESERT_HILLS,
+				Biomes.DESERT_LAKES,
+				Biomes.BADLANDS,
+				Biomes.ERODED_BADLANDS)), desertDecorations);
 	}
 
 	@Override

@@ -95,6 +95,15 @@ public class ZoesteriaCommonEventHandler {
 					new SimpleBlockPlacer()).tries(8).build()
 			);
 
+	public static final ConfiguredFeature<?, ?> CONFIGURED_CACTLET = Feature.RANDOM_PATCH.withConfiguration(
+			new BlockClusterFeatureConfig.Builder(
+					new WeightedBlockStateProvider()
+					.addWeightedBlockstate(ZoesteriaBlocks.SMALL_CACTLET.get().getDefaultState(), 3)
+					.addWeightedBlockstate(ZoesteriaBlocks.CACTLET.get().getDefaultState(), 2)
+					.addWeightedBlockstate(ZoesteriaBlocks.LARGE_CACTLET.get().getDefaultState(), 1),
+					new SimpleBlockPlacer()).tries(16).build()
+			);
+
 	public static final ConfiguredFeature<?, ?> CONFIGURED_TOADSTOOL = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new WeightedBlockStateProvider()
