@@ -1,4 +1,4 @@
-package tk.valoeghese.zoesteria.api.feature;
+package tk.valoeghese.zoesteria.api;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,14 +9,19 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
+import tk.valoeghese.zoesteria.api.biome.IBiomePredicate;
+import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.api.feature.IFoliagePlacerSerialiser;
+import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 /**
- * Register your {@linkplain IFeatureConfigSerialiser}, {@linkplain IPlacementConfigSerialiser}, and {@linkplain IFoliagePlacerSerialiser} instances in feature registry event and placement registry event, respectively.
+ * Register your {@linkplain IFeatureConfigSerialiser}, {@linkplain IPlacementConfigSerialiser},
+ * {@linkplain IFoliagePlacerSerialiser} and {@linkplain IBiomePredicate} instances in feature registry event and placement registry event, respectively.
  */
-public class FeatureSerialisers {
-	private FeatureSerialisers() {
+public class ZoesteriaSerialisers {
+	private ZoesteriaSerialisers() {
 	}
 
 	/**
@@ -36,6 +41,10 @@ public class FeatureSerialisers {
 		FOLIAGE_PLACERS.put(clazz, foliageHandler);
 		FOLIAGE_PLACERS_BY_ID.put(foliageTypeId, foliageHandler);
 		IDS_BY_FOLIAGE_PLACER.put(clazz, foliageTypeId);
+	}
+
+	public static void registerBiomePredicate(IBiomePredicate base) {
+		BIOME_PREDICATES.put(base.id(), base);
 	}
 
 	// only dirty reflection hacks or an idiot (or genius) using raw types should be able to cause casting errors
@@ -65,7 +74,7 @@ public class FeatureSerialisers {
 		Class<? extends FoliagePlacer> clazz = placer.getClass();
 		foliagePlacer.putStringValue("type", IDS_BY_FOLIAGE_PLACER.get(clazz).toString());
 
-		IFoliagePlacerSerialiser<T> serialiser = (IFoliagePlacerSerialiser<T>) FeatureSerialisers.getFoliage(placer.getClass());
+		IFoliagePlacerSerialiser<T> serialiser = (IFoliagePlacerSerialiser<T>) ZoesteriaSerialisers.getFoliage(placer.getClass());
 		serialiser.loadFrom(placer).serialise(foliagePlacer);
 	}
 
@@ -75,4 +84,6 @@ public class FeatureSerialisers {
 	private static final Map<Class<?>, IFoliagePlacerSerialiser<? extends FoliagePlacer>> FOLIAGE_PLACERS = new HashMap<>();
 	private static final Map<ResourceLocation, IFoliagePlacerSerialiser<? extends FoliagePlacer>> FOLIAGE_PLACERS_BY_ID = new HashMap<>();
 	private static final Map<Class<?>, ResourceLocation> IDS_BY_FOLIAGE_PLACER = new HashMap<>();
+
+	private static final Map<ResourceLocation, IBiomePredicate> BIOME_PREDICATES = new HashMap<>();
 }

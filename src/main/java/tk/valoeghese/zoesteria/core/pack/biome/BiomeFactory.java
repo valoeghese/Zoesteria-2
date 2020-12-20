@@ -34,11 +34,11 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
+import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
@@ -308,7 +308,7 @@ public final class BiomeFactory {
 				} else {
 					Placement placementType = ForgeRegistries.DECORATORS.getValue(new ResourceLocation((String) entry.get("placementType")));
 
-					IPlacementConfigSerialiser placement = FeatureSerialisers.getPlacement(placementType)
+					IPlacementConfigSerialiser placement = ZoesteriaSerialisers.getPlacement(placementType)
 							.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("placement")));
 
 					biomeDecorations.addDecoration(GenerationStage.Decoration.valueOf((String) entry.get("step")),
@@ -335,7 +335,7 @@ public final class BiomeFactory {
 			throw new NullPointerException("Invalid or unregistered feature given in decorations!");
 		}
 
-		IFeatureConfigSerialiser config = FeatureSerialisers.getFeatureSettings(feature)
+		IFeatureConfigSerialiser config = ZoesteriaSerialisers.getFeatureSettings(feature)
 				.deserialise(ZoesteriaConfig.createWritableConfig((Map<String, Object>) entry.get("settings")));
 
 		return feature.withConfiguration(config.create());

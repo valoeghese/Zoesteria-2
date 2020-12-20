@@ -6,7 +6,7 @@ import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
-import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.NoneFoliagePlacer;
 import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
@@ -78,7 +78,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		return new TreeFeatureConfigSerialiser(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
 				BlockStateProviderHandler.stateProvider(settings.getContainer("log")),
-				foliagePlacer == null ? new NoneFoliagePlacer() : FeatureSerialisers.deserialiseFoliage(foliagePlacer), // TODO foliage placer
+				foliagePlacer == null ? new NoneFoliagePlacer() : ZoesteriaSerialisers.deserialiseFoliage(foliagePlacer), // TODO foliage placer
 						ZFGUtils.getIntOrDefault(settings, "minTrunkHeight", -1),
 						ZFGUtils.getIntOrDefault(settings, "maxTrunkHeight", -1),
 						ZFGUtils.getIntOrDefault(settings, "minFoliageDepth", -1),
@@ -99,7 +99,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		settings.putMap("log", BlockStateProviderHandler.serialiseStateProvider(this.log).asMap());
 
 		EditableContainer foliagePlacer = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
-		FeatureSerialisers.serialiseFoliage(this.foliagePlacer, foliagePlacer);
+		ZoesteriaSerialisers.serialiseFoliage(this.foliagePlacer, foliagePlacer);
 		settings.putMap("foliagePlacer", foliagePlacer.asMap());
 
 		settings.putIntegerValue("baseHeight", this.baseHeight);

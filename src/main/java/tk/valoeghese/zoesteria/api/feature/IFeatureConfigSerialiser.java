@@ -1,11 +1,12 @@
 package tk.valoeghese.zoesteria.api.feature;
 
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 /**
- * Serialisation and Deserialisation handler for Feature Configs. Register in {@link FeatureSerialisers}.
+ * Serialisation and Deserialisation handler for Feature Configs. Register in {@link ZoesteriaSerialisers}.
  */
 public interface IFeatureConfigSerialiser<T extends IFeatureConfig> {
 	/**

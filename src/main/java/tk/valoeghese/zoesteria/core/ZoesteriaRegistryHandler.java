@@ -25,7 +25,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
-import tk.valoeghese.zoesteria.api.feature.FeatureSerialisers;
+import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfigHandler;
@@ -97,38 +97,38 @@ public class ZoesteriaRegistryHandler {
 		if (!preventPlacementFire) {
 			preventPlacementFire = true;
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
-			FeatureSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerPlacementSettings(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED, TopSolidWithNoiseConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSettings(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED, TopSolidWithNoiseConfigSerialiser.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {
@@ -142,52 +142,52 @@ public class ZoesteriaRegistryHandler {
 
 			registerFoliageSerialisers();
 
-			FeatureSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigSerialiser.BASE);
-			FeatureSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigSerialiser.BASE);
-			FeatureSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.FANCY_TREE, TreeFeatureConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
-			FeatureSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.ICEBERG, BlockStateFeatureConfigSerialiser.BASE);
-			FeatureSerialisers.registerFeatureSettings(Feature.LAKE, BlockStateFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.ICEBERG, BlockStateFeatureConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.LAKE, BlockStateFeatureConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.PILLAGER_OUTPOST, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.WOODLAND_MANSION, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.JUNGLE_TEMPLE, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.DESERT_PYRAMID, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.IGLOO, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.STRONGHOLD, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.OCEAN_MONUMENT, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.NETHER_BRIDGE, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.END_CITY, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.NO_OP, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.CHORUS_PLANT, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.VOID_START_PLATFORM, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.DESERT_WELL, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.FOSSIL, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.ICE_SPIKE, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.GLOWSTONE_BLOB, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.PILLAGER_OUTPOST, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.WOODLAND_MANSION, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.JUNGLE_TEMPLE, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.DESERT_PYRAMID, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.IGLOO, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.STRONGHOLD, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.OCEAN_MONUMENT, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.NETHER_BRIDGE, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.END_CITY, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.NO_OP, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.CHORUS_PLANT, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.VOID_START_PLATFORM, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.DESERT_WELL, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.FOSSIL, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.ICE_SPIKE, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.GLOWSTONE_BLOB, NoFeatureConfigSerialiser.INSTANCE);
 
 			// @Reason FREEZE_TOP_LAYER is automatic and mandatory - why wouldn't you use it?
 			// I might make it configured if I do nether biomes / end biomes
 			//FeatureSerialisers.registerFeatureSettings(Feature.FREEZE_TOP_LAYER, NoFeatureConfigHandler.INSTANCE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.VINES, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.MONSTER_ROOM, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.BLUE_ICE, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.END_ISLAND, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.VINES, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.MONSTER_ROOM, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.BLUE_ICE, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.END_ISLAND, NoFeatureConfigSerialiser.INSTANCE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.KELP, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_TREE, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_MUSHROOM, NoFeatureConfigSerialiser.INSTANCE);
-			FeatureSerialisers.registerFeatureSettings(Feature.CORAL_CLAW, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.KELP, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.CORAL_TREE, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.CORAL_MUSHROOM, NoFeatureConfigSerialiser.INSTANCE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.CORAL_CLAW, NoFeatureConfigSerialiser.INSTANCE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.DISK, SphereReplaceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.DISK, SphereReplaceConfigSerialiser.BASE);
 
-			FeatureSerialisers.registerFeatureSettings(Feature.VILLAGE, VillageConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.VILLAGE, VillageConfigSerialiser.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSerialisers();
@@ -199,10 +199,10 @@ public class ZoesteriaRegistryHandler {
 	 * Called at the beginning of {@link #registerFeatureSettings()}
 	 */
 	private static void registerFoliageSerialisers() {
-		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("blob_foliage_placer"), BlobFoliagePlacer.class, BlobFoliagePlacerSerialiser.BASE);
-		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("spruce_foliage_placer"), SpruceFoliagePlacer.class, SpruceFoliagePlacerSerialiser.BASE);
-		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("pine_foliage_placer"), PineFoliagePlacer.class, PineFoliagePlacerSerialiser.BASE);
-		FeatureSerialisers.registerFoliagePlacer(new ResourceLocation("acacia_foliage_placer"), AcaciaFoliagePlacer.class, AcaciaFoliagePlacerSerialiser.BASE);
+		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("blob_foliage_placer"), BlobFoliagePlacer.class, BlobFoliagePlacerSerialiser.BASE);
+		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("spruce_foliage_placer"), SpruceFoliagePlacer.class, SpruceFoliagePlacerSerialiser.BASE);
+		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("pine_foliage_placer"), PineFoliagePlacer.class, PineFoliagePlacerSerialiser.BASE);
+		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("acacia_foliage_placer"), AcaciaFoliagePlacer.class, AcaciaFoliagePlacerSerialiser.BASE);
 
 		for (IZoesteriaJavaModule module : MODULES) {
 			module.registerFoliageSerialisers();

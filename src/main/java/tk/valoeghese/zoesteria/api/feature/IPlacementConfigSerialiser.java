@@ -1,11 +1,12 @@
 package tk.valoeghese.zoesteria.api.feature;
 
 import net.minecraft.world.gen.placement.IPlacementConfig;
+import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
 /**
- * Serialisation and Deserialisation handler for Placement Configs. Register in {@link FeatureSerialisers}.
+ * Serialisation and Deserialisation handler for Placement Configs. Register in {@link ZoesteriaSerialisers}.
  */
 public interface IPlacementConfigSerialiser<T extends IPlacementConfig> {
 	/**

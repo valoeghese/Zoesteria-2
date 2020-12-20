@@ -82,16 +82,19 @@ public class ZoesteriaCommonEventHandler {
 					.trunkHeight(1)
 					.trunkHeightRandom(1)
 					.build());
+
 	public static final ConfiguredFeature<?, ?> SIMPLE_BUSH = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BUSH.get().getDefaultState()),
 					new SimpleBlockPlacer()).tries(8).build()
 			);
+
 	public static final ConfiguredFeature<?, ?> BERRY_BUSH = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new SimpleBlockStateProvider(ZoesteriaBlocks.SMALL_BERRY_BUSH.get().getDefaultState()),
 					new SimpleBlockPlacer()).tries(8).build()
 			);
+
 	public static final ConfiguredFeature<?, ?> CONFIGURED_TOADSTOOL = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new WeightedBlockStateProvider()
