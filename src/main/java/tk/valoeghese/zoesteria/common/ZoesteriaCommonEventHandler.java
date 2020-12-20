@@ -3,6 +3,7 @@ package tk.valoeghese.zoesteria.common;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
@@ -93,7 +94,9 @@ public class ZoesteriaCommonEventHandler {
 			);
 	public static final ConfiguredFeature<?, ?> CONFIGURED_TOADSTOOL = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
-					new SimpleBlockStateProvider(ZoesteriaBlocks.TOADSTOOL.get().getDefaultState()),
+					new WeightedBlockStateProvider()
+					.addWeightedBlockstate(ZoesteriaBlocks.TOADSTOOL.get().getDefaultState(), 3)
+					.addWeightedBlockstate(ZoesteriaBlocks.TOADSTOOLS.get().getDefaultState(), 1),
 					new SimpleBlockPlacer()).tries(16).build()
 			);
 }
