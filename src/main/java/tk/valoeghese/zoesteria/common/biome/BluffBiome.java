@@ -81,10 +81,10 @@ public final class BluffBiome implements IZoesteriaBiome {
 	@Override
 	public List<Type> biomeTypes() {
 		return ImmutableList.of(
+				Type.OVERWORLD,
 				Type.CONIFEROUS,
 				Type.RARE,
 				Type.MOUNTAIN,
-				Type.OVERWORLD,
 				Zoesteria.AMPLIFIED);
 	}
 

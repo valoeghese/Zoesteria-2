@@ -103,8 +103,8 @@ public class Woodlands implements IZoesteriaBiome {
 	@Override
 	public List<Type> biomeTypes() {
 		List<Type> result = Lists.newArrayList(
-				Type.FOREST,
-				Type.OVERWORLD);
+				Type.OVERWORLD,
+				Type.FOREST);
 
 		if (this.high) {
 			result.add(Type.PLATEAU);

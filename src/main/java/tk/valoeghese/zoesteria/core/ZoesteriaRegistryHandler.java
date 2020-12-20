@@ -209,6 +209,12 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
+	public static void registerBiomePredicates() {
+		for (IZoesteriaJavaModule module : MODULES) {
+			module.registerBiomePredicates();
+		}
+	}
+
 	public static void addJavaModule(IZoesteriaJavaModule module) {
 		synchronized (MODULES) {
 			MODULES.add(module);

@@ -39,7 +39,7 @@ import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
-import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
@@ -349,34 +349,31 @@ public final class GenModifierPack {
 				}
 
 				// handle tweaks
-				Map<BiomeDictionary.Type, BiomeDecorations> tweaks = new LinkedHashMap<>();
+				BiomeTweaks tweaks = new BiomeTweaks();
 				module.addBiomeTweaks(tweaks);
 
 				if (!tweaks.isEmpty()) {
 					File tweaksDir = new File(packDirFile, "tweaks");
 					tweaksDir.mkdir();
 
-					tweaks.forEach((type, decorations) -> {
+					tweaks.forEach((fileName, predicate, decorations) -> {
 						// add to game
-						for (Biome biome : BiomeDictionary.getBiomes(type)) {
-							BiomeFactory.addDecorations(biome, decorations, false);
-						}
+						ZoesteriaMod.addTweak(new Tuple<>(predicate, decorations));
 
 						// store data
-
-						String typeName = type.getName().toLowerCase(Locale.ROOT);
-
 						Map<String, Object> fileData = new LinkedHashMap<>();
+
 						// target selector data
-						Map<String, Object> targetData = new LinkedHashMap<>();
-						targetData.put("selector", "biome_dictionary");
-						targetData.put("biomeType", typeName);
+						EditableContainer targetData = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+						targetData.putStringValue("selector", predicate.id().toString());
+						predicate.serialise(targetData);
+
 						fileData.put("target", targetData);
 						// decorations
 						addDecorations(decorations.toImmutableList(), fileData);
 
 						// file storage
-						File file = new File(tweaksDir, typeName + "_tweaks.cfg");
+						File file = new File(tweaksDir, fileName + ".cfg");
 						ZoesteriaConfig.createWritableConfig(fileData).writeToFile(file);
 					});
 
@@ -385,6 +382,7 @@ public final class GenModifierPack {
 				// ONLY ADD IT AFTER THE DATA ONES HAVE BEEN RUN
 				// THIS PREVENTS STUFF BEING CONSTRUCTED TWICE
 				// Why add it then? I might make a way to view loaded packs in the future.
+				// The common processing happens after tweaks so we should be allgood.
 				GenModifierPack.addIfAbsent(packDir);
 			}
 		});

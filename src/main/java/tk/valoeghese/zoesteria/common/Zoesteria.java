@@ -1,7 +1,6 @@
 package tk.valoeghese.zoesteria.common;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
@@ -20,11 +19,11 @@ import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.Manifest;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
@@ -34,6 +33,8 @@ import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.common.predicate.BiomeListPredicate;
+import tk.valoeghese.zoesteria.common.predicate.OverworldBiomeDictionaryPredicate;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
@@ -114,7 +115,13 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public void addBiomeTweaks(Map<Type, BiomeDecorations> tweaks) {
+	public void registerBiomePredicates() {
+		ZoesteriaSerialisers.registerBiomePredicate(new BiomeListPredicate(null));
+		ZoesteriaSerialisers.registerBiomePredicate(new OverworldBiomeDictionaryPredicate(null));
+	}
+
+	@Override
+	public void addBiomeTweaks(BiomeTweaks tweaks) {
 		BiomeDecorations beachDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
@@ -135,7 +142,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
 
-		tweaks.put(BiomeDictionary.Type.BEACH, beachDecorations);
+		tweaks.addTweak("beach_tweaks", new OverworldBiomeDictionaryPredicate(BiomeDictionary.Type.BEACH), beachDecorations);
 
 		// ==== FOREST ====
 		BiomeDecorations forestDecorations = BiomeDecorations.create()
@@ -156,13 +163,13 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_TOADSTOOL
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
 
-		tweaks.put(BiomeDictionary.Type.FOREST, forestDecorations);
+		tweaks.addTweak("forest_tweaks", new OverworldBiomeDictionaryPredicate(BiomeDictionary.Type.FOREST), forestDecorations);
 
 		// ==== LUSH ====
 		BiomeDecorations lushDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_BUSH
 						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(2))));
-		tweaks.put(BiomeDictionary.Type.LUSH, lushDecorations);
+		tweaks.addTweak("lush_biome_tweaks", new OverworldBiomeDictionaryPredicate(BiomeDictionary.Type.LUSH), lushDecorations);
 	}
 
 	@Override

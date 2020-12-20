@@ -43,6 +43,10 @@ public class ZoesteriaSerialisers {
 		IDS_BY_FOLIAGE_PLACER.put(clazz, foliageTypeId);
 	}
 
+	/**
+	 * Register a biome predicate for deserialisation of tweaks.
+	 * @param base a dummy instance for use in deserialisation.
+	 */
 	public static void registerBiomePredicate(IBiomePredicate base) {
 		BIOME_PREDICATES.put(base.id(), base);
 	}

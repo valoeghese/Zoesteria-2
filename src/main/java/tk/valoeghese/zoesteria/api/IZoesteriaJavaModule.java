@@ -1,12 +1,10 @@
 package tk.valoeghese.zoesteria.api;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraftforge.common.BiomeDictionary;
-import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
@@ -22,7 +20,7 @@ public interface IZoesteriaJavaModule {
 	 * Use this to add new features to existing biomes.
 	 * @apiNote this method be subject to future change in order to accommodate more complex tweaks, like adding to specific biomes or adding by different biome properties.
 	 */
-	default void addBiomeTweaks(Map<BiomeDictionary.Type, BiomeDecorations> tweaks) {
+	default void addBiomeTweaks(BiomeTweaks tweaks) {
 	}
 
 	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {
@@ -49,6 +47,12 @@ public interface IZoesteriaJavaModule {
 	 * Called at the time of foliage placement serialiser registration.
 	 */
 	default void registerFoliageSerialisers() {
+	}
+
+	/**
+	 * Called at the time of biome predicate registration. This occurs at the beginning of Zoesteria's Common Setup.
+	 */
+	default void registerBiomePredicates() {
 	}
 
 	/**
