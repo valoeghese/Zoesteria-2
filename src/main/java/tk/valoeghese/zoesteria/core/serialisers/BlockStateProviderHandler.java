@@ -45,7 +45,7 @@ public final class BlockStateProviderHandler {
 		// different formatting because my eyes go weird reading this in my usual formatting
 		if (stateProvider instanceof SimpleBlockStateProvider)
 		{
-			return serialiseSimpleStateProvider(stateProvider.getBlockState(USELESS, BlockPos.ZERO));
+			return serialiseSimpleStateProvider(stateProvider.getBlockState(DOES_NOTHING, BlockPos.ZERO));
 		}
 		else if (stateProvider instanceof PlainFlowerBlockStateProvider)
 		{
@@ -115,5 +115,5 @@ public final class BlockStateProviderHandler {
 		return result;
 	}
 
-	private static final Random USELESS = new Random();
+	private static final Random DOES_NOTHING = new Random();
 }
