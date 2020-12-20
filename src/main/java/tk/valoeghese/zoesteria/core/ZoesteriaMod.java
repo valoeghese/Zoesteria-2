@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.util.Tuple;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.BiomeDictionary;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomePredicate;
@@ -26,6 +28,7 @@ import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaItems;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
+import tk.valoeghese.zoesteria.core.pack.biome.BiomeFactory;
 
 @Mod("zoesteria")
 public class ZoesteriaMod {
@@ -57,6 +60,15 @@ public class ZoesteriaMod {
 
 		while (!COMMON_PROCESSING.isEmpty()) {
 			COMMON_PROCESSING.remove().run();
+		}
+
+		// Apply Tweaks
+		for (Biome biome : ForgeRegistries.BIOMES) {
+			for (Tuple<IBiomePredicate, BiomeDecorations> tweak : TWEAKS_TO_ADD) {
+				if (tweak.getA().test(biome)) {
+					BiomeFactory.addDecorations(biome, tweak.getB(), false);
+				}
+			}
 		}
 
 		// START ZOESTERIA MODULE CODE

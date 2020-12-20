@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableSet;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
@@ -36,6 +38,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.IBiomePredicate;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
@@ -109,7 +112,7 @@ public final class BiomeFactory {
 			ZoesteriaMod.LOGGER.info("Decorating biome " + id);
 			addDecorations(result, decorations, true);
 		}
-		
+
 		for (SpawnEntry entry : biome.mobSpawns()) {
 			EntityType<?> type = entry.getEntityType();
 			result.addSpawn(type.getClassification(), new SpawnListEntry(
@@ -284,7 +287,7 @@ public final class BiomeFactory {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static void addDecorations(Set<Biome> biomes, List<Object> decorations, boolean addDefaults) {
+	private static BiomeDecorations deserialiseDecorations(@Nullable int[] counters, List<Object> decorations) {
 		int decorationCounter = 0;
 		int entryCounter = 0;
 
@@ -317,12 +320,25 @@ public final class BiomeFactory {
 			}
 		}
 
+		if (counters != null) {
+			counters[0] = decorationCounter;
+			counters[1] = entryCounter;
+		}
+
+		return biomeDecorations;
+	}
+
+	private static void addDecorations(Set<Biome> biomes, List<Object> decorations, boolean addDefaults) {
+		int[] counters = new int[2];
+
+		BiomeDecorations biomeDecorations = deserialiseDecorations(counters, decorations);
+
 		for (Biome biome : biomes) {
 			addDecorations(biome, biomeDecorations, addDefaults);
 		}
 
 		if (addDefaults) {
-			ZoesteriaMod.LOGGER.info("Decorated biome: " + decorationCounter + " decorations / " + entryCounter + " entries.");
+			ZoesteriaMod.LOGGER.info("Decorated biome: " + counters[0] + " decorations / " + counters[1] + " entries.");
 		}
 	}
 
@@ -369,11 +385,8 @@ public final class BiomeFactory {
 		Container data = ZoesteriaConfig.loadConfig(file);
 		Container target = data.getContainer("target");
 
-		if (target.getStringValue("selector").equals("biome_dictionary")) {
-			String type = target.getStringValue("biomeType");
-			Set<Biome> biomes = BiomeDictionary.getBiomes(BiomeDictionary.Type.getType(type.toUpperCase(Locale.ROOT)));
-			addDecorations(biomes, data.getList("decorations"), false);
-		}
+		IBiomePredicate predicate = ZoesteriaSerialisers.getPredicate(new ResourceLocation(target.getStringValue("selector"))).deserialise(target);
+		ZoesteriaMod.addTweak(new Tuple<>(predicate, deserialiseDecorations(null, data.getList("decorations"))));
 	}
 
 	private static final ConfigTemplate biomeDefaults = ConfigTemplate.builder()
