@@ -102,7 +102,7 @@ public final class BlockStateProviderHandler {
 					ZFGUtils.deserialiseStateContainer(
 							ZoesteriaConfig.createWritableConfig((Map<String, Object>) weightedState.get("state"))
 							),
-					(Integer) weightedState.get("weight"));
+					Integer.valueOf((String) weightedState.get("weight")));
 		}
 
 		return result;
