@@ -32,7 +32,12 @@ public final class ZoesteriaBlocks {
 
 	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_STONE = createWithBlockitem(
 			"overgrown_stone",
-			() -> new OvergrownStoneBlock(Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
+			() -> new OvergrownStoneBlock(Blocks.STONE, Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+	
+	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_RED_SANDSTONE = createWithBlockitem(
+			"overgrown_red_sandstone",
+			() -> new OvergrownStoneBlock(Blocks.RED_SANDSTONE, Block.Properties.create(Material.ROCK, MaterialColor.ADOBE).tickRandomly().hardnessAndResistance(1.8F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// LEAVES

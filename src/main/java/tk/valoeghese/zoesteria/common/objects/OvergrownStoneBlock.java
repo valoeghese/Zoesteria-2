@@ -14,10 +14,12 @@ import net.minecraft.world.lighting.LightEngine;
 import net.minecraft.world.server.ServerWorld;
 
 public class OvergrownStoneBlock extends SnowyDirtBlock/* implements IGrowable*/ {
-	public OvergrownStoneBlock(Block.Properties properties) {
+	public OvergrownStoneBlock(Block spreadsTo, Block.Properties properties) {
 		super(properties);
-
+		this.spreadsTo = spreadsTo;
 	}
+
+	private final Block spreadsTo;
 
 	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
 		if (!checkLight(state, world, pos)) {
@@ -25,7 +27,7 @@ public class OvergrownStoneBlock extends SnowyDirtBlock/* implements IGrowable*/
 				return;
 			}
 
-			world.setBlockState(pos, Blocks.STONE.getDefaultState());
+			world.setBlockState(pos, this.spreadsTo.getDefaultState());
 		} else {
 			BlockState ourState = this.getDefaultState();
 			BlockState grassState = Blocks.GRASS.getDefaultState();
@@ -34,7 +36,7 @@ public class OvergrownStoneBlock extends SnowyDirtBlock/* implements IGrowable*/
 				for(int i = 0; i < 4; ++i) {
 					BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
 					Block blocc = world.getBlockState(blockpos).getBlock();
-					boolean stone = blocc == Blocks.STONE;
+					boolean stone = blocc == this.spreadsTo;
 					boolean dirt = blocc == Blocks.DIRT;
 
 					if (stone) {

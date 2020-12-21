@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "snowy=false": [
+      { "model": "zoesteria:block/overgrown_red_sandstone" },
+      { "model": "zoesteria:block/overgrown_red_sandstone", "y": 90 },
+      { "model": "zoesteria:block/overgrown_red_sandstone", "y": 180 },
+      { "model": "zoesteria:block/overgrown_red_sandstone", "y": 270 }
+    ],
+    "snowy=true":  { "model": "zoesteria:block/overgrown_red_sandstone_snowy" }
+  }
+}

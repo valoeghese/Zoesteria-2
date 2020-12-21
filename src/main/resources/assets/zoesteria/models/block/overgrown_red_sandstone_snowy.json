@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "particle": "block/red_sandstone",
+    "bottom": "block/red_sandstone",
+    "top": "block/grass_block_top",
+    "side": "zoesteria:block/overgrown_red_sandstone_snowy"
+  }
+}

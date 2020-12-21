@@ -133,7 +133,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 								ImmutableList.of(
 										new AlterBlocksTemplate.Step(
 												new Condition("chance").withParameter("value", 3),
-												Optional.of(Blocks.GRASS_BLOCK),
+												Optional.of(ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get()),
 												Optional.empty(),
 												Optional.empty(),
 												true)),

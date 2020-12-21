@@ -27,7 +27,7 @@ public class ZoesteriaClientEventHandler {
 			} else {
 				return BiomeColors.getGrassColor(lightReader, pos);
 			}
-		}, ZoesteriaBlocks.OVERGROWN_STONE.get());
+		}, ZoesteriaBlocks.OVERGROWN_STONE.get(), ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get());
 
 		blockColourManager.register((state, lightReader, pos, tintIndex) -> {
 			if (lightReader == null || pos == null) {
@@ -51,7 +51,11 @@ public class ZoesteriaClientEventHandler {
 				((BlockItem) stack.getItem()).getBlock().getDefaultState(),
 				null,
 				null,
-				tintIndex), ZoesteriaBlocks.OVERGROWN_STONE.get().asItem(), ZoesteriaBlocks.ASPEN_LEAVES.get().asItem(), ZoesteriaBlocks.OAK_LEAFCARPET.get().asItem());
+				tintIndex), 
+				ZoesteriaBlocks.OVERGROWN_STONE.get().asItem(),
+				ZoesteriaBlocks.ASPEN_LEAVES.get().asItem(),
+				ZoesteriaBlocks.OAK_LEAFCARPET.get().asItem(),
+				ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get().asItem());
 	}
 
 	@SubscribeEvent
@@ -59,6 +63,7 @@ public class ZoesteriaClientEventHandler {
 		ZoesteriaMod.LOGGER.info("Running Zoesteria client Setup.");
 		// for overlay to work
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get(), RenderType.getCutoutMipped());
 
 		// plants
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_SMALL.get(), RenderType.getCutoutMipped());
