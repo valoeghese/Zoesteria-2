@@ -70,7 +70,7 @@ public class Woodlands implements IZoesteriaBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (!this.hills) {
-			biomePlacement.put(BiomeType.WARM, this.high ? 7 : 8); // with both major variations, this adds up to 15. Rather common.
+			biomePlacement.put(BiomeType.WARM, this.high ? 6 : 7); // with both major variations, this adds up to 13. Rather common.
 		}
 	}
 
