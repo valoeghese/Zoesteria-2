@@ -457,13 +457,19 @@ public final class GenModifierPack {
 
 	public static void init() {
 		if (!initialised) {
-			if (ROOT_DIR.isDirectory()) {
-				FileUtils.forEachDirectory(ROOT_DIR, dir -> {
-					GenModifierPack.addIfAbsent(dir.getPath());
-				});
-			}
+			synchronized (SYNC_OBJECT) { // Forge multithreaded go brrr
+				if (!initialised) { // in case another thread changed it.
+					initialised = true;
 
-			initialised = true;
+					if (ROOT_DIR.isDirectory()) {
+						FileUtils.forEachDirectory(ROOT_DIR, dir -> {
+							GenModifierPack.addIfAbsent(dir.getPath());
+						});
+					}
+
+					lastLoadOrder = ZoesteriaConfig.loadConfig(new File(ROOT_DIR, "internal_data.dat")).getList("lastLoadOrder");
+				}
+			}
 		}
 	}
 
@@ -473,6 +479,8 @@ public final class GenModifierPack {
 
 	private static boolean initialised = false;
 
+	private static List<Object> lastLoadOrder;
 	private static final Map<String, GenModifierPack> PACKS = Maps.newHashMap();
 	public static final File ROOT_DIR = new File("./zoesteria");
+	private static final Object SYNC_OBJECT = new Object();
 }

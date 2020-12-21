@@ -1,5 +1,6 @@
 package tk.valoeghese.zoesteria.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,6 +71,9 @@ public class ZoesteriaMod {
 				}
 			}
 		}
+
+		// Save Load Order Data
+		BiomeFactory.writeLoadOrder(new File(GenModifierPack.ROOT_DIR, "internal_data.dat"));
 
 		// START ZOESTERIA MODULE CODE
 		BiomeDictionary.addTypes(Biomes.SHATTERED_SAVANNA, Zoesteria.AMPLIFIED);

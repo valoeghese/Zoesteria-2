@@ -1,6 +1,8 @@
 package tk.valoeghese.zoesteria.core.pack.biome;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -47,6 +49,7 @@ import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
+import tk.valoeghese.zoesteriaconfig.api.container.WritableConfig;
 import tk.valoeghese.zoesteriaconfig.api.template.ConfigTemplate;
 
 public final class BiomeFactory {
@@ -99,6 +102,7 @@ public final class BiomeFactory {
 		addGeneration(details, biomePlacement, biome.canSpawnInBiome());
 
 		// create the biome instance
+		CURRENT_LOAD_ORDER.add(packId + ":" + id);
 		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry, properties.getEntitySpawnChance());
 
 		if (flag) {
@@ -177,6 +181,7 @@ public final class BiomeFactory {
 		// transfer loaded data about the placement of the biome in the world to the Details of the biome
 		addGeneration(details, biomePlacement);
 
+		CURRENT_LOAD_ORDER.add(packId + ":" + id);
 		ZoesteriaBiome result = new ZoesteriaBiome(packId, id, propertiesBuilder, details, biomeRegistry, properties.getFloatValue("entitySpawnChance"));
 
 		if (flag) {
@@ -389,6 +394,12 @@ public final class BiomeFactory {
 		ZoesteriaMod.addTweak(new Tuple<>(predicate, deserialiseDecorations(null, data.getList("decorations"))));
 	}
 
+	public static void writeLoadOrder(File file) {
+		WritableConfig data = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
+		data.putList("lastLoadOrder", CURRENT_LOAD_ORDER);
+		data.writeToFile(file);
+	}
+
 	private static final ConfigTemplate biomeDefaults = ConfigTemplate.builder()
 			.addContainer("properties", container -> {
 				container.addDataEntry("precipitation", Biome.RainType.RAIN.name());
@@ -400,6 +411,8 @@ public final class BiomeFactory {
 				container.addDataEntry("waterFogColor", "329011");
 			})
 			.build();
+
+	private static final List<Object> CURRENT_LOAD_ORDER = new ArrayList<>();
 
 	static final class Details {
 		Integer skyColour;
