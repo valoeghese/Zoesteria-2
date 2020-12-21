@@ -87,9 +87,9 @@ public class AustralianOutback implements IZoesteriaBiome {
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.SANDHILL_CANEGRASS.get().getDefaultState()),
-								new SimpleBlockPlacer()).tries(32).build()
+								new SimpleBlockPlacer()).tries(this.plateau ? 16 : 32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(3))))
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(this.plateau ? 1 : 3))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_SHRUB
 						.withConfiguration(new ShrubFeatureConfig(
 								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), 
