@@ -65,7 +65,7 @@ public class FillToSeaLevelSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderC
 
 					if (depth == 1) {
 						chunk.setBlockState(pos, topBlock, false);
-					} else if (y + fillDepth >= seaLevel) { // depth must be > 1
+					} else if (y >= seaLevel || depth < fillDepth) { // depth must be > 1
 						chunk.setBlockState(pos, fillerBlock, false);
 					}
 				}
