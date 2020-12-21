@@ -125,7 +125,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				new BaseSurfaceTemplateConfig("minecraft:default"),
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
-								new Condition("noise_preceeds").withParameter("value", -2.0),
+								new Condition("noise_preceeds").withParameter("value", -2.5),
 								Optional.of(Blocks.RED_SANDSTONE),
 								Optional.empty(),
 								Optional.empty(),
