@@ -35,12 +35,14 @@ public class AustralianOutback implements IZoesteriaBiome {
 				.depth(0.3f)
 				.scale(0.11f)
 				.temperature(1.6f)
-				.downfall(0.1f);
+				.downfall(0.1f)
+				.fillerBlock("minecraft:red_sandstone")
+				.underwaterBlock("minecraft:red_sand");
 
 		if (this.plateau) {
-			// TODO
+			builder.surfaceBuilder("zoesteria:fill_to_sea_level").topBlock("minecraft:red_sandstone");
 		} else {
-			builder.surfaceBuilder("zoesteria:outback").topBlock("minecraft:red_sand").fillerBlock("minecraft:red_sandstone").underwaterBlock("minecraft:red_sand");
+			builder.surfaceBuilder("zoesteria:outback").topBlock("minecraft:red_sand");
 		}
 
 		return builder.build();
