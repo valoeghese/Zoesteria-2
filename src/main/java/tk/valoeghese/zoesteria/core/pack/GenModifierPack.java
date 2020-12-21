@@ -527,7 +527,7 @@ public final class GenModifierPack {
 
 	private static boolean initialised = false;
 
-	private static List<Object> lastLoadOrder;
+	private static List<Object> lastLoadOrder = new ArrayList<>();
 	private static final Map<String, GenModifierPack> PACKS = Maps.newHashMap();
 	public static final File ROOT_DIR = new File("./zoesteria");
 	private static final Object SYNC_OBJECT = new Object();
