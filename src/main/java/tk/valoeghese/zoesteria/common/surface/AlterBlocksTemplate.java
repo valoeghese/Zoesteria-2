@@ -10,15 +10,17 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.valoeghese.zoesteria.api.IZFGSerialisable;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.surface.Condition;
-import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.Condition.SBPredicate;
+import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteriaconfig.api.ZoesteriaConfig;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
@@ -36,8 +38,13 @@ public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksT
 	@Override
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
 		List<SBStep> steps = constructStepBranch(surfaceBuilderData.getList("steps"));
+		//BaseSurfaceTemplateConfig.deserialise(surfaceBuilderData.getContainer("config")).base;
+		// TODO better errors and warning messages
+		@SuppressWarnings("unchecked")
+		SurfaceBuilder<SurfaceBuilderConfig> base = (SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(
+				new ResourceLocation(surfaceBuilderData.getStringValue("config.baseSurfaceBuilder")));
 
-		return new AlterBlocksSB((original, rand, x, z, noise) -> {
+		return new AlterBlocksSB(base, (original, rand, x, z, noise) -> {
 			AtomicReference<Block> top = new AtomicReference<>(original.getTop().getBlock());
 			AtomicReference<Block> filler = new AtomicReference<>(original.getUnder().getBlock());
 			AtomicReference<Block> underwater = new AtomicReference<>(original.getUnderWaterMaterial().getBlock());
@@ -209,18 +216,20 @@ public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksT
 	}
 
 	public static class AlterBlocksSB extends SurfaceBuilder<SurfaceBuilderConfig> {
-		public AlterBlocksSB(SBFunction function) {
+		public AlterBlocksSB(SurfaceBuilder<SurfaceBuilderConfig> base, SBFunction function) {
 			super(SurfaceBuilderConfig::deserialize);
 			this.function = function;
+			this.base = base;
 		}
 
-		private SBFunction function;
+		private final SBFunction function;
+		private final SurfaceBuilder<SurfaceBuilderConfig> base;
 
 		@Override
 		public void buildSurface(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight,
 				double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed,
 				SurfaceBuilderConfig config) {
-			SurfaceBuilder.DEFAULT.buildSurface(
+			this.base.buildSurface(
 					random,
 					chunkIn,
 					biomeIn,
