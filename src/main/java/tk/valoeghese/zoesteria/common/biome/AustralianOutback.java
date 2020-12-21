@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome.Category;
+import net.minecraft.world.biome.Biome.RainType;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -48,6 +49,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 		IBiomeProperties.Builder builder = IBiomeProperties.builder(Category.DESERT)
 				.depth(this.plateau ? 1.8f : 0.3f)
 				.scale(this.plateau ? 0.04f : 0.11f)
+				.precipitation(RainType.NONE)
 				.temperature(1.6f)
 				.downfall(0.1f)
 				.fillerBlock("minecraft:red_sandstone")
