@@ -37,6 +37,7 @@ import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.predicate.BiomeListPredicate;
 import tk.valoeghese.zoesteria.common.predicate.OverworldBiomeDictionaryPredicate;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
+import tk.valoeghese.zoesteria.common.surface.BaseSurfaceTemplateConfig;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
 
@@ -67,11 +68,12 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {
-		List<ZoesteriaSurfaceBuilder<?, ?>> surfaceBuilders = Lists.newArrayList();
+	public List<ZoesteriaSurfaceBuilder<?, ?, ?>> createSurfaceBuilders() {
+		List<ZoesteriaSurfaceBuilder<?, ?, ?>> surfaceBuilders = Lists.newArrayList();
 		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
 				"bluff",
 				ALTER_BLOCKS,
+				new BaseSurfaceTemplateConfig("minecraft:default"),
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
 								new Condition("z_preceeds").withParameter("value", 0),
@@ -105,6 +107,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
 				"woodlands",
 				ALTER_BLOCKS,
+				new BaseSurfaceTemplateConfig("minecraft:default"),
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
 								new Condition("noise_outside").withParameter("min", -2.45).withParameter("max", 2.65),
@@ -115,6 +118,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
 				"outback",
 				ALTER_BLOCKS,
+				new BaseSurfaceTemplateConfig("minecraft:default"),
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
 								new Condition("noise_preceeds").withParameter("value", -2.0),
@@ -217,7 +221,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public List<ISurfaceBuilderTemplate<?>> createSurfaceBuilderTemplates() {
+	public List<ISurfaceBuilderTemplate<?, ?>> createSurfaceBuilderTemplates() {
 		return ImmutableList.of(ALTER_BLOCKS);
 	}
 
@@ -231,6 +235,6 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		ZoesteriaSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.TRIPLE_NOISE_SELECTOR, TripleFeatureConfigSerialiser.BASE);
 	}
 
-	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> ALTER_BLOCKS = new AlterBlocksTemplate();
+	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step, BaseSurfaceTemplateConfig> ALTER_BLOCKS = new AlterBlocksTemplate();
 	public static final BiomeDictionary.Type AMPLIFIED = BiomeDictionary.Type.getType("AMPLIFIED");
 }

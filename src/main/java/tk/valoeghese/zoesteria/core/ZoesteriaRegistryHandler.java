@@ -72,7 +72,7 @@ public class ZoesteriaRegistryHandler {
 			module.createSurfaceBuilderTemplates().forEach(template -> TEMPLATE_LOOKUP.put(new ResourceLocation(packId, template.id()), template));
 		}
 
-		Map<ISurfaceBuilderTemplate<?>, ResourceLocation> templateIdLookup = TEMPLATE_LOOKUP.inverse();
+		Map<ISurfaceBuilderTemplate<?, ?>, ResourceLocation> templateIdLookup = TEMPLATE_LOOKUP.inverse();
 
 		while (!SURFACE_PROCESSING.isEmpty()) {
 			SURFACE_PROCESSING.remove().accept(event.getRegistry(), templateIdLookup::get);
@@ -221,9 +221,9 @@ public class ZoesteriaRegistryHandler {
 		}
 	}
 
-	public static final Queue<BiConsumer<IForgeRegistry<SurfaceBuilder<?>>, Function<ISurfaceBuilderTemplate<?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
+	public static final Queue<BiConsumer<IForgeRegistry<SurfaceBuilder<?>>, Function<ISurfaceBuilderTemplate<?, ?>, ResourceLocation>>> SURFACE_PROCESSING = new LinkedList<>();
 	public static final Queue<Consumer<IForgeRegistry<Biome>>> BIOME_PROCESSING = new LinkedList<>();
-	private static final BiMap<ResourceLocation, ISurfaceBuilderTemplate<?>> TEMPLATE_LOOKUP = HashBiMap.create();
+	private static final BiMap<ResourceLocation, ISurfaceBuilderTemplate<?, ?>> TEMPLATE_LOOKUP = HashBiMap.create();
 	private static final List<IZoesteriaJavaModule> MODULES = new ArrayList<>();
 	public static boolean preventFeatureFire = false;
 	public static boolean preventPlacementFire = false;

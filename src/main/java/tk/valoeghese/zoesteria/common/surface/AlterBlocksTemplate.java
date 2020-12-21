@@ -27,7 +27,7 @@ import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
  * You may notice there is a lot of weird code in this class.
  * This is for optimisation purposes.
  */
-public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksTemplate.Step> {
+public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksTemplate.Step, BaseSurfaceTemplateConfig> {
 	@Override
 	public String id() {
 		return "alter_blocks";

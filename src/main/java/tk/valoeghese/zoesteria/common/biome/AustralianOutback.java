@@ -1,6 +1,7 @@
 package tk.valoeghese.zoesteria.common.biome;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -35,7 +36,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 				.scale(0.11f)
 				.temperature(1.6f)
 				.downfall(0.1f);
-		
+
 		if (this.plateau) {
 			// TODO
 		} else {
@@ -81,6 +82,15 @@ public class AustralianOutback implements IZoesteriaBiome {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Optional<List<String>> getHillsBiomes() {
+		if (this.plateau) {
+			return Optional.empty();
+		} else {
+			return Optional.of(ImmutableList.of("zoesteria:australian_outback", "zoesteria:uluru"));
+		}
 	}
 
 	@Override

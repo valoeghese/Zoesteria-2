@@ -97,7 +97,7 @@ public final class GenModifierPack {
 		});
 	}
 
-	public void loadSurfaces(IForgeRegistry<SurfaceBuilder<?>> surfaceRegistry, Function<ResourceLocation, ISurfaceBuilderTemplate<?>> templateProvider) {
+	public void loadSurfaces(IForgeRegistry<SurfaceBuilder<?>> surfaceRegistry, Function<ResourceLocation, ISurfaceBuilderTemplate<?, ?>> templateProvider) {
 		if (this.disabled) {
 			return;
 		}
@@ -112,7 +112,7 @@ public final class GenModifierPack {
 			// get data
 			Container surfaceBuilderConfig = ZoesteriaConfig.loadConfig(file);
 			// get template
-			ISurfaceBuilderTemplate<?> template = templateProvider.apply(new ResourceLocation(surfaceBuilderConfig.getStringValue("template")));
+			ISurfaceBuilderTemplate<?, ?> template = templateProvider.apply(new ResourceLocation(surfaceBuilderConfig.getStringValue("template")));
 			// create surface builder
 			surfaceRegistry.register(template.create(surfaceBuilderConfig).setRegistryName(new ResourceLocation(this.id, surfaceBuilderConfig.getStringValue("id"))));
 		});

@@ -23,11 +23,11 @@ public interface IZoesteriaJavaModule {
 	default void addBiomeTweaks(BiomeTweaks tweaks) {
 	}
 
-	default List<ZoesteriaSurfaceBuilder<?, ?>> createSurfaceBuilders() {
+	default List<ZoesteriaSurfaceBuilder<?, ?, ?>> createSurfaceBuilders() {
 		return ImmutableList.of();
 	}
 
-	default List<ISurfaceBuilderTemplate<?>> createSurfaceBuilderTemplates() {
+	default List<ISurfaceBuilderTemplate<?, ?>> createSurfaceBuilderTemplates() {
 		return ImmutableList.of();
 	}
 
