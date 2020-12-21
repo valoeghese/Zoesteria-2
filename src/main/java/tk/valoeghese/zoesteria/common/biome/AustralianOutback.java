@@ -15,6 +15,8 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -101,6 +103,12 @@ public class AustralianOutback implements IZoesteriaBiome {
 		BiomeDefaultFeatures.addStoneVariants(result);
 		BiomeDefaultFeatures.addMushrooms(result, 1, 1);
 		BiomeDefaultFeatures.addGrass(result, 2);
+
+		if (this.plateau) {
+			result.addStructure(Feature.PILLAGER_OUTPOST.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+		} else {
+			result.addStructure(Feature.VILLAGE.withConfiguration(new VillageConfig("village/plains/town_centers", 3)));
+		}
 		return result;
 	}
 
