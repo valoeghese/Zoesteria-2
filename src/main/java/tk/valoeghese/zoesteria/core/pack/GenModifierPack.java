@@ -2,6 +2,7 @@ package tk.valoeghese.zoesteria.core.pack;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +66,46 @@ public final class GenModifierPack {
 	private final String packDir;
 	private final boolean disabled;
 
-	public void loadBiomes(IForgeRegistry<Biome> biomeRegistry) {
+	public static void loadInitialBiomes(IForgeRegistry<Biome> biomeRegistry) {
+		// I trail instead of static method direct access bc I allowed subdirectories lol
+		// Might change in future
+		// Perhaps I should just make java modules sort alphabetically? But then mod load order
+
+		// First collect all data
+		Map<Object, Tuple<String, Container>> collected = new HashMap<>();
+
+		forEach(pack -> {
+			if (pack.disabled) {
+				return;
+			}
+
+			File biomesDir = new File(pack.packDir + "./biomes/");
+
+			if (!biomesDir.isDirectory()) {
+				return;
+			}
+
+			FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
+				Container data = ZoesteriaConfig.loadConfigWithDefaults(file, BiomeFactory.DEFAULTS);
+				String fullId = pack.id + ":" + data.getStringValue("id");
+
+				if (lastLoadOrder.contains(fullId)) {
+					collected.put(fullId, new Tuple<>(pack.id, data));
+				}
+			});
+		});
+
+		// Then add in order
+		for (Object o : lastLoadOrder) {
+			Tuple<String, Container> entry = collected.get(o);
+
+			if (entry != null) {
+				BiomeFactory.buildBiome(entry.getB(), entry.getA(), biomeRegistry);
+			}
+		}
+	}
+
+	public void loadRemainingBiomes(IForgeRegistry<Biome> biomeRegistry) {
 		if (this.disabled) {
 			return;
 		}
@@ -77,7 +117,11 @@ public final class GenModifierPack {
 		}
 
 		FileUtils.trailFilesOfExtension(biomesDir, "cfg", (file, trail) -> {
-			BiomeFactory.buildBiome(file, this.id, biomeRegistry);
+			Container data = ZoesteriaConfig.loadConfigWithDefaults(file, BiomeFactory.DEFAULTS);
+
+			if (!lastLoadOrder.contains(this.id + ":" + data.getStringValue("id"))) {
+				BiomeFactory.buildBiome(data, this.id, biomeRegistry);
+			}
 		});
 	}
 

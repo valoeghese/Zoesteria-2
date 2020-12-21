@@ -130,8 +130,7 @@ public final class BiomeFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Biome buildBiome(File file, String packId, IForgeRegistry<Biome> biomeRegistry) {
-		Container biomeConfig = ZoesteriaConfig.loadConfigWithDefaults(file, biomeDefaults);
+	public static Biome buildBiome(Container biomeConfig, String packId, IForgeRegistry<Biome> biomeRegistry) {
 		Container properties = biomeConfig.getContainer("properties");
 		Container biomePlacement = biomeConfig.getContainer("biomePlacement");
 		List<Object> decorations = biomeConfig.getList("decorations");
@@ -400,7 +399,7 @@ public final class BiomeFactory {
 		data.writeToFile(file);
 	}
 
-	private static final ConfigTemplate biomeDefaults = ConfigTemplate.builder()
+	public static final ConfigTemplate DEFAULTS = ConfigTemplate.builder()
 			.addContainer("properties", container -> {
 				container.addDataEntry("precipitation", Biome.RainType.RAIN.name());
 				container.addDataEntry("depth", "0.15");

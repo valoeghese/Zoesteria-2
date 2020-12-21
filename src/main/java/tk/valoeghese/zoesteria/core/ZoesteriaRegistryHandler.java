@@ -58,7 +58,8 @@ public class ZoesteriaRegistryHandler {
 
 		ZoesteriaMod.LOGGER.info("Loading biomes of GenModifierPacks");
 		GenModifierPack.init();
-		GenModifierPack.forEach(pack -> pack.loadBiomes(event.getRegistry()));
+		GenModifierPack.loadInitialBiomes();
+		GenModifierPack.forEach(pack -> pack.loadRemainingBiomes(event.getRegistry()));
 
 		while (!BIOME_PROCESSING.isEmpty()) {
 			BIOME_PROCESSING.remove().accept(event.getRegistry());
