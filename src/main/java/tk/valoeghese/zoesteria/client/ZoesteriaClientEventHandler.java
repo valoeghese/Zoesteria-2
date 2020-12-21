@@ -65,19 +65,27 @@ public class ZoesteriaClientEventHandler {
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get(), RenderType.getCutoutMipped());
 
-		// plants
+		// grasses
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_SMALL.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SPINIFEX_LARGE.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.PINGAO.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.BLUE_FLAX_LILY.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SANDHILL_CANEGRASS.get(), RenderType.getCutoutMipped());
+
+		// carpet shaped plant blocks
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SHORE_BINDWEED.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OAK_LEAFCARPET.get(), RenderType.getCutoutMipped());
+
+		// other plants
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SMALL_BUSH.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SMALL_BERRY_BUSH.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.CACTLET.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.LARGE_CACTLET.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SMALL_CACTLET.get(), RenderType.getCutoutMipped());
+
+		// fungi (not a plant)
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.TOADSTOOL.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.TOADSTOOLS.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.PINGAO.get(), RenderType.getCutoutMipped());
 
 		// saplings
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.BLUFF_PINE_SAPLING.get(), RenderType.getCutoutMipped());
