@@ -65,7 +65,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (!this.plateau) {
-			biomePlacement.put(BiomeType.DESERT, 10);
+			biomePlacement.put(BiomeType.DESERT, 12);
 		}
 	}
 

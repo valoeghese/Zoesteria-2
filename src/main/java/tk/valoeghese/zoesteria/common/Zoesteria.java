@@ -215,7 +215,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		// === DESERT BIOMES ===
 		BiomeDecorations desertDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_CACTLET
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
 		tweaks.addTweak("cactlets", new BiomeListPredicate(Lists.newArrayList(
 				Biomes.DESERT,
 				Biomes.DESERT_HILLS,
