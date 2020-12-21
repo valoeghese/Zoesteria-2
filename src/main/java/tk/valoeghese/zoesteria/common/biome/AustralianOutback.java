@@ -65,7 +65,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (!this.plateau) {
-			biomePlacement.put(BiomeType.DESERT, 12);
+			biomePlacement.put(BiomeType.DESERT, 12); // I think this is fine when vanilla literally has 3 entries (so 30) of desert in DESERT category.
 		}
 	}
 
