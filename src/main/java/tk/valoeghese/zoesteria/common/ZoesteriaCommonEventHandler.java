@@ -10,6 +10,8 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -21,6 +23,7 @@ import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleNoiseSelectorFeature;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.common.surface.FillToSeaLevelSurfaceBuilder;
 
 /**
  * Event registry handler for common stuff.
@@ -36,6 +39,11 @@ public class ZoesteriaCommonEventHandler {
 		registry.register(FALLEN_LOG.setRegistryName("fallen_log"));
 		registry.register(LOLLIPOP_TREE.setRegistryName("lollipop_tree"));
 		registry.register(TRIPLE_NOISE_SELECTOR.setRegistryName("triple_noise_selector"));
+	}
+
+	@SubscribeEvent
+	public static void onSurfaceBuilderRegister(RegistryEvent.Register<SurfaceBuilder<?>> event) {
+		event.getRegistry().register(FILL_TO_SEA_LEVEL.setRegistryName("fill_to_sea_level"));
 	}
 
 	@SubscribeEvent
@@ -111,4 +119,6 @@ public class ZoesteriaCommonEventHandler {
 					.addWeightedBlockstate(ZoesteriaBlocks.TOADSTOOLS.get().getDefaultState(), 1),
 					new SimpleBlockPlacer()).xSpread(4).zSpread(4).tries(16).build()
 			);
+
+	private static final SurfaceBuilder<SurfaceBuilderConfig> FILL_TO_SEA_LEVEL = new FillToSeaLevelSurfaceBuilder();
 }

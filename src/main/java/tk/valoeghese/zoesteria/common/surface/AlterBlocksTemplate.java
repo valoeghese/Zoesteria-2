@@ -39,10 +39,8 @@ public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksT
 	public SurfaceBuilder<SurfaceBuilderConfig> create(Container surfaceBuilderData) {
 		List<SBStep> steps = constructStepBranch(surfaceBuilderData.getList("steps"));
 		//BaseSurfaceTemplateConfig.deserialise(surfaceBuilderData.getContainer("config")).base;
-		// TODO better errors and warning messages
-		@SuppressWarnings("unchecked")
-		SurfaceBuilder<SurfaceBuilderConfig> base = (SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(
-				new ResourceLocation(surfaceBuilderData.getStringValue("config.baseSurfaceBuilder")));
+
+		String base = surfaceBuilderData.getStringValue("config.baseSurfaceBuilder");
 
 		return new AlterBlocksSB(base, (original, rand, x, z, noise) -> {
 			AtomicReference<Block> top = new AtomicReference<>(original.getTop().getBlock());
@@ -216,20 +214,29 @@ public class AlterBlocksTemplate implements ISurfaceBuilderTemplate<AlterBlocksT
 	}
 
 	public static class AlterBlocksSB extends SurfaceBuilder<SurfaceBuilderConfig> {
-		public AlterBlocksSB(SurfaceBuilder<SurfaceBuilderConfig> base, SBFunction function) {
+		public AlterBlocksSB(String base, SBFunction function) {
 			super(SurfaceBuilderConfig::deserialize);
 			this.function = function;
 			this.base = base;
 		}
 
 		private final SBFunction function;
-		private final SurfaceBuilder<SurfaceBuilderConfig> base;
+		private final String base;
+		private SurfaceBuilder<SurfaceBuilderConfig> baseBuilder;
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public void buildSurface(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight,
 				double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed,
 				SurfaceBuilderConfig config) {
-			this.base.buildSurface(
+
+			// TODO better errors and warning messages for this cast.
+			if (this.baseBuilder == null) {
+				this.baseBuilder = (SurfaceBuilder<SurfaceBuilderConfig>) ForgeRegistries.SURFACE_BUILDERS.getValue(
+						new ResourceLocation(this.base));
+			}
+
+			this.baseBuilder.buildSurface(
 					random,
 					chunkIn,
 					biomeIn,
