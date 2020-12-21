@@ -1,6 +1,3 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "zoesteria:block/oak_leafcarpet"
-  }
+  "parent": "zoesteria:block/oak_leafcarpet"
 }

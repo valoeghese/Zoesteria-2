@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "zoesteria:block/gibber"
-    }
+    "": [
+      { "model": "zoesteria:block/gibber" },
+      { "model": "zoesteria:block/gibber", "y": 90 },
+      { "model": "zoesteria:block/gibber", "y": 180 },
+      { "model": "zoesteria:block/gibber", "y": 270 }
+    ]
   }
 }
