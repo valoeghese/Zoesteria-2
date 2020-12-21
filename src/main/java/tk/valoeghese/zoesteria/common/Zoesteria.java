@@ -31,7 +31,6 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
-import tk.valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TripleFeatureConfigSerialiser;

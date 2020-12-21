@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -14,6 +15,7 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -23,6 +25,8 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
+import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import tk.valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class AustralianOutback implements IZoesteriaBiome {
@@ -80,7 +84,12 @@ public class AustralianOutback implements IZoesteriaBiome {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.SANDHILL_CANEGRASS.get().getDefaultState()),
 								new SimpleBlockPlacer()).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(3))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(3))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_SHRUB
+						.withConfiguration(new ShrubFeatureConfig(
+								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), 
+								new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState())))
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 2))));
 
 		BiomeDefaultFeatures.addOres(result);
 		BiomeDefaultFeatures.addSedimentDisks(result);
