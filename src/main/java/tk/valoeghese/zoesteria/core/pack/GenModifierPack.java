@@ -194,6 +194,7 @@ public final class GenModifierPack {
 					WritableConfig config = ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>());
 					config.putStringValue("id", surfaceBuilder.id);
 					config.putStringValue("template", templateIdProvider.apply(surfaceBuilder.template).toString());
+					config.putMap("config", surfaceBuilder.config.toZoesteriaConfig().asMap());
 
 					// convert to data
 					List<? extends IZFGSerialisable> stepsJava = surfaceBuilder.steps;
