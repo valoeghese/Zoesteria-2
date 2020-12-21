@@ -511,7 +511,11 @@ public final class GenModifierPack {
 						});
 					}
 
-					lastLoadOrder = ZoesteriaConfig.loadConfig(new File(ROOT_DIR, "internal_data.dat")).getList("lastLoadOrder");
+					File epicFile = new File(ROOT_DIR, "internal_data.dat");
+
+					if (epicFile.isFile()) {
+						lastLoadOrder = ZoesteriaConfig.loadConfig(epicFile).getList("lastLoadOrder");
+					}
 				}
 			}
 		}
