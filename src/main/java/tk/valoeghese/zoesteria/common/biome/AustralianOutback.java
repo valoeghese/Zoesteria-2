@@ -44,7 +44,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 	@Override
 	public IBiomeProperties properties() {
 		IBiomeProperties.Builder builder = IBiomeProperties.builder(Category.DESERT)
-				.depth(0.3f)
+				.depth(this.plateau ? 1.8f : 0.3f)
 				.scale(0.11f)
 				.temperature(1.6f)
 				.downfall(0.1f)
@@ -62,10 +62,12 @@ public class AustralianOutback implements IZoesteriaBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.DESERT, 50); // 10 in game. 50 for testing.
-		biomePlacement.put(BiomeType.COOL, 50); // 0 in game. 50 for testing.
-		biomePlacement.put(BiomeType.ICY, 50); // 0 in game. 50 for testing.
-		biomePlacement.put(BiomeType.WARM, 50); // 0 in game. 50 for testing.
+		if (!this.plateau) {
+			biomePlacement.put(BiomeType.DESERT, 50); // 10 in game. 50 for testing.
+			biomePlacement.put(BiomeType.COOL, 50); // 0 in game. 50 for testing.
+			biomePlacement.put(BiomeType.ICY, 50); // 0 in game. 50 for testing.
+			biomePlacement.put(BiomeType.WARM, 50); // 0 in game. 50 for testing.
+		}
 	}
 
 	@Override
