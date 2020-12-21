@@ -1,9 +1,13 @@
 {
+  "block.zoesteria.overgrown_stone": "Overgrown Stone",
+  "block.zoesteria.overgrown_red_sandstone": "Overgrown Red Sandtone",
+  "block.zoesteria.gibber": "Gibber",
+
   "block.zoesteria.bluff_pine_leaves": "Bluff Pine Leaves",
   "block.zoesteria.bluff_pine_sapling": "Bluff Pine Sapling",
   "block.zoesteria.aspen_leaves": "Aspen Leaves",
   "block.zoesteria.aspen_sapling": "Aspen Sapling",
-  "block.zoesteria.overgrown_stone": "Overgrown Stone",
+
   "block.zoesteria.spinifex_small": "Spinifex",
   "block.zoesteria.spinifex_large": "Spinifex",
   "block.zoesteria.shore_bindweed": "Shore Bindweed",
@@ -14,10 +18,11 @@
   "block.zoesteria.cactlet": "Cactlet",
   "block.zoesteria.large_cactlet": "Large Cactlet",
   "block.zoesteria.pingao": "Pingao",
-  "block.zoesteria.toadstool": "Toadstool",
-  "block.zoesteria.toadstools": "Toadstools",
   "block.zoesteria.blue_flax_lily": "Blue Flax-Lily",
   "block.zoesteria.sandhill_canegrass": "Sandhill Canegrass",
+
+  "block.zoesteria.toadstool": "Toadstool",
+  "block.zoesteria.toadstools": "Toadstools",
 
   "biome.zoesteria.bluff": "Bluff",
   "biome.zoesteria.high_woodlands": "High Woodlands",

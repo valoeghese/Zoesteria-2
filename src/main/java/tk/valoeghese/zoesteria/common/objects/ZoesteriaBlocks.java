@@ -30,6 +30,11 @@ public final class ZoesteriaBlocks {
 
 	// SOILS / GROUND
 
+	public static final RegistryObject<OvergrownStoneBlock> GIBBER = createWithBlockitem(
+			"gibber",
+			() -> new OvergrownStoneBlock(Blocks.STONE, Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_STONE = createWithBlockitem(
 			"overgrown_stone",
 			() -> new OvergrownStoneBlock(Blocks.STONE, Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),

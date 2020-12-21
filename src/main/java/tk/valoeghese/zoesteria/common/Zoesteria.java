@@ -126,7 +126,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				ImmutableList.of(
 						new AlterBlocksTemplate.Step(
 								new Condition("noise_preceeds").withParameter("value", -2.5),
-								Optional.of(Blocks.RED_SANDSTONE),
+								Optional.of(ZoesteriaBlocks.GIBBER.get()),
 								Optional.empty(),
 								Optional.empty(),
 								true),
