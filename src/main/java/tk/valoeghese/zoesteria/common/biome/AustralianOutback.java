@@ -50,6 +50,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 				.depth(this.plateau ? 1.8f : 0.3f)
 				.scale(this.plateau ? 0.04f : 0.11f)
 				.precipitation(RainType.NONE)
+				.entitySpawnChance(0.07f)
 				.temperature(1.6f)
 				.downfall(0.1f)
 				.fillerBlock("minecraft:red_sandstone")
