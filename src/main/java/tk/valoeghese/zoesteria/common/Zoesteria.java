@@ -31,6 +31,8 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
+import tk.valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
+import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
@@ -233,6 +235,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		ZoesteriaSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.FALLEN_LOG, TreeLikeFeatureConfigSerialiser.BASE);
 		ZoesteriaSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.LOLLIPOP_TREE, TreeFeatureConfigSerialiser.BASE);
 		ZoesteriaSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.TRIPLE_NOISE_SELECTOR, TripleFeatureConfigSerialiser.BASE);
+		ZoesteriaSerialisers.registerFeatureSettings(ZoesteriaCommonEventHandler.SIMPLE_SHRUB, ShrubFeatureConfigSerialiser.BASE);
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step, BaseSurfaceTemplateConfig> ALTER_BLOCKS = new AlterBlocksTemplate();

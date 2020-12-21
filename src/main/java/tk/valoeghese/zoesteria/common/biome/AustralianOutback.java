@@ -9,6 +9,13 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome.Category;
+import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
@@ -16,6 +23,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class AustralianOutback implements IZoesteriaBiome {
 	public AustralianOutback(boolean plateau) {
@@ -60,7 +68,20 @@ public class AustralianOutback implements IZoesteriaBiome {
 
 	@Override
 	public BiomeDecorations getDecorations() {
-		BiomeDecorations result = BiomeDecorations.create();
+		BiomeDecorations result = BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(
+								new SimpleBlockStateProvider(ZoesteriaBlocks.BLUE_FLAX_LILY.get().getDefaultState()),
+								new SimpleBlockPlacer()).tries(16).build()
+						)
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(
+								new SimpleBlockStateProvider(ZoesteriaBlocks.SANDHILL_CANEGRASS.get().getDefaultState()),
+								new SimpleBlockPlacer()).tries(32).build()
+						)
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(3))));
+
 		BiomeDefaultFeatures.addOres(result);
 		BiomeDefaultFeatures.addSedimentDisks(result);
 		BiomeDefaultFeatures.addStoneVariants(result);

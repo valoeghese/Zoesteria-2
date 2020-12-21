@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "zoesteria:overgrown_stone"
+    "zoesteria:overgrown_stone",
+    "zoesteria:overgrown_red_sandstone"
   ]
 }

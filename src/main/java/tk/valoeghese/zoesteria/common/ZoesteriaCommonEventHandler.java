@@ -19,6 +19,8 @@ import tk.valoeghese.zoesteria.common.feature.BluffPineFeature;
 import tk.valoeghese.zoesteria.common.feature.BluffRuinsFeature;
 import tk.valoeghese.zoesteria.common.feature.FallenLogFeature;
 import tk.valoeghese.zoesteria.common.feature.LollipopFeature;
+import tk.valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
+import tk.valoeghese.zoesteria.common.feature.SimpleShrubFeature;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleNoiseSelectorFeature;
@@ -39,6 +41,7 @@ public class ZoesteriaCommonEventHandler {
 		registry.register(FALLEN_LOG.setRegistryName("fallen_log"));
 		registry.register(LOLLIPOP_TREE.setRegistryName("lollipop_tree"));
 		registry.register(TRIPLE_NOISE_SELECTOR.setRegistryName("triple_noise_selector"));
+		registry.register(SIMPLE_SHRUB.setRegistryName("simple_shrub"));
 	}
 
 	@SubscribeEvent
@@ -58,6 +61,8 @@ public class ZoesteriaCommonEventHandler {
 	public static final Feature<TreeLikeFeatureConfig> FALLEN_LOG = new FallenLogFeature();
 	public static final Feature<TripleFeatureConfig> TRIPLE_NOISE_SELECTOR = new TripleNoiseSelectorFeature();
 	public static final Feature<TreeFeatureConfig> LOLLIPOP_TREE = new LollipopFeature();
+	public static final Feature<ShrubFeatureConfig> SIMPLE_SHRUB = new SimpleShrubFeature();
+
 	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
 
 	// Configured Features
