@@ -34,7 +34,7 @@ public final class ZoesteriaBlocks {
 			"overgrown_stone",
 			() -> new OvergrownStoneBlock(Blocks.STONE, Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
-	
+
 	public static final RegistryObject<OvergrownStoneBlock> OVERGROWN_RED_SANDSTONE = createWithBlockitem(
 			"overgrown_red_sandstone",
 			() -> new OvergrownStoneBlock(Blocks.RED_SANDSTONE, Block.Properties.create(Material.ROCK, MaterialColor.ADOBE).tickRandomly().hardnessAndResistance(1.8F).sound(OVERGROWN_STONE_SOUND).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
@@ -54,6 +54,7 @@ public final class ZoesteriaBlocks {
 
 	// PLANTS
 	private static final Predicate<Block> SAND_TYPE = b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT;
+	private static final Predicate<Block> OUTBACK_SAND_TYPE = b -> b == Blocks.SAND || b == Blocks.RED_SAND || b == Blocks.COARSE_DIRT || b == Blocks.RED_SANDSTONE || b == Blocks.SANDSTONE;
 
 	public static final RegistryObject<ZoesteriaPlantBlock> SPINIFEX_SMALL = createWithBlockitem(
 			"spinifex_small",
@@ -113,6 +114,16 @@ public final class ZoesteriaBlocks {
 	public static final RegistryObject<ZoesteriaPlantBlock> TOADSTOOLS = createWithBlockitem(
 			"toadstools",
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), 12.0D, Block.OffsetType.NONE, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> BLUE_FLAX_LILY = createWithBlockitem(
+			"blue_flax_lily",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 15.0D, Block.OffsetType.XYZ, OUTBACK_SAND_TYPE, PlantType.Desert),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> SANDHILL_CANEGRASS = createWithBlockitem(
+			"sandhill_canegrass",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 15.0D, Block.OffsetType.XYZ, OUTBACK_SAND_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
 	// SAPLINGS
