@@ -45,7 +45,7 @@ public class AustralianOutback implements IZoesteriaBiome {
 	public IBiomeProperties properties() {
 		IBiomeProperties.Builder builder = IBiomeProperties.builder(Category.DESERT)
 				.depth(this.plateau ? 1.8f : 0.3f)
-				.scale(0.11f)
+				.scale(this.plateau ? 0.04f : 0.11f)
 				.temperature(1.6f)
 				.downfall(0.1f)
 				.fillerBlock("minecraft:red_sandstone")
