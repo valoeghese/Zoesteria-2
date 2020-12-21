@@ -29,6 +29,7 @@ import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
 import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
+import tk.valoeghese.zoesteria.common.biome.AustralianOutback;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSerialiser;
@@ -60,6 +61,8 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		biomes.add(new Woodlands("high_woodlands", 6, 1.3f, 0.03f));
 		biomes.add(new Woodlands("woodlands_hills", 6, 0.45f, 0.38f, true));
+		biomes.add(new AustralianOutback(false));
+		biomes.add(new AustralianOutback(true));
 		return biomes;
 	}
 
