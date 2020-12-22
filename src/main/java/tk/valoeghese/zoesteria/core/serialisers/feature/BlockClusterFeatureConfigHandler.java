@@ -1,13 +1,10 @@
 package tk.valoeghese.zoesteria.core.serialisers.feature;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.minecraft.world.gen.blockplacer.BlockPlacer;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.BlockPlacerHandler;
 import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
@@ -46,7 +43,7 @@ public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialise
 	public IFeatureConfigSerialiser<BlockClusterFeatureConfig> deserialise(Container settings) {
 		return new BlockClusterFeatureConfigHandler(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("stateProvider")),
-				new SimpleBlockPlacer(), // TODO deserialise block placers properly
+				BlockPlacerHandler.deserialize(settings.getContainer("blockPlacer")),
 				settings.getIntegerValue("tries"),
 				settings.getIntegerValue("xSpread"),
 				settings.getIntegerValue("ySpread"),
@@ -60,10 +57,7 @@ public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialise
 	public void serialise(EditableContainer settings) {
 		settings.putMap("stateProvider", BlockStateProviderHandler.serialiseStateProvider(this.stateProvider).asMap());
 
-		Map<String, Object> blockPlacerSettings = new LinkedHashMap<>();
-		blockPlacerSettings.put("blockPlacer", "simple"); // TODO serialise block placers properly
-
-		settings.putMap("blockPlacer", blockPlacerSettings);
+		settings.putMap("blockPlacer", BlockPlacerHandler.serialize(this.blockPlacer).asMap());
 		settings.putIntegerValue("tries", this.tries);
 		settings.putIntegerValue("xSpread", this.xSpread);
 		settings.putIntegerValue("ySpread", this.ySpread);
