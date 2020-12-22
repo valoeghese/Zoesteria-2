@@ -9,12 +9,12 @@ import tk.valoeghese.zoesteria.core.serialisers.BlockStateProviderHandler;
 import tk.valoeghese.zoesteriaconfig.api.container.Container;
 import tk.valoeghese.zoesteriaconfig.api.container.EditableContainer;
 
-public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialiser<BlockClusterFeatureConfig> {
-	private BlockClusterFeatureConfigHandler(BlockClusterFeatureConfig config) {
+public class BlockClusterConfigSerialiser implements IFeatureConfigSerialiser<BlockClusterFeatureConfig> {
+	private BlockClusterConfigSerialiser(BlockClusterFeatureConfig config) {
 		this(config.stateProvider, config.blockPlacer, config.tryCount, config.xSpread, config.ySpread, config.zSpread, config.isReplaceable, config.requiresWater);
 	}
 
-	private BlockClusterFeatureConfigHandler(BlockStateProvider stateProvider, BlockPlacer blockPlacer, int tryCount, int xSpread, int ySpread, int zSpread, boolean isReplaceable, boolean requiresWater) {
+	private BlockClusterConfigSerialiser(BlockStateProvider stateProvider, BlockPlacer blockPlacer, int tryCount, int xSpread, int ySpread, int zSpread, boolean isReplaceable, boolean requiresWater) {
 		this.stateProvider = stateProvider;
 		this.blockPlacer = blockPlacer;
 		this.tries = tryCount;
@@ -36,12 +36,12 @@ public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialise
 
 	@Override
 	public IFeatureConfigSerialiser<BlockClusterFeatureConfig> loadFrom(BlockClusterFeatureConfig config) {
-		return new BlockClusterFeatureConfigHandler(config);
+		return new BlockClusterConfigSerialiser(config);
 	}
 
 	@Override
 	public IFeatureConfigSerialiser<BlockClusterFeatureConfig> deserialise(Container settings) {
-		return new BlockClusterFeatureConfigHandler(
+		return new BlockClusterConfigSerialiser(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("stateProvider")),
 				BlockPlacerHandler.deserialize(settings.getContainer("blockPlacer")),
 				settings.getIntegerValue("tries"),
@@ -85,5 +85,5 @@ public class BlockClusterFeatureConfigHandler implements IFeatureConfigSerialise
 		return result.build();
 	}
 
-	public static final BlockClusterFeatureConfigHandler BASE = new BlockClusterFeatureConfigHandler(null, null, 0, 0, 0, 0, false, false);
+	public static final BlockClusterConfigSerialiser BASE = new BlockClusterConfigSerialiser(null, null, 0, 0, 0, 0, false, false);
 }

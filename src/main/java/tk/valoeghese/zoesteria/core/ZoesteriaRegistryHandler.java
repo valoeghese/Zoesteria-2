@@ -28,7 +28,8 @@ import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
-import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterFeatureConfigHandler;
+import tk.valoeghese.zoesteria.core.serialisers.feature.BlockBlobConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockStateFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
@@ -149,8 +150,8 @@ public class ZoesteriaRegistryHandler {
 
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.ORE, OreFeatureConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterFeatureConfigHandler.BASE);
-			ZoesteriaSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterFeatureConfigHandler.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.FLOWER, BlockClusterConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.RANDOM_PATCH, BlockClusterConfigSerialiser.BASE);
 
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.ICEBERG, BlockStateFeatureConfigSerialiser.BASE);
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.LAKE, BlockStateFeatureConfigSerialiser.BASE);
@@ -189,6 +190,8 @@ public class ZoesteriaRegistryHandler {
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.DISK, SphereReplaceConfigSerialiser.BASE);
 
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.VILLAGE, VillageConfigSerialiser.BASE);
+
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.FOREST_ROCK, BlockBlobConfigSerialiser.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSerialisers();

@@ -49,7 +49,7 @@ public final class Bluff implements IBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.COOL, 5);
+		biomePlacement.put(BiomeType.COOL, 5); // This biome is rarer.
 	}
 
 	@Override
