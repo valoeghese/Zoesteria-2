@@ -90,6 +90,7 @@ public final class BiomeFactory {
 
 		Details details = new Details();
 		details.skyColour = biome.customSkyColour().orElse(null);
+		details.grassColour = biome.customGrassColour().orElse(null);
 		details.river = biome.getRiverBiome().orElse(null);
 		details.hills = biome.getHillsBiomes().orElse(null);
 		details.biomeTypes = biome.biomeTypes();
@@ -162,13 +163,14 @@ public final class BiomeFactory {
 				.scale(properties.getFloatValue("scale"))
 				.temperature(properties.getFloatValue("temperature"))
 				.downfall(properties.getFloatValue("downfall"))
-				.waterColor(properties.getIntegerValue("waterColor"))
-				.waterFogColor(properties.getIntegerValue("waterFogColor"))
+				.waterColor(properties.getIntegerValue("waterColour"))
+				.waterFogColor(properties.getIntegerValue("waterFogColour"))
 				.surfaceBuilder(sb, getSurfaceConfig(properties))
 				.parent(null);
 
 		Details details = new Details();
-		details.skyColour = properties.getIntegerValue("skyColor");
+		details.skyColour = properties.getIntegerValue("skyColour");
+		details.grassColour = properties.getIntegerValue("grassColour");
 		details.river = biomeConfig.getStringValue("river");
 		details.hills = biomeConfig.getList("hills");
 
@@ -414,6 +416,7 @@ public final class BiomeFactory {
 	private static final List<Object> CURRENT_LOAD_ORDER = new ArrayList<>();
 
 	static final class Details {
+		Integer grassColour;
 		Integer skyColour;
 		String river;
 		List<? extends Object> hills;

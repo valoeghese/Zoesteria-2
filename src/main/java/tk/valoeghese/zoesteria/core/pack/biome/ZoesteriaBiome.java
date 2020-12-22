@@ -44,12 +44,21 @@ class ZoesteriaBiome extends Biome {
 			this.setRegistryName(packId, id);
 		}
 
+		// CUSTOM COLOURS
 		if (biomeDetails.skyColour != null) {
 			this.customSkyColour = true;
 			this.skyColour = biomeDetails.skyColour.intValue();
 		} else {
 			this.customSkyColour = false;
 		}
+
+		if (biomeDetails.grassColour != null) {
+			this.customGrassColour = true;
+			this.grassColour = biomeDetails.grassColour.intValue();
+		} else {
+			this.customGrassColour = false;
+		}
+		// END CUSTOM COLOURS
 
 		if (biomeDetails.river != null) {
 			this.hasCustomRiver = true;
@@ -78,6 +87,9 @@ class ZoesteriaBiome extends Biome {
 	private final boolean customSkyColour;
 	private int skyColour;
 
+	private final boolean customGrassColour;
+	private int grassColour;
+
 	private final boolean hasCustomRiver;
 	private ResourceLocation riverId;
 	private Biome river = null;
@@ -99,6 +111,11 @@ class ZoesteriaBiome extends Biome {
 	@OnlyIn(Dist.CLIENT)
 	public int getSkyColor() {
 		return this.customSkyColour ? this.skyColour : super.getSkyColor();
+	}
+
+	@Override
+	public int getGrassColor(double posX, double posZ) {
+		return this.customGrassColour ? this.grassColour : super.getGrassColor(posX, posZ);
 	}
 
 	@Override

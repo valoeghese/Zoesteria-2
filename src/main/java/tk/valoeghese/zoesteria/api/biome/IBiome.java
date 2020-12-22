@@ -20,6 +20,10 @@ public interface IBiome {
 		return Optional.empty();
 	}
 
+	default Optional<Integer> customGrassColour() {
+		return Optional.empty();
+	}
+
 	default Optional<String> getRiverBiome() {
 		return Optional.empty();
 	}

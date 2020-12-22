@@ -300,13 +300,17 @@ public final class GenModifierPack {
 					boolean hasFillerBlock = fillerBlock.isPresent();
 					boolean hasUnderwaterBlock = underwaterBlock.isPresent();
 
-					biomePropertiesData.put("waterColor", biomeProperties.waterColour());
-					biomePropertiesData.put("waterFogColor", biomeProperties.waterFogColour());
+					biomePropertiesData.put("waterColour", biomeProperties.waterColour());
+					biomePropertiesData.put("waterFogColour", biomeProperties.waterFogColour());
 
 					Optional<Integer> skyColour = biome.customSkyColour();
+					Optional<Integer> grassColour = biome.customSkyColour();
 
 					if (skyColour.isPresent()) {
-						biomePropertiesData.put("skyColor", skyColour.get().toString());
+						biomePropertiesData.put("skyColour", skyColour.get().toString());
+					}
+					if (grassColour.isPresent()) {
+						biomePropertiesData.put("grassColour", grassColour.get().toString());
 					}
 
 					// handle default surface blocks
