@@ -98,8 +98,11 @@ public class AustralianOutback implements IBiome {
 								new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState())))
 						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 2))));
 
-		BiomeDefaultFeatures.addWaterLakes(result, Blocks.WATER.getDefaultState(), 98);
-		BiomeDefaultFeatures.addLavaLakes(result, Blocks.LAVA.getDefaultState(), 98);
+		if (!this.plateau) {
+			BiomeDefaultFeatures.addWaterLakes(result, Blocks.WATER.getDefaultState(), 98);
+			BiomeDefaultFeatures.addLavaLakes(result, Blocks.LAVA.getDefaultState(), 98);
+		}
+
 		BiomeDefaultFeatures.addOres(result);
 		BiomeDefaultFeatures.addSedimentDisks(result);
 		BiomeDefaultFeatures.addStoneVariants(result);
