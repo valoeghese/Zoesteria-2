@@ -304,7 +304,7 @@ public final class GenModifierPack {
 					biomePropertiesData.put("waterFogColour", biomeProperties.waterFogColour());
 
 					Optional<Integer> skyColour = biome.customSkyColour();
-					Optional<Integer> grassColour = biome.customSkyColour();
+					Optional<Integer> grassColour = biome.customGrassColour();
 
 					if (skyColour.isPresent()) {
 						biomePropertiesData.put("skyColour", skyColour.get().toString());
