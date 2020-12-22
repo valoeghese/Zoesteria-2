@@ -30,6 +30,7 @@ public final class ZoesteriaBlocks {
 
 	// SOILS / GROUND
 
+	// TODO Remind me to make this a normal Block
 	public static final RegistryObject<OvergrownStoneBlock> GIBBER = createWithBlockitem(
 			"gibber",
 			() -> new OvergrownStoneBlock(Blocks.STONE, Block.Properties.create(Material.ROCK, MaterialColor.STONE).tickRandomly().hardnessAndResistance(1.5F, 6.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0)),
