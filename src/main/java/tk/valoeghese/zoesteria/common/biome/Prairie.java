@@ -52,6 +52,7 @@ public class Prairie implements IBiome {
 				.scale(-0.01f)
 				.temperature(0.4f)
 				.downfall(0.6f)
+				.entitySpawnChance(0.12f)
 				.build();
 	}
 
