@@ -1,6 +1,7 @@
 package tk.valoeghese.zoesteria.common;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.world.gen.blockplacer.DoublePlantBlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
@@ -111,11 +112,16 @@ public class ZoesteriaCommonEventHandler {
 	public static final ConfiguredFeature<?, ?> CONFIGURED_CACTLET = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(
 					new WeightedBlockStateProvider()
-					.addWeightedBlockstate(ZoesteriaBlocks.SMALL_CACTLET.get().getDefaultState(), 3)
-					.addWeightedBlockstate(ZoesteriaBlocks.CACTLET.get().getDefaultState(), 2)
-					.addWeightedBlockstate(ZoesteriaBlocks.LARGE_CACTLET.get().getDefaultState(), 1),
+					.addWeightedBlockstate(ZoesteriaBlocks.SMALL_CACTLET.get().getDefaultState(), 2)
+					.addWeightedBlockstate(ZoesteriaBlocks.CACTLET.get().getDefaultState(), 1),
 					new SimpleBlockPlacer()).tries(16).build()
 			);
+
+	public static final ConfiguredFeature<?, ?> CONFIGURED_LARGE_CACTLET = Feature.RANDOM_PATCH.withConfiguration(
+			new BlockClusterFeatureConfig.Builder(
+					new SimpleBlockStateProvider(ZoesteriaBlocks.LARGE_CACTLET.get().getDefaultState()),
+					new DoublePlantBlockPlacer()
+					).tries(8).build());
 
 	public static final ConfiguredFeature<?, ?> CONFIGURED_TOADSTOOL = Feature.RANDOM_PATCH.withConfiguration(
 			new BlockClusterFeatureConfig.Builder(

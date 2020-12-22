@@ -131,6 +131,16 @@ public final class ZoesteriaBlocks {
 			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 15.0D, Block.OffsetType.XYZ, OUTBACK_TYPE, PlantType.Desert),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaPlantBlock> PRAIRIE_GRASS = createWithBlockitem(
+			"prairie_grass",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 14.0D, Block.OffsetType.XYZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaPlantBlock> PRAIRIE_GRASS_TALL = createWithBlockitem(
+			"prairie_grass_tall",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	// SAPLINGS
 
 	public static final RegistryObject<SaplingBlock> ASPEN_SAPLING = createWithBlockitem(

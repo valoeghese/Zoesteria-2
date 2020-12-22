@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "zoesteria:block/prairie_grass_tall"
+    },
+    "half=upper": {
+      "model": "zoesteria:block/prairie_grass_tall_top"
+    }
+  }
+}

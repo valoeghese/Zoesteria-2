@@ -31,6 +31,7 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.AustralianOutback;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
+import tk.valoeghese.zoesteria.common.biome.Prairie;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
@@ -63,6 +64,10 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		biomes.add(new Woodlands("woodlands_hills", 6, 0.45f, 0.38f, true));
 		biomes.add(new AustralianOutback(false));
 		biomes.add(new AustralianOutback(true));
+		biomes.add(new Prairie());
+//		biomes.add(new Pampas());
+//		biomes.add(new Meadow());
+		
 		return biomes;
 	}
 
@@ -215,6 +220,8 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		// === DESERT BIOMES ===
 		BiomeDecorations desertDecorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_CACTLET
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_LARGE_CACTLET
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
 		tweaks.addTweak("cactlets", new BiomeListPredicate(Lists.newArrayList(
 				Biomes.DESERT,
