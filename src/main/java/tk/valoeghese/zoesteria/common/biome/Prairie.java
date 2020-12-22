@@ -84,9 +84,9 @@ public class Prairie implements IBiome {
 				.addDecoration(Decoration.LOCAL_MODIFICATIONS, Feature.FOREST_ROCK
 						.withConfiguration(new BlockBlobConfig(Blocks.STONE.getDefaultState(), 1))
 						.withPlacement(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED.configure(new TopSolidWithNoiseConfig(
-								8, // amplitude
+								9, // amplitude
 								32.0, // stretch of coordinates (pos / val)
-								-0.6, // offset of raw noise
+								-0.5, // offset of raw noise
 								Heightmap.Type.OCEAN_FLOOR_WG))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
