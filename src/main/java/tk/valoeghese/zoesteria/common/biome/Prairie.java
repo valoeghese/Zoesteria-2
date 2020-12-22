@@ -58,7 +58,7 @@ public class Prairie implements IBiome {
 
 	@Override
 	public Optional<Integer> customGrassColour() {
-		return Optional.of(0xfcc50f);
+		return Optional.of(/*0xfcc50f*/ 0xf4c529);
 	}
 
 	@Override
