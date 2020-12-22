@@ -17,6 +17,8 @@ import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockBlobConfig;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
@@ -103,6 +105,9 @@ public class Prairie implements IBiome {
 		BiomeDefaultFeatures.addSedimentDisks(decorations);
 		BiomeDefaultFeatures.addStoneVariants(decorations);
 		BiomeDefaultFeatures.addMushrooms(decorations, 2, 1);
+
+		decorations.addStructure(Feature.PILLAGER_OUTPOST.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+		decorations.addStructure(Feature.VILLAGE.withConfiguration(new VillageConfig("village/plains/town_centers", 7)));
 
 		return decorations;
 	}
