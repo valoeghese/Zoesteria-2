@@ -25,7 +25,7 @@ import tk.valoeghese.zoesteria.api.Manifest;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.surface.Condition;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
@@ -56,18 +56,25 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public List<IZoesteriaBiome> createBiomes() {
-		List<IZoesteriaBiome> biomes = Lists.newArrayList();
+	public List<IBiome> createBiomes() {
+		List<IBiome> biomes = Lists.newArrayList();
+		// Bluff
 		biomes.add(new Bluff());
+
+		// Woodlands
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		biomes.add(new Woodlands("high_woodlands", 6, 1.3f, 0.03f));
 		biomes.add(new Woodlands("woodlands_hills", 6, 0.45f, 0.38f, true));
-		biomes.add(new AustralianOutback(false));
-		biomes.add(new AustralianOutback(true));
-		biomes.add(new Prairie());
-//		biomes.add(new Pampas());
-//		biomes.add(new Meadow());
-		
+
+		// Australian Outback
+		biomes.add(new AustralianOutback(false)); // normal
+		biomes.add(new AustralianOutback(true)); // uluru
+
+		biomes.add(new Prairie("prairie", 0.1f));
+		biomes.add(new Prairie("prairie_rise", 0.5f));
+		// biomes.add(new Pampas());
+		// biomes.add(new Meadow());
+
 		return biomes;
 	}
 

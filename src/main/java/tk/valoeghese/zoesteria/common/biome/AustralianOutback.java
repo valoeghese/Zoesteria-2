@@ -26,13 +26,13 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
-public class AustralianOutback implements IZoesteriaBiome {
+public class AustralianOutback implements IBiome {
 	public AustralianOutback(boolean plateau) {
 		this.plateau = plateau;
 	}

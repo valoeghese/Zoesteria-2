@@ -42,7 +42,7 @@ import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
@@ -206,7 +206,7 @@ public final class GenModifierPack {
 		String packId = module.packId();
 		AtomicBoolean setIsLoaded = new AtomicBoolean(false); // in case of varying order
 		AtomicBoolean isLoaded = new AtomicBoolean(false);
-		final List<IZoesteriaBiome> moduleBiomes = module.createBiomes();
+		final List<IBiome> moduleBiomes = module.createBiomes();
 
 		ZoesteriaRegistryHandler.BIOME_PROCESSING.add(biomeRegistry -> {
 			if (!setIsLoaded.get()) {
@@ -215,7 +215,7 @@ public final class GenModifierPack {
 			}
 
 			if (!isLoaded.get()) {
-				for (IZoesteriaBiome moduleBiome : moduleBiomes) {
+				for (IBiome moduleBiome : moduleBiomes) {
 					BiomeFactory.buildBiome(moduleBiome, module.packId(), biomeRegistry);
 				}
 			}
@@ -272,7 +272,7 @@ public final class GenModifierPack {
 				new File(packDir, "biomes").mkdir();
 
 				// create biome files
-				for (IZoesteriaBiome biome : moduleBiomes) {
+				for (IBiome biome : moduleBiomes) {
 					Map<String, Object> fileData = Maps.newLinkedHashMap();
 
 					fileData.put("id", biome.id());

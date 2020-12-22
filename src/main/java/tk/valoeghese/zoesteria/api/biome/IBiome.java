@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 
-public interface IZoesteriaBiome {
+public interface IBiome {
 	String id();
 	IBiomeProperties properties();
 	void addPlacement(Object2IntMap<BiomeManager.BiomeType> biomePlacement);

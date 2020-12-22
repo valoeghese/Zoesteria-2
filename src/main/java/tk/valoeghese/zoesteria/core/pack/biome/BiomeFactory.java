@@ -42,7 +42,7 @@ import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.IBiomePredicate;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.api.feature.IPlacementConfigSerialiser;
@@ -54,7 +54,7 @@ import tk.valoeghese.zoesteriaconfig.api.template.ConfigTemplate;
 
 public final class BiomeFactory {
 	@SuppressWarnings("unchecked")
-	public static Biome buildBiome(IZoesteriaBiome biome, String packId, IForgeRegistry<Biome> biomeRegistry) {
+	public static Biome buildBiome(IBiome biome, String packId, IForgeRegistry<Biome> biomeRegistry) {
 		String id = biome.id();
 		IBiomeProperties properties = biome.properties();
 		BiomeDecorations decorations = biome.getDecorations();

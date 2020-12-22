@@ -24,13 +24,13 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
 import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 
-public class Woodlands implements IZoesteriaBiome {
+public class Woodlands implements IBiome {
 	public Woodlands(String id, int tpc, float baseHeight, float heightVariation) {
 		this(id, tpc, baseHeight, heightVariation, false);
 	}

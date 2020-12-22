@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
-import tk.valoeghese.zoesteria.api.biome.IZoesteriaBiome;
+import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.core.ZoesteriaMod;
@@ -14,7 +14,7 @@ import tk.valoeghese.zoesteria.core.pack.GenModifierPack;
 public interface IZoesteriaJavaModule {
 	String packId();
 	Manifest createManifest();
-	List<IZoesteriaBiome> createBiomes();
+	List<IBiome> createBiomes();
 
 	/**
 	 * Use this to add new features to existing biomes.
