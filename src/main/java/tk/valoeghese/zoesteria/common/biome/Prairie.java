@@ -23,6 +23,7 @@ import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
+import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
@@ -95,6 +96,14 @@ public class Prairie implements IBiome {
 								new DoublePlantBlockPlacer()).tries(32).build()
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10))));
+
+		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
+		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 95);
+		BiomeDefaultFeatures.addOres(decorations);
+		BiomeDefaultFeatures.addSedimentDisks(decorations);
+		BiomeDefaultFeatures.addStoneVariants(decorations);
+		BiomeDefaultFeatures.addMushrooms(decorations, 2, 1);
+
 		return decorations;
 	}
 
