@@ -62,8 +62,10 @@ public class Prairie implements IBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.WARM, 10); // a common biome in warm areas.
-		biomePlacement.put(BiomeType.COOL, 4); // rarer in cool areas, but exists
+		if (this.baseHeight < 0.4f) {
+			biomePlacement.put(BiomeType.WARM, 10); // a common biome in warm areas.
+			biomePlacement.put(BiomeType.COOL, 4); // rarer in cool areas, but exists
+		}
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class Prairie implements IBiome {
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return this.baseHeight < 0.4 ? Optional.of(ImmutableList.of("zoesteria:prairie_rise")) : Optional.empty();
+		return this.baseHeight < 0.4f ? Optional.of(ImmutableList.of("zoesteria:prairie_rise")) : Optional.empty();
 	}
 
 	@Override
