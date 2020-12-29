@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -157,5 +158,20 @@ public final class ZoesteriaBlocks {
 		RegistryObject<T> result = BLOCKS.register(id, blockSupplier);
 		ZoesteriaItems.ITEMS.register(id, result.lazyMap(block -> new BlockItem(block, itemProperties)));
 		return result;
+	}
+
+	public static void registerFlammables() {
+		BLOCKS.getEntries().stream().map(ro -> ro.get()).forEach(block -> {
+			Material material = block.getDefaultState().getMaterial();
+			FireBlock fire = (FireBlock) Blocks.FIRE;
+
+			if (material == Material.LEAVES) {
+				fire.setFireInfo(block, 30, 60);
+			} else if (material == Material.WOOD) {
+				fire.setFireInfo(block, 5, 20);
+			} else if (material == Material.PLANTS) {
+				fire.setFireInfo(block, 60, 100);
+			}
+		});
 	}
 }

@@ -78,6 +78,7 @@ public class ZoesteriaMod {
 		// START ZOESTERIA MODULE CODE
 		BiomeDictionary.addTypes(Biomes.SHATTERED_SAVANNA, Zoesteria.AMPLIFIED);
 		BiomeDictionary.addTypes(Biomes.SHATTERED_SAVANNA_PLATEAU, Zoesteria.AMPLIFIED);
+		ZoesteriaBlocks.registerFlammables();
 		// END ZOESTERIA MODULE CODE
 	}
 
