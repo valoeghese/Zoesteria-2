@@ -104,7 +104,7 @@ public class Prairie implements IBiome {
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.025f, 9))));
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.03f, 9))));
 
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
 		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 95);
