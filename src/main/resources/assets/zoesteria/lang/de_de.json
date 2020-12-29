@@ -1,0 +1,43 @@
+{
+  "block.zoesteria.overgrown_stone": "Bewachsener Stein",
+  "block.zoesteria.overgrown_red_sandstone": "Bewachsener roter Sandstein",
+  "block.zoesteria.gibber": "Gibber",
+
+  "block.zoesteria.bluff_pine_leaves": "Bluffkieferlaub",
+  "block.zoesteria.bluff_pine_sapling": "Bluffkiefersetzling",
+  "block.zoesteria.aspen_leaves": "Espelaub",
+  "block.zoesteria.aspen_sapling": "Espesetzling",
+
+  "block.zoesteria.spinifex_small": "Spinifex",
+  "block.zoesteria.shore_bindweed": "Strandwinde",
+  "block.zoesteria.spinifex_large": "Spinifex",
+  "block.zoesteria.small_bush": "Kleiner Strauch",
+  "block.zoesteria.small_berry_bush": "Keiner Beerenstrauch",
+  "block.zoesteria.oak_leafcarpet": "Oak Leaf Carpet",
+  "block.zoesteria.small_cactlet": "Winziger Kaktus",
+  "block.zoesteria.cactlet": "Kleiner Kaktus",
+  "block.zoesteria.large_cactlet": "Kaktus",
+  "block.zoesteria.pingao": "Pingao",
+  "block.zoesteria.blue_flax_lily": "Blaue Leinlilie",
+  "block.zoesteria.sandhill_canegrass": "Outbackgras",
+  "block.zoesteria.prairie_grass": "Präriegras",
+  "block.zoesteria.prairie_grass_tall": "Hoch Präriegras",
+  "block.zoesteria.pampas_grass": "Pampagras",
+  "block.zoesteria.toetoe": "Toetoe",
+
+  "block.zoesteria.toadstool": "Pilz",
+  "block.zoesteria.toadstools": "Pilze",
+
+  "biome.zoesteria.bluff": "Bluff",
+  "biome.zoesteria.high_woodlands": "Hochwaldland",
+  "biome.zoesteria.low_woodlands": "Tiefwaldland",
+  "biome.zoesteria.woodlands_hills": "Waldlandhügel",
+  "biome.zoesteria.australian_outback": "Australien Outback",
+  "biome.zoesteria.uluru": "Uluru",
+  "biome.zoesteria.prairie": "Prärie",
+  "biome.zoesteria.prairie_rise": "Präriehügel",
+  "biome.zoesteria.pampas": "Die Pampa",
+  "biome.zoesteria.meadow": "Wiese",
+
+  "itemGroup.zoesteria": "Zoesteria"
+}
