@@ -142,6 +142,16 @@ public final class ZoesteriaBlocks {
 			() -> new ZoesteriaDoublePlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, null),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaDoublePlantBlock> PAMPAS_GRASS = createWithBlockitem(
+			"pampas_grass",
+			() -> new ZoesteriaDoublePlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
+	public static final RegistryObject<ZoesteriaDoublePlantBlock> TOETOE = createWithBlockitem(
+			"toetoe",
+			() -> new ZoesteriaDoublePlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	// SAPLINGS
 
 	public static final RegistryObject<SaplingBlock> ASPEN_SAPLING = createWithBlockitem(
