@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "zoesteria:block/toetoe"
+    },
+    "half=upper": {
+      "model": "zoesteria:block/toetoe_top"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "zoesteria:block/pampas_grass"
+    },
+    "half=upper": {
+      "model": "zoesteria:block/pampas_grass_top"
+    }
+  }
+}

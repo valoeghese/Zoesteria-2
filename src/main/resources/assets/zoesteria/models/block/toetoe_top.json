@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "zoesteria:block/toetoe_top"
+  }
+}
