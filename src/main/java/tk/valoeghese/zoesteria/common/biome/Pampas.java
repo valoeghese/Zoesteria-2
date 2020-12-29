@@ -54,8 +54,7 @@ public class Pampas implements IBiome {
 
 	@Override
 	public boolean canSpawnInBiome() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
