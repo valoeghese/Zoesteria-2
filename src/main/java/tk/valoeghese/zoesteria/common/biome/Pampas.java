@@ -2,24 +2,21 @@ package tk.valoeghese.zoesteria.common.biome;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.blockplacer.DoublePlantBlockPlacer;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.BlockBlobConfig;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraftforge.common.BiomeDictionary;
@@ -30,7 +27,6 @@ import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
-import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class Pampas implements IBiome {
 	public Pampas(String id, Type type) {
@@ -40,6 +36,8 @@ public class Pampas implements IBiome {
 
 	private final String id;
 	private final Type type;
+	private final float baseHeight;
+	private final float scale;
 
 	@Override
 	public String id() {
@@ -48,8 +46,12 @@ public class Pampas implements IBiome {
 
 	@Override
 	public IBiomeProperties properties() {
-		// TODO Auto-generated method stub
-		return null;
+		return IBiomeProperties.builder(Category.PLAINS)
+				.depth(this.type.baseHeight)
+				.scale(this.type.scale)
+				.temperature(0.7f)
+				.downfall(0.3f)
+				.build();
 	}
 
 	@Override
@@ -59,7 +61,14 @@ public class Pampas implements IBiome {
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		biomePlacement.put(BiomeType.COOL, 10);
+		if (this.type == Type.NORMAL) {
+			biomePlacement.put(BiomeType.COOL, 10);
+		}
+	}
+
+	@Override
+	public Optional<List<String>> getHillsBiomes() {
+		return this.type == Type.NORMAL ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:pampas_hills", "zoesteria:pampas_flats"));
 	}
 
 	@Override
@@ -126,8 +135,16 @@ public class Pampas implements IBiome {
 	}
 
 	public enum Type {
-		FLATS,
-		NORMAL,
-		HILLS
+		FLATS(0.2f, -0.1f),
+		NORMAL(0.35f, 0f),
+		HILLS(1.4f, 0.1f);
+
+		private Type(float baseHeight, float scale) {
+			this.baseHeight = baseHeight;
+			this.scale = scale;
+		}
+
+		private final float baseHeight;
+		private final float scale;
 	}
 }

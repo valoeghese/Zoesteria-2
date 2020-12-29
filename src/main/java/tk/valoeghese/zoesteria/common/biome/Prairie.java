@@ -52,7 +52,7 @@ public class Prairie implements IBiome {
 		return IBiomeProperties.builder(Category.PLAINS)
 				.depth(this.baseHeight)
 				.scale(-0.01f)
-				.temperature(0.4f)
+				.temperature(0.52f)
 				.downfall(0.6f)
 				.entitySpawnChance(0.12f)
 				.build();
