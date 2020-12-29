@@ -31,6 +31,7 @@ import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
 import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
 import tk.valoeghese.zoesteria.common.biome.AustralianOutback;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
+import tk.valoeghese.zoesteria.common.biome.Pampas;
 import tk.valoeghese.zoesteria.common.biome.Prairie;
 import tk.valoeghese.zoesteria.common.biome.Woodlands;
 import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSerialiser;
@@ -72,7 +73,10 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 		biomes.add(new Prairie("prairie", 0.1f));
 		biomes.add(new Prairie("prairie_rise", 0.55f));
-		// biomes.add(new Pampas());
+
+		biomes.add(new Pampas("pampas", Pampas.Type.NORMAL));
+		biomes.add(new Pampas("pampas_flats", Pampas.Type.FLATS));
+		biomes.add(new Pampas("pampas_hills", Pampas.Type.HILLS));
 		// biomes.add(new Meadow());
 
 		return biomes;
