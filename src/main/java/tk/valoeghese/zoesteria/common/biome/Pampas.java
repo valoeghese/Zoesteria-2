@@ -41,8 +41,6 @@ public class Pampas implements IBiome {
 
 	private final String id;
 	private final Type type;
-	private final float baseHeight;
-	private final float scale;
 
 	@Override
 	public String id() {
@@ -93,7 +91,7 @@ public class Pampas implements IBiome {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),
 								new DoublePlantBlockPlacer()).xSpread(3).zSpread(3).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(4))));
 
 		BiomeDefaultFeatures.addGrass(decorations, 40);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
