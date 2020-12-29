@@ -19,6 +19,7 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
@@ -29,6 +30,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
+import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class Prairie implements IBiome {
@@ -58,7 +60,7 @@ public class Prairie implements IBiome {
 
 	@Override
 	public Optional<Integer> customGrassColour() {
-		return Optional.of(/*0xfcc50f*/ 0xffce2d);
+		return Optional.of(/*0xfcc50f*/ /*0xffce2d*/ 0xffeb70);
 	}
 
 	@Override
@@ -100,7 +102,9 @@ public class Prairie implements IBiome {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PRAIRIE_GRASS_TALL.get().getDefaultState()),
 								new DoublePlantBlockPlacer()).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.025f, 9))));
 
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
 		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 95);

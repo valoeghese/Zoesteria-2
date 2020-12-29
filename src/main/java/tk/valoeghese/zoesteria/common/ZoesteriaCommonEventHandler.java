@@ -82,6 +82,21 @@ public class ZoesteriaCommonEventHandler {
 					.build()
 					);
 
+	public static final ConfiguredFeature<TreeFeatureConfig, ?> CONFIGURED_HICKORY = LOLLIPOP_TREE
+			.withConfiguration(new TreeFeatureConfig.Builder(
+					new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
+					new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState()),
+					new NoneFoliagePlacer())
+					.baseHeight(5)
+					.heightRandA(2)
+					.heightRandB(2)
+					.trunkHeight(1)
+					.trunkHeightRandom(1)
+					.trunkTopOffset(1)
+					.trunkTopOffsetRandom(0)
+					.build()
+					);
+
 	public static final ConfiguredFeature<TreeFeatureConfig, ?> CONFIGURED_BLUFF_PINE_SAPLING = BLUFF_PINE_SAPLING
 			.withConfiguration(new TreeFeatureConfig.Builder(
 					new SimpleBlockStateProvider(
