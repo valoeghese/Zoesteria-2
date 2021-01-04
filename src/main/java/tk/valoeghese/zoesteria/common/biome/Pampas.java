@@ -69,14 +69,14 @@ public class Pampas implements IBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (this.type == Type.NORMAL) {
-			biomePlacement.put(BiomeType.COOL, 50);
-			biomePlacement.put(BiomeType.WARM, 50);
+			biomePlacement.put(BiomeType.COOL, 90);
+			biomePlacement.put(BiomeType.WARM, 90);
 		}
 	}
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return this.type == Type.NORMAL ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:pampas_hills", "zoesteria:pampas_flats"));
+		return this.type != Type.NORMAL ? Optional.empty() : Optional.of(ImmutableList.of("zoesteria:pampas_hills", "zoesteria:pampas_flats"));
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class Pampas implements IBiome {
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),
 								new DoublePlantBlockPlacer()).xSpread(3).zSpread(3).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(4))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(8))));
 
 		BiomeDefaultFeatures.addGrass(decorations, 40);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
@@ -149,9 +149,9 @@ public class Pampas implements IBiome {
 	}
 
 	public enum Type {
-		FLATS(0.2f, -0.1f),
-		NORMAL(0.35f, 0f),
-		HILLS(1.4f, 0.1f);
+		FLATS(0.15f, -0.1f),
+		NORMAL(0.4f, 0.1f),
+		HILLS(1.45f, 0.14f);
 
 		private Type(float baseHeight, float scale) {
 			this.baseHeight = baseHeight;

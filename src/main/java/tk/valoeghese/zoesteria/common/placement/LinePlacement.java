@@ -30,8 +30,8 @@ public class LinePlacement extends Placement<FrequencyConfig>{
 			int l = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, j, k);
 			return new BlockPos(j, l, k);
 		}).filter(bpos -> {
-			double noise = NOISE.sample(bpos.getX() * 0.008D, bpos.getY() * 0.008D);
-			return noise > -0.03 && noise < 0.03;
+			double noise = NOISE.sample(bpos.getX() * 0.008D, bpos.getZ() * 0.008D);
+			return noise > -0.05 && noise < 0.05;
 		});
 	}
 
