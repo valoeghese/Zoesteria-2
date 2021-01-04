@@ -173,13 +173,13 @@ public class Zoesteria implements IZoesteriaJavaModule {
 								Optional.of(Blocks.STONE),
 								Optional.of(Blocks.STONE),
 								Optional.of(Blocks.STONE),
-								false),
+								true),
 						new AlterBlocksTemplate.Step(
 								new Condition("noise_outside").withParameter("min", -2.5).withParameter("max", 2.5),
 								Optional.of(Blocks.GRAVEL),
 								Optional.of(Blocks.GRAVEL),
 								Optional.of(Blocks.GRAVEL),
-								false))));
+								true))));
 		return surfaceBuilders;
 	}
 

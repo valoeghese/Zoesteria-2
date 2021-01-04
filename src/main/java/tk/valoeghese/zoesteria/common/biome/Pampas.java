@@ -90,13 +90,13 @@ public class Pampas implements IBiome {
 								-0.5, // offset of raw noise
 								Heightmap.Type.OCEAN_FLOOR_WG))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
-						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new FrequencyConfig(3))))
+						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new FrequencyConfig(5))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),
 								new DoublePlantBlockPlacer()).xSpread(3).zSpread(3).tries(32).build()
 						)
-						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(8))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(4))));
 
 		BiomeDefaultFeatures.addGrass(decorations, 40);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);
@@ -150,7 +150,7 @@ public class Pampas implements IBiome {
 
 	public enum Type {
 		FLATS(0.15f, -0.1f),
-		NORMAL(0.4f, 0.1f),
+		NORMAL(0.38f, 0.1f),
 		HILLS(1.45f, 0.14f);
 
 		private Type(float baseHeight, float scale) {
