@@ -99,38 +99,38 @@ public class ZoesteriaRegistryHandler {
 		if (!preventPlacementFire) {
 			preventPlacementFire = true;
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_CHANCE_HEIGHTMAP, HeightChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_CHANCE_HEIGHTMAP_DOUBLE, HeightChanceConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_EXTRA_HEIGHTMAP, CountExtraChanceConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_RANGE, CountRangeConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.RANDOM_COUNT_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_VERY_BIASED_RANGE, CountRangeConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.RANDOM_COUNT_RANGE, CountRangeConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_DEPTH_AVERAGE, DepthAverageConfigHandler.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_TOP_SOLID, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.COUNT_HEIGHT_64, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.FOREST_ROCK, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.HELL_FIRE, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.MAGMA, FrequencyConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.LIGHT_GEM_CHANCE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_HEIGHTMAP, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_TOP_SOLID, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_HEIGHTMAP_32, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_HEIGHTMAP_DOUBLE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.COUNT_HEIGHT_64, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.FOREST_ROCK, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.HELL_FIRE, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.MAGMA, FrequencyConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.LIGHT_GEM_CHANCE, FrequencyConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_PASSTHROUGH, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.LAVA_LAKE, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.CHANCE_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.CHANCE_HEIGHTMAP_DOUBLE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.CHANCE_PASSTHROUGH, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.CHANCE_TOP_SOLID_HEIGHTMAP, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.LAVA_LAKE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.WATER_LAKE, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.DUNGEONS, ChanceConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.ICEBERG, ChanceConfigSerialiser.BASE);
 
-			ZoesteriaSerialisers.registerPlacementSettings(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED, TopSolidWithNoiseConfigSerialiser.BASE);
+			ZoesteriaSerialisers.registerPlacementSerialiser(Placement.TOP_SOLID_HEIGHTMAP_NOISE_BIASED, TopSolidWithNoiseConfigSerialiser.BASE);
 		}
 
 		for (IZoesteriaJavaModule module : MODULES) {

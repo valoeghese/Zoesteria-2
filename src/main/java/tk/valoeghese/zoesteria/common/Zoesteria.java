@@ -44,6 +44,7 @@ import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.common.surface.BaseSurfaceTemplateConfig;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigSerialiser;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
@@ -162,6 +163,23 @@ public class Zoesteria implements IZoesteriaJavaModule {
 												Optional.empty(),
 												true)),
 								false))));
+		surfaceBuilders.add(ZoesteriaSurfaceBuilder.create(
+				"pampas_hills",
+				ALTER_BLOCKS,
+				new BaseSurfaceTemplateConfig("minecraft:default"),
+				ImmutableList.of(
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_outside").withParameter("min", -2.85).withParameter("max", 2.85),
+								Optional.of(Blocks.STONE),
+								Optional.of(Blocks.STONE),
+								Optional.of(Blocks.STONE),
+								false),
+						new AlterBlocksTemplate.Step(
+								new Condition("noise_outside").withParameter("min", -2.5).withParameter("max", 2.5),
+								Optional.of(Blocks.GRAVEL),
+								Optional.of(Blocks.GRAVEL),
+								Optional.of(Blocks.GRAVEL),
+								false))));
 		return surfaceBuilders;
 	}
 
@@ -169,6 +187,11 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	public void registerBiomePredicates() {
 		ZoesteriaSerialisers.registerBiomePredicate(new BiomeListPredicate(null));
 		ZoesteriaSerialisers.registerBiomePredicate(new OverworldBiomeDictionaryPredicate(null));
+	}
+
+	@Override
+	public void registerPlacementSerialisers() {
+		ZoesteriaSerialisers.registerPlacementSerialiser(ZoesteriaCommonEventHandler.LINE_PLACEMENT, FrequencyConfigSerialiser.BASE);
 	}
 
 	@Override

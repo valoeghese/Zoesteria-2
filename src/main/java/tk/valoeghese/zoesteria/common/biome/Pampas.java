@@ -11,15 +11,14 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockplacer.DoublePlantBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.BlockBlobConfig;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
@@ -49,12 +48,17 @@ public class Pampas implements IBiome {
 
 	@Override
 	public IBiomeProperties properties() {
-		return IBiomeProperties.builder(Category.PLAINS)
+		IBiomeProperties.Builder builder = IBiomeProperties.builder(Category.PLAINS)
 				.depth(this.type.baseHeight)
 				.scale(this.type.scale)
 				.temperature(0.7f)
-				.downfall(0.3f)
-				.build();
+				.downfall(0.3f);
+
+		if (this.type == Type.HILLS) {
+			builder.surfaceBuilder("zoesteria:pampas_hills");
+		}
+
+		return builder.build();
 	}
 
 	@Override
@@ -65,7 +69,8 @@ public class Pampas implements IBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (this.type == Type.NORMAL) {
-			biomePlacement.put(BiomeType.COOL, 10);
+			biomePlacement.put(BiomeType.COOL, 50);
+			biomePlacement.put(BiomeType.WARM, 50);
 		}
 	}
 
@@ -85,7 +90,7 @@ public class Pampas implements IBiome {
 								-0.5, // offset of raw noise
 								Heightmap.Type.OCEAN_FLOOR_WG))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.03f, 9))))
+						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new FrequencyConfig(3))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),

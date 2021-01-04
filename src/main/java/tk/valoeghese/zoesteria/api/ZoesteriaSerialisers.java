@@ -33,7 +33,7 @@ public class ZoesteriaSerialisers {
 		FEATURE_CONFIGS.put(feature, configHandler);
 	}
 
-	public static <T extends IPlacementConfig> void registerPlacementSettings(Placement<T> placement, IPlacementConfigSerialiser<T> configHandler) {
+	public static <T extends IPlacementConfig> void registerPlacementSerialiser(Placement<T> placement, IPlacementConfigSerialiser<T> configHandler) {
 		PLACEMENT_CONFIGS.put(placement, configHandler);
 	}
 

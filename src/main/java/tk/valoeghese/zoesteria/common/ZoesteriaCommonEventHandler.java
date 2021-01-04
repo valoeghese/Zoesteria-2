@@ -11,6 +11,8 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
+import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.event.RegistryEvent;
@@ -26,12 +28,20 @@ import tk.valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleNoiseSelectorFeature;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.common.placement.LinePlacement;
 import tk.valoeghese.zoesteria.common.surface.FillToSeaLevelSurfaceBuilder;
 
 /**
  * Event registry handler for common stuff.
  */
 public class ZoesteriaCommonEventHandler {
+	@SubscribeEvent
+	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
+		IForgeRegistry<Placement<?>> registry = event.getRegistry();
+
+		registry.register(LINE_PLACEMENT.setRegistryName("line"));
+	}
+
 	@SubscribeEvent
 	public static void onFeatureRegister(RegistryEvent.Register<Feature<?>> event) {
 		IForgeRegistry<Feature<?>> registry = event.getRegistry();
@@ -147,4 +157,6 @@ public class ZoesteriaCommonEventHandler {
 			);
 
 	private static final SurfaceBuilder<SurfaceBuilderConfig> FILL_TO_SEA_LEVEL = new FillToSeaLevelSurfaceBuilder();
+
+	public static final Placement<FrequencyConfig> LINE_PLACEMENT = new LinePlacement();
 }
