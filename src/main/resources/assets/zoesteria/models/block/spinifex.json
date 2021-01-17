@@ -1,0 +1,76 @@
+{
+	"credits": "perhaps made with a bench of blocks",
+	"ambientocclusion": false,
+	"textures": {
+		"1": "zoesteria:block/spinifex_ball",
+		"particle": "#cross"
+	},
+	"elements": [
+		{
+			"from": [0.8, 0, 8],
+			"to": [15.2, 16, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#cross"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#cross"}
+			}
+		},
+		{
+			"from": [8, 0, 0.8],
+			"to": [8, 16, 15.2],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#cross"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#cross"}
+			}
+		},
+		{
+			"from": [3, 8, 0],
+			"to": [12, 9, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 17, 15]},
+			"faces": {
+				"north": {"uv": [1, 0, 10, 1], "texture": "#1"},
+				"east": {"uv": [1, 0, 10, 1], "texture": "#1"},
+				"south": {"uv": [1, 10, 10, 11], "texture": "#1"},
+				"west": {"uv": [1, 10, 10, 11], "texture": "#1"},
+				"up": {"uv": [1, 1, 10, 10], "texture": "#1"},
+				"down": {"uv": [1, 1, 10, 10], "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 4, 0],
+			"to": [8, 13, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 9, 4]},
+			"faces": {
+				"north": {"uv": [1, 10, 10, 11], "rotation": 90, "texture": "#1"},
+				"east": {"uv": [1, 1, 10, 10], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [1, 0, 10, 1], "rotation": 270, "texture": "#1"},
+				"west": {"uv": [1, 1, 10, 10], "texture": "#1"},
+				"up": {"uv": [1, 0, 10, 1], "rotation": 270, "texture": "#1"},
+				"down": {"uv": [1, 10, 10, 11], "rotation": 270, "texture": "#1"}
+			}
+		},
+		{
+			"from": [3, 4, 4],
+			"to": [12, 13, 5],
+			"rotation": {"angle": 0, "axis": "x", "origin": [7, 9, 4]},
+			"faces": {
+				"north": {"uv": [1, 1, 10, 10], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [1, 0, 10, 1], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [1, 1, 10, 10], "texture": "#1"},
+				"west": {"uv": [1, 10, 10, 11], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [1, 0, 10, 1], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [1, 10, 10, 11], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [0, 1,
+		{
+			"name": "ball",
+			"origin": [8, 8, 8],
+			"children": [2, 3, 4]
+		}
+	]
+}
