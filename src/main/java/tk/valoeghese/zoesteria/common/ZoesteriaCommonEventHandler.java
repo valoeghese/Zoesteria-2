@@ -156,6 +156,12 @@ public class ZoesteriaCommonEventHandler {
 					new SimpleBlockPlacer()).xSpread(4).zSpread(4).tries(16).build()
 			);
 
+	public static final ConfiguredFeature<?, ?> CONFIGURED_TOETOE = Feature.RANDOM_PATCH.withConfiguration(
+			new BlockClusterFeatureConfig.Builder(
+					new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),
+					new DoublePlantBlockPlacer()).xSpread(3).zSpread(3).tries(16).build()
+			);
+
 	private static final SurfaceBuilder<SurfaceBuilderConfig> FILL_TO_SEA_LEVEL = new FillToSeaLevelSurfaceBuilder();
 
 	public static final Placement<FrequencyConfig> LINE_PLACEMENT = new LinePlacement();

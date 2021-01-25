@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "zoesteria:block/pampas_grass"
+    "cross": "zoesteria:block/toetoe"
   }
 }

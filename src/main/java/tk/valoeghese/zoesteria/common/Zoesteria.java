@@ -263,6 +263,17 @@ public class Zoesteria implements IZoesteriaJavaModule {
 				Biomes.DESERT_LAKES,
 				Biomes.BADLANDS,
 				Biomes.ERODED_BADLANDS)), desertDecorations);
+
+		// === WETLAND AND RIVER BIOMES ===
+		BiomeDecorations waterDecorations = BiomeDecorations.create()
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_TOETOE
+						.withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(6))));
+		tweaks.addTweak("water_biome_tweaks", new BiomeListPredicate(Lists.newArrayList(
+				Biomes.RIVER,
+				Biomes.SWAMP,
+				Biomes.OCEAN,
+				Biomes.LUKEWARM_OCEAN,
+				Biomes.BEACH)), waterDecorations);
 	}
 
 	@Override
