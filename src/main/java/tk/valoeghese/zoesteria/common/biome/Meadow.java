@@ -25,6 +25,7 @@ import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import tk.valoeghese.zoesteria.common.placement.LinePlacementConfig;
 
 public class Meadow implements IBiome {
 	public Meadow(String id, float baseHeight) {
@@ -47,6 +48,7 @@ public class Meadow implements IBiome {
 				.scale(0.02f)
 				.temperature(0.55f)
 				.downfall(0.8f)
+				.entitySpawnChance(0.14f)
 				.build();
 	}
 
@@ -69,7 +71,7 @@ public class Meadow implements IBiome {
 		BiomeDecorations decorations = BiomeDecorations.create()
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE
 						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)
-						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new FrequencyConfig(9))))
+						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(9, 0.04, 0.08))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
 								.addWeightedBlockstate(Blocks.POPPY.getDefaultState(), 10)
@@ -81,9 +83,9 @@ public class Meadow implements IBiome {
 								.addWeightedBlockstate(Blocks.BLUE_ORCHID.getDefaultState(), 1)
 								.addWeightedBlockstate(Blocks.ALLIUM.getDefaultState(), 1),
 								new SimpleBlockPlacer()).tries(64).build())
-						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(25))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(15))));
 
-		BiomeDefaultFeatures.addGrass(decorations, 25);
+		BiomeDefaultFeatures.addGrass(decorations, 30);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 12);
 		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 95);
 		BiomeDefaultFeatures.addOres(decorations);

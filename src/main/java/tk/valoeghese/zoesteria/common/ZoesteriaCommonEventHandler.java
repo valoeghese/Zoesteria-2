@@ -11,7 +11,6 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -29,6 +28,7 @@ import tk.valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 import tk.valoeghese.zoesteria.common.feature.TripleNoiseSelectorFeature;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.placement.LinePlacement;
+import tk.valoeghese.zoesteria.common.placement.LinePlacementConfig;
 import tk.valoeghese.zoesteria.common.surface.FillToSeaLevelSurfaceBuilder;
 
 /**
@@ -164,5 +164,5 @@ public class ZoesteriaCommonEventHandler {
 
 	private static final SurfaceBuilder<SurfaceBuilderConfig> FILL_TO_SEA_LEVEL = new FillToSeaLevelSurfaceBuilder();
 
-	public static final Placement<FrequencyConfig> LINE_PLACEMENT = new LinePlacement();
+	public static final Placement<LinePlacementConfig> LINE_PLACEMENT = new LinePlacement();
 }

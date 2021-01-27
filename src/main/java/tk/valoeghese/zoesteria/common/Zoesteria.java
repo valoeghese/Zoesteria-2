@@ -39,13 +39,13 @@ import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSeria
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
+import tk.valoeghese.zoesteria.common.placement.LinePlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.common.predicate.BiomeListPredicate;
 import tk.valoeghese.zoesteria.common.predicate.OverworldBiomeDictionaryPredicate;
 import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
 import tk.valoeghese.zoesteria.common.surface.BaseSurfaceTemplateConfig;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
-import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigSerialiser;
 
 public class Zoesteria implements IZoesteriaJavaModule {
 	@Override
@@ -195,7 +195,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 
 	@Override
 	public void registerPlacementSerialisers() {
-		ZoesteriaSerialisers.registerPlacementSerialiser(ZoesteriaCommonEventHandler.LINE_PLACEMENT, FrequencyConfigSerialiser.BASE);
+		ZoesteriaSerialisers.registerPlacementSerialiser(ZoesteriaCommonEventHandler.LINE_PLACEMENT, LinePlacementConfigSerialiser.BASE);
 	}
 
 	@Override

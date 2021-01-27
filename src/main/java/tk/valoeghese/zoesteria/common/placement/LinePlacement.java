@@ -9,29 +9,28 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import tk.valoeghese.zoesteria.common.util.OpenSimplexNoise;
 
-public class LinePlacement extends Placement<FrequencyConfig>{
+public class LinePlacement extends Placement<LinePlacementConfig> {
 	public LinePlacement() {
-		super(FrequencyConfig::deserialize);
+		super(LinePlacementConfig::deserialize);
 	}
 
 	private static final OpenSimplexNoise NOISE = new OpenSimplexNoise(new Random(69420L));
 
 	@Override
-	public Stream<BlockPos> getPositions(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generatorIn, Random random, FrequencyConfig configIn, BlockPos pos) {
-		int i = configIn.count;
+	public Stream<BlockPos> getPositions(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generatorIn, Random random, LinePlacementConfig config, BlockPos pos) {
+		int count = config.count;
 
-		return IntStream.range(0, i).mapToObj((p_227444_3_) -> {
-			int j = random.nextInt(16) + pos.getX();
-			int k = random.nextInt(16) + pos.getZ();
-			int l = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, j, k);
-			return new BlockPos(j, l, k);
+		return IntStream.range(0, count).mapToObj($ -> {
+			int x = random.nextInt(16) + pos.getX();
+			int z = random.nextInt(16) + pos.getZ();
+			int y = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, x, z);
+			return new BlockPos(x, y, z);
 		}).filter(bpos -> {
-			double noise = NOISE.sample(bpos.getX() * 0.008D, bpos.getZ() * 0.008D);
-			return noise > -0.05 && noise < 0.05;
+			double noise = NOISE.sample(bpos.getX() * config.frequency, bpos.getZ() * config.frequency) + config.offset;
+			return noise > -config.threshold && noise < config.threshold;
 		});
 	}
 
