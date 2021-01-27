@@ -25,29 +25,38 @@ import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
-import tk.valoeghese.zoesteria.common.placement.LinePlacement;
 
 public class Meadow implements IBiome {
+	public Meadow(String id, float baseHeight) {
+		this.id = id;
+		this.baseHeight = baseHeight;
+	}
+
+	private final String id;
+	private final float baseHeight;
+
 	@Override
 	public String id() {
-		return "meadow";
+		return this.id;
 	}
 
 	@Override
 	public IBiomeProperties properties() {
 		return IBiomeProperties.builder(Biome.Category.PLAINS)
-				.depth(0.3f)
+				.depth(this.baseHeight)
+				.scale(0.02f)
 				.temperature(0.55f)
 				.downfall(0.8f)
-				.scale(-0.1f)
 				.build();
 	}
 
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
-		// a less common biome
-		biomePlacement.put(BiomeType.COOL, 5);
-		biomePlacement.put(BiomeType.WARM, 5);
+		if (this.id.equals("meadow")) {
+			// a less common biome
+			biomePlacement.put(BiomeType.COOL, 5);
+			biomePlacement.put(BiomeType.WARM, 5);
+		}
 	}
 
 	@Override
@@ -117,7 +126,7 @@ public class Meadow implements IBiome {
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return Optional.of(ImmutableList.of("zoesteria:meadow", "zoesteria:low_woodlands"));
+		return Optional.of(ImmutableList.of("zoesteria:meadow_rise", "zoesteria:low_woodlands"));
 	}
 
 	@Override

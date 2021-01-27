@@ -73,13 +73,16 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		biomes.add(new AustralianOutback(false)); // normal
 		biomes.add(new AustralianOutback(true)); // uluru
 
+		// Fields (Prairie, Pampas Grassland, Meadow)
 		biomes.add(new Prairie("prairie", 0.1f));
 		biomes.add(new Prairie("prairie_rise", 0.55f));
 
 		biomes.add(new Pampas("pampas", Pampas.Type.NORMAL));
 		biomes.add(new Pampas("pampas_flats", Pampas.Type.FLATS));
 		biomes.add(new Pampas("pampas_hills", Pampas.Type.HILLS));
-		biomes.add(new Meadow());
+
+		biomes.add(new Meadow("meadow", 0.25f));
+		biomes.add(new Meadow("meadow_rise", 0.68f));
 
 		return biomes;
 	}
