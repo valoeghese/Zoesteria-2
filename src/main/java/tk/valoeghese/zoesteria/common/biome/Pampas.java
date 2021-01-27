@@ -69,8 +69,8 @@ public class Pampas implements IBiome {
 	@Override
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (this.type == Type.NORMAL) {
-			biomePlacement.put(BiomeType.COOL, 90);
-			biomePlacement.put(BiomeType.WARM, 90);
+			biomePlacement.put(BiomeType.COOL, 10);
+			biomePlacement.put(BiomeType.WARM, 5);
 		}
 	}
 
@@ -117,10 +117,9 @@ public class Pampas implements IBiome {
 		List<BiomeDictionary.Type> result = new ArrayList<>();
 		result.add(BiomeDictionary.Type.OVERWORLD);
 		result.add(BiomeDictionary.Type.PLAINS);
+		result.add(BiomeDictionary.Type.SPARSE);
 
-		if (this.type == Type.FLATS) {
-			result.add(BiomeDictionary.Type.SPARSE);
-		} else if (this.type == Type.HILLS) {
+		if (this.type == Type.HILLS) {
 			result.add(BiomeDictionary.Type.HILLS);
 		}
 
