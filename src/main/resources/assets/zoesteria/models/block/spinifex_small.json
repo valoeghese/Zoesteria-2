@@ -1,5 +1,5 @@
 {
-  "parent": "zoesteria:block/spinifex",
+  "parent": "block/cross",
   "textures": {
     "cross": "zoesteria:block/spinifex_small"
   }

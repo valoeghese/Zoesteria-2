@@ -1,10 +1,16 @@
 package tk.valoeghese.zoesteria.core.serialisers.feature;
 
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
+import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import tk.valoeghese.zoesteria.api.ZFGUtils;
 import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
 import tk.valoeghese.zoesteria.api.feature.IFeatureConfigSerialiser;
@@ -30,9 +36,10 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		this.minTrunkTopOffset = config.trunkTopOffset;
 		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset;
 		this.vines = !config.ignoreVines;
+		this.decorators = config.decorators;
 	}
 
-	private TreeFeatureConfigSerialiser(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v) {
+	private TreeFeatureConfigSerialiser(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v, List<TreeDecorator> td) {
 		this.leaves = leaves;
 		this.log = log;
 		this.foliagePlacer = placer;
@@ -47,6 +54,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		this.minTrunkTopOffset = tOm;
 		this.maxTrunkTopOffset = tOM;
 		this.vines = v;
+		this.decorators = td;
 	}
 
 	private final BlockStateProvider leaves;
@@ -63,6 +71,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 	private final int maxTrunkTopOffset;
 	private final int maxBlocksUnderwater;
 	private final boolean vines;
+	private final List<TreeDecorator> decorators;
 
 	@Override
 	public IFeatureConfigSerialiser<TreeFeatureConfig> loadFrom(TreeFeatureConfig config) {
@@ -74,6 +83,12 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
 		Boolean vines = settings.getBooleanValue("vines");
 		Container foliagePlacer = settings.getContainer("foliagePlacer");
+
+		List<TreeDecorator> decorators = settings.containsKey("decorators") ? settings.getList("decorators").stream()
+				.map(obj -> {
+					@SuppressWarnings("unchecked") Map<String, Object> decorator = (Map<String, Object>) obj;
+					return ZoesteriaSerialisers.deserialiseTreeDecorator(ZoesteriaConfig.createWritableConfig(decorator));
+				}).collect(Collectors.toList()) : ImmutableList.of();
 
 		return new TreeFeatureConfigSerialiser(
 				BlockStateProviderHandler.stateProvider(settings.getContainer("leaves")),
@@ -89,7 +104,8 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 						(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
 						settings.getIntegerValue("minTrunkTopOffset"),
 						settings.getIntegerValue("maxTrunkTopOffset"),
-						(vines == null ? true : !vines.booleanValue())
+						(vines == null ? true : !vines.booleanValue()),
+						decorators
 				);
 	}
 
@@ -126,6 +142,13 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		if (this.vines) {
 			settings.putBooleanValue("vines", true);
 		}
+		
+		if (!this.decorators.isEmpty()) {
+			settings.putList("decorators", this.decorators.stream()
+					.map(decorator -> ZoesteriaSerialisers.serialiseTreeDecorator(decorator,
+							ZoesteriaConfig.createWritableConfig(new LinkedHashMap<>())).asMap()
+							).collect(Collectors.toList()));
+		}
 	}
 
 	@Override
@@ -148,8 +171,13 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		if (!this.vines) {
 			config.ignoreVines();
 		}
+
+		if (!this.decorators.isEmpty()) {
+			config.decorators(this.decorators);
+		}
+
 		return config.build();
 	}
 
-	public static final TreeFeatureConfigSerialiser BASE = new TreeFeatureConfigSerialiser(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+	public static final TreeFeatureConfigSerialiser BASE = new TreeFeatureConfigSerialiser(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, null);
 }

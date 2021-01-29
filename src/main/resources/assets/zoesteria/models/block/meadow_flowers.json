@@ -1,0 +1,6 @@
+{
+  "parent": "zoesteria:block/leafcarpet",
+  "textures": {
+    "all": "zoesteria:block/meadow_flowers"
+  }
+}

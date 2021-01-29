@@ -152,6 +152,16 @@ public final class ZoesteriaBlocks {
 			() -> new ZoesteriaDoublePlantBlock(Block.Properties.from(Blocks.GRASS), 28.0D, Block.OffsetType.XZ, null),
 			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
 
+	public static final RegistryObject<ZoesteriaPlantBlock> MEADOW_FLOWERS = createWithBlockitem(
+			"meadow_flowers",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+	
+	public static final RegistryObject<ZoesteriaPlantBlock> MEADOW_CLOVERS = createWithBlockitem(
+			"meadow_clovers",
+			() -> new ZoesteriaPlantBlock(Block.Properties.from(Blocks.GRASS), 1.0D, Block.OffsetType.XZ, null),
+			new Item.Properties().group(ZoesteriaItems.CREATIVE_TAB));
+
 	// SAPLINGS
 
 	public static final RegistryObject<SaplingBlock> ASPEN_SAPLING = createWithBlockitem(

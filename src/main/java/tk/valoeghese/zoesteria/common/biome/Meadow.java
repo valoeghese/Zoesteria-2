@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.Blocks;
@@ -14,7 +15,9 @@ import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredRandomFeatureList;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -25,6 +28,7 @@ import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
 import tk.valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import tk.valoeghese.zoesteria.common.placement.LinePlacementConfig;
 
 public class Meadow implements IBiome {
@@ -45,7 +49,7 @@ public class Meadow implements IBiome {
 	public IBiomeProperties properties() {
 		return IBiomeProperties.builder(Biome.Category.PLAINS)
 				.depth(this.baseHeight)
-				.scale(0.02f)
+				.scale(this.baseHeight > 0.5f ? 0.02f : -0.02f)
 				.temperature(0.55f)
 				.downfall(0.8f)
 				.entitySpawnChance(0.14f)
@@ -56,8 +60,10 @@ public class Meadow implements IBiome {
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (this.id.equals("meadow")) {
 			// a less common biome
-			biomePlacement.put(BiomeType.COOL, 5);
-			biomePlacement.put(BiomeType.WARM, 5);
+			biomePlacement.put(BiomeType.ICY, 50); // x
+			biomePlacement.put(BiomeType.DESERT, 50); // x
+			biomePlacement.put(BiomeType.COOL, 50); // 5
+			biomePlacement.put(BiomeType.WARM, 50); // 5
 		}
 	}
 
@@ -69,9 +75,13 @@ public class Meadow implements IBiome {
 	@Override
 	public BiomeDecorations getDecorations() {
 		BiomeDecorations decorations = BiomeDecorations.create()
-				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE
-						.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)
-						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(9, 0.04, 0.08))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR
+						.withConfiguration(new MultipleRandomFeatureConfig(
+								Lists.newArrayList(new ConfiguredRandomFeatureList<>(
+										Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG),
+										0.1f)),
+								Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)))
+						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(9, 0.016, 0.08))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
 								.addWeightedBlockstate(Blocks.POPPY.getDefaultState(), 10)
@@ -83,7 +93,13 @@ public class Meadow implements IBiome {
 								.addWeightedBlockstate(Blocks.BLUE_ORCHID.getDefaultState(), 1)
 								.addWeightedBlockstate(Blocks.ALLIUM.getDefaultState(), 1),
 								new SimpleBlockPlacer()).tries(64).build())
-						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(15))));
+						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(9))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
+						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
+								.addWeightedBlockstate(ZoesteriaBlocks.MEADOW_CLOVERS.get().getDefaultState(), 1)
+								.addWeightedBlockstate(ZoesteriaBlocks.MEADOW_FLOWERS.get().getDefaultState(), 1),
+								new SimpleBlockPlacer()).tries(64).build())
+						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(12))));
 
 		BiomeDefaultFeatures.addGrass(decorations, 30);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 12);
@@ -128,7 +144,7 @@ public class Meadow implements IBiome {
 
 	@Override
 	public Optional<List<String>> getHillsBiomes() {
-		return Optional.of(ImmutableList.of("zoesteria:meadow_rise", "zoesteria:low_woodlands"));
+		return Optional.of(ImmutableList.of("zoesteria:meadow_rise", "zoesteria:meadow_rise", "minecraft:flower_forest"));
 	}
 
 	@Override
