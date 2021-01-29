@@ -33,6 +33,7 @@ import tk.valoeghese.zoesteria.core.serialisers.feature.BlockClusterConfigSerial
 import tk.valoeghese.zoesteria.core.serialisers.feature.BlockStateFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.OreFeatureConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.feature.RandomSelectorConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.SphereReplaceConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.feature.VillageConfigSerialiser;
@@ -192,6 +193,8 @@ public class ZoesteriaRegistryHandler {
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.VILLAGE, VillageConfigSerialiser.BASE);
 
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.FOREST_ROCK, BlockBlobConfigSerialiser.BASE);
+
+			ZoesteriaSerialisers.registerFeatureSettings(Feature.RANDOM_SELECTOR, RandomSelectorConfigSerialiser.BASE);
 
 			for (IZoesteriaJavaModule module : MODULES) {
 				module.registerFeatureSerialisers();
