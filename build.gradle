@@ -96,8 +96,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.9'
 
-    // You may put jars on which you depend on in ./libs or you may define them like so..
 	compile 'tk.valoeghese:ZoesteriaConfig:1.3.6'
+	shade 'tk.valoeghese:ZoesteriaConfig:1.3.6'
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
