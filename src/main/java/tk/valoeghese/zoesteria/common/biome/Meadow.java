@@ -60,10 +60,8 @@ public class Meadow implements IBiome {
 	public void addPlacement(Object2IntMap<BiomeType> biomePlacement) {
 		if (this.id.equals("meadow")) {
 			// a less common biome
-			biomePlacement.put(BiomeType.ICY, 50); // x
-			biomePlacement.put(BiomeType.DESERT, 50); // x
-			biomePlacement.put(BiomeType.COOL, 50); // 5
-			biomePlacement.put(BiomeType.WARM, 50); // 5
+			biomePlacement.put(BiomeType.COOL, 5); // 5
+			biomePlacement.put(BiomeType.WARM, 5); // 5
 		}
 	}
 
