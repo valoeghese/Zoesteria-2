@@ -89,7 +89,7 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	@Override
-	public void registerFoliageSerialisers() {
+	public void registerAdditionalSerialisers() {
 		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("zoesteria", "none"), NoneFoliagePlacer.class, NoneFoliagePlacerSerialiser.INSTANCE);
 	}
 

@@ -78,9 +78,9 @@ public class Meadow implements IBiome {
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR
 						.withConfiguration(new MultipleRandomFeatureConfig(
 								Lists.newArrayList(new ConfiguredRandomFeatureList<>(
-										Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG),
+										Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_WITH_MORE_BEEHIVES_CONFIG),
 										0.1f)),
-								Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)))
+								Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_WITH_MORE_BEEHIVES_CONFIG)))
 						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(9, 0.016, 0.08))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
@@ -93,7 +93,7 @@ public class Meadow implements IBiome {
 								.addWeightedBlockstate(Blocks.BLUE_ORCHID.getDefaultState(), 1)
 								.addWeightedBlockstate(Blocks.ALLIUM.getDefaultState(), 1),
 								new SimpleBlockPlacer()).tries(64).build())
-						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(9))))
+						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
 								.addWeightedBlockstate(ZoesteriaBlocks.MEADOW_CLOVERS.get().getDefaultState(), 1)
@@ -101,7 +101,7 @@ public class Meadow implements IBiome {
 								new SimpleBlockPlacer()).tries(64).build())
 						.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(12))));
 
-		BiomeDefaultFeatures.addGrass(decorations, 30);
+		BiomeDefaultFeatures.addGrass(decorations, 32);
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 12);
 		BiomeDefaultFeatures.addLavaLakes(decorations, Blocks.LAVA.getDefaultState(), 95);
 		BiomeDefaultFeatures.addOres(decorations);

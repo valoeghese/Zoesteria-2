@@ -35,11 +35,11 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		this.maxBlocksUnderwater = config.maxWaterDepth;
 		this.minTrunkTopOffset = config.trunkTopOffset;
 		this.maxTrunkTopOffset = config.trunkTopOffsetRandom + config.trunkTopOffset;
-		this.vines = !config.ignoreVines;
+		this.ignoreVines = config.ignoreVines;
 		this.decorators = config.decorators;
 	}
 
-	private TreeFeatureConfigSerialiser(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean v, List<TreeDecorator> td) {
+	private TreeFeatureConfigSerialiser(BlockStateProvider leaves, BlockStateProvider log, FoliagePlacer placer, int lt, int ht, int lf, int hf, int bh, int hA, int hB, int mBU, int tOm, int tOM, boolean iv, List<TreeDecorator> td) {
 		this.leaves = leaves;
 		this.log = log;
 		this.foliagePlacer = placer;
@@ -53,7 +53,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 		this.maxBlocksUnderwater = mBU;
 		this.minTrunkTopOffset = tOm;
 		this.maxTrunkTopOffset = tOM;
-		this.vines = v;
+		this.ignoreVines = iv;
 		this.decorators = td;
 	}
 
@@ -70,7 +70,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 	private final int minTrunkTopOffset;
 	private final int maxTrunkTopOffset;
 	private final int maxBlocksUnderwater;
-	private final boolean vines;
+	private final boolean ignoreVines;
 	private final List<TreeDecorator> decorators;
 
 	@Override
@@ -81,7 +81,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 	@Override
 	public IFeatureConfigSerialiser<TreeFeatureConfig> deserialise(Container settings) {
 		Integer maxBlocksUnderwater = settings.getIntegerValue("maxBlocksUnderwater");
-		Boolean vines = settings.getBooleanValue("vines");
+		Boolean ignoreVines = settings.getBooleanValue("ignoreVines");
 		Container foliagePlacer = settings.getContainer("foliagePlacer");
 
 		List<TreeDecorator> decorators = settings.containsKey("decorators") ? settings.getList("decorators").stream()
@@ -104,7 +104,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 						(maxBlocksUnderwater == null ? 0 : maxBlocksUnderwater.intValue()),
 						settings.getIntegerValue("minTrunkTopOffset"),
 						settings.getIntegerValue("maxTrunkTopOffset"),
-						(vines == null ? true : !vines.booleanValue()),
+						(ignoreVines == null ? true : ignoreVines.booleanValue()),
 						decorators
 				);
 	}
@@ -139,8 +139,8 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 			settings.putIntegerValue("maxBlocksUnderwater", this.maxBlocksUnderwater);
 		}
 
-		if (this.vines) {
-			settings.putBooleanValue("vines", true);
+		if (!this.ignoreVines) {
+			settings.putBooleanValue("ignoreVines", false);
 		}
 		
 		if (!this.decorators.isEmpty()) {
@@ -168,7 +168,7 @@ public class TreeFeatureConfigSerialiser implements IFeatureConfigSerialiser<Tre
 				.trunkTopOffsetRandom(this.maxTrunkTopOffset - this.minTrunkTopOffset)
 				.maxWaterDepth(this.maxBlocksUnderwater);
 
-		if (!this.vines) {
+		if (this.ignoreVines) {
 			config.ignoreVines();
 		}
 

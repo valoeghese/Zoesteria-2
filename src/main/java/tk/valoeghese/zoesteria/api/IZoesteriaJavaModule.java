@@ -44,9 +44,9 @@ public interface IZoesteriaJavaModule {
 	}
 
 	/**
-	 * Called at the time of foliage placement serialiser registration.
+	 * Called at the time of foliage placement serialiser and tree decorator serialiser registration.
 	 */
-	default void registerFoliageSerialisers() {
+	default void registerAdditionalSerialisers() {
 	}
 
 	/**

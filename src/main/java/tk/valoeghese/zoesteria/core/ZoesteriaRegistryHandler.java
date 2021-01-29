@@ -21,6 +21,10 @@ import net.minecraft.world.gen.foliageplacer.PineFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.SpruceFoliagePlacer;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.treedecorator.BeehiveTreeDecorator;
+import net.minecraft.world.gen.treedecorator.CocoaTreeDecorator;
+import net.minecraft.world.gen.treedecorator.LeaveVineTreeDecorator;
+import net.minecraft.world.gen.treedecorator.TrunkVineTreeDecorator;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -48,6 +52,8 @@ import tk.valoeghese.zoesteria.core.serialisers.placement.DepthAverageConfigHand
 import tk.valoeghese.zoesteria.core.serialisers.placement.FrequencyConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.HeightChanceConfigSerialiser;
 import tk.valoeghese.zoesteria.core.serialisers.placement.TopSolidWithNoiseConfigSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.treedecorator.ProbabilityTreeDecoratorSerialiser;
+import tk.valoeghese.zoesteria.core.serialisers.treedecorator.SimpleTreeDecoratorSerialiser;
 
 /**
  * Event registry handler for core stuff.
@@ -143,7 +149,7 @@ public class ZoesteriaRegistryHandler {
 		if (!preventFeatureFire) {
 			preventFeatureFire = true;
 
-			registerFoliageSerialisers();
+			registerAdditionalSerialisers();
 
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.NORMAL_TREE, TreeFeatureConfigSerialiser.BASE);
 			ZoesteriaSerialisers.registerFeatureSettings(Feature.ACACIA_TREE, TreeFeatureConfigSerialiser.BASE);
@@ -205,14 +211,19 @@ public class ZoesteriaRegistryHandler {
 	/**
 	 * Called at the beginning of {@link #registerFeatureSettings()}
 	 */
-	private static void registerFoliageSerialisers() {
+	private static void registerAdditionalSerialisers() {
 		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("blob_foliage_placer"), BlobFoliagePlacer.class, BlobFoliagePlacerSerialiser.BASE);
 		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("spruce_foliage_placer"), SpruceFoliagePlacer.class, SpruceFoliagePlacerSerialiser.BASE);
 		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("pine_foliage_placer"), PineFoliagePlacer.class, PineFoliagePlacerSerialiser.BASE);
 		ZoesteriaSerialisers.registerFoliagePlacer(new ResourceLocation("acacia_foliage_placer"), AcaciaFoliagePlacer.class, AcaciaFoliagePlacerSerialiser.BASE);
 
+		ZoesteriaSerialisers.registerTreeDecorator(new ResourceLocation("beehive"), BeehiveTreeDecorator.class, ProbabilityTreeDecoratorSerialiser.BEEHIVE);
+		ZoesteriaSerialisers.registerTreeDecorator(new ResourceLocation("cocoa"), CocoaTreeDecorator.class, ProbabilityTreeDecoratorSerialiser.COCOA);
+		ZoesteriaSerialisers.registerTreeDecorator(new ResourceLocation("trunk_vine"), TrunkVineTreeDecorator.class, SimpleTreeDecoratorSerialiser.TRUNK_VINE);
+		ZoesteriaSerialisers.registerTreeDecorator(new ResourceLocation("leaves_vine"), LeaveVineTreeDecorator.class, SimpleTreeDecoratorSerialiser.LEAVES_VINE);
+
 		for (IZoesteriaJavaModule module : MODULES) {
-			module.registerFoliageSerialisers();
+			module.registerAdditionalSerialisers();
 		}
 	}
 

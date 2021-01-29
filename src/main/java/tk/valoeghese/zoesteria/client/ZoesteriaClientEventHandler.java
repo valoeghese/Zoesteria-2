@@ -75,6 +75,8 @@ public class ZoesteriaClientEventHandler {
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.PRAIRIE_GRASS_TALL.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.PAMPAS_GRASS.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.TOETOE.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.MEADOW_CLOVERS.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.MEADOW_FLOWERS.get(), RenderType.getCutoutMipped());
 
 		// carpet shaped plant blocks
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.SHORE_BINDWEED.get(), RenderType.getCutoutMipped());
