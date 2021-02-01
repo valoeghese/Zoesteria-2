@@ -78,7 +78,7 @@ public class RandomSelectorConfigSerialiser implements IFeatureConfigSerialiser<
 	private static ConfiguredRandomFeatureList<? extends IFeatureConfig> toFeatureEntry(Map<String, Object> data) {
 		@SuppressWarnings("unchecked")
 		ConfiguredFeature<?, ?> feature = BiomeFactory.deserialiseConfiguredFeature((Map<String, Object>) data.get("feature"));
-		return new ConfiguredRandomFeatureList<>(feature, (Float) data.get("weight"));
+		return new ConfiguredRandomFeatureList<>(feature, Float.valueOf((String) data.get("weight")));
 	}
 
 	public static final RandomSelectorConfigSerialiser BASE = new RandomSelectorConfigSerialiser(null, null);
