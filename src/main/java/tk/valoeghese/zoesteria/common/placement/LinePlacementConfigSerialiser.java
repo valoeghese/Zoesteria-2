@@ -26,9 +26,9 @@ public class LinePlacementConfigSerialiser implements IPlacementConfigSerialiser
 	public IPlacementConfigSerialiser<LinePlacementConfig> deserialise(Container settings) {
 		return new LinePlacementConfigSerialiser(
 				settings.getIntegerValue("count"),
-				settings.getIntegerValue("frequency"),
-				settings.getIntegerValue("threshold"),
-				settings.getIntegerValue("offset"));
+				settings.getDoubleValue("frequency"),
+				settings.getDoubleValue("threshold"),
+				settings.getDoubleValue("offset"));
 	}
 
 	@Override
