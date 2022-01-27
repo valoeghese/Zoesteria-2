@@ -1,24 +1,27 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.+', changing: true
+		classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'maven-publish'
 
-version = '1.0.0+1.16'
-group = 'tk.valoeghese.zoesteria' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "${mod_version}-${minecraft_version}"
+group = 'valoeghese' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'zoesteria'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
 	maven { url = 'https://maven.modmuss50.me/'}
@@ -29,14 +32,7 @@ repositories {
 }
 
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200607-1.15.1'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+    mappings channel: 'official', version: minecraft_version
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -98,10 +94,11 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-39.0.19"
 
-	compile 'valoeghese:ZoesteriaConfig:1.3.6'
-	//shade 'tk.valoeghese:ZoesteriaConfig:1.3.6'
+	implementation fg.deobf('com.github.glitchfiend:TerraBlender-forge:1.18.1-1.1.0.71')
+	implementation 'valoeghese:ZoesteriaConfig:1.3.6'
+	//shade 'valoeghese:ZoesteriaConfig:1.3.6'
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
@@ -113,12 +110,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "examplemod",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
+            "Specification-Title": "zoesteria",
+            "Specification-Vendor": "Valoeghese",
+            "Specification-Version": "1.0.0",
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
+            "Implementation-Vendor" : "Valoeghese",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
