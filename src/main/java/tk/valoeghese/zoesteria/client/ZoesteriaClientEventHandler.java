@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
-import tk.valoeghese.zoesteria.core.ZoesteriaMod;
+import tk.valoeghese.zoesteria.forge.ForgeProxy;
 
 public class ZoesteriaClientEventHandler {
 	@SubscribeEvent
@@ -60,7 +60,7 @@ public class ZoesteriaClientEventHandler {
 
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
-		ZoesteriaMod.LOGGER.info("Running Zoesteria client Setup.");
+		ForgeProxy.LOGGER.info("Running Zoesteria client Setup.");
 		// for overlay to work
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_STONE.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ZoesteriaBlocks.OVERGROWN_RED_SANDSTONE.get(), RenderType.getCutoutMipped());

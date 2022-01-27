@@ -1,35 +1,10 @@
 package tk.valoeghese.zoesteria.common;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.placement.ChanceConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidWithNoiseConfig;
 import net.minecraftforge.common.BiomeDictionary;
-import tk.valoeghese.zoesteria.api.IZoesteriaJavaModule;
-import tk.valoeghese.zoesteria.api.Manifest;
-import tk.valoeghese.zoesteria.api.ZoesteriaSerialisers;
-import tk.valoeghese.zoesteria.api.biome.BiomeDecorations;
-import tk.valoeghese.zoesteria.api.biome.BiomeTweaks;
-import tk.valoeghese.zoesteria.api.biome.IBiome;
-import tk.valoeghese.zoesteria.api.surface.Condition;
-import tk.valoeghese.zoesteria.api.surface.ISurfaceBuilderTemplate;
-import tk.valoeghese.zoesteria.api.surface.ZoesteriaSurfaceBuilder;
+import terrablender.api.ParameterUtils;
+import tk.valoeghese.zoesteria.abstr.Proxy;
 import tk.valoeghese.zoesteria.common.biome.AustralianOutback;
 import tk.valoeghese.zoesteria.common.biome.Bluff;
 import tk.valoeghese.zoesteria.common.biome.Meadow;
@@ -40,25 +15,14 @@ import tk.valoeghese.zoesteria.common.feature.serialiser.ShrubFeatureConfigSeria
 import tk.valoeghese.zoesteria.common.feature.serialiser.TreeLikeFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.feature.serialiser.TripleFeatureConfigSerialiser;
 import tk.valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
-import tk.valoeghese.zoesteria.common.placement.LinePlacementConfigSerialiser;
 import tk.valoeghese.zoesteria.common.predicate.BiomeListPredicate;
 import tk.valoeghese.zoesteria.common.predicate.OverworldBiomeDictionaryPredicate;
-import tk.valoeghese.zoesteria.common.surface.AlterBlocksTemplate;
-import tk.valoeghese.zoesteria.common.surface.BaseSurfaceTemplateConfig;
-import tk.valoeghese.zoesteria.core.serialisers.feature.NoFeatureConfigSerialiser;
-import tk.valoeghese.zoesteria.core.serialisers.feature.TreeFeatureConfigSerialiser;
 
-public class Zoesteria implements IZoesteriaJavaModule {
-	@Override
-	public String packId() {
-		return "zoesteria";
-	}
+import java.util.List;
+import java.util.Optional;
 
-	@Override
-	public Manifest createManifest() {
-		return Manifest.createSchema0(this);
-	}
-
+public class Zoesteria implements Proxy {
+	ParameterUtils.ParameterPointListBuilder
 	@Override
 	public List<IBiome> createBiomes() {
 		List<IBiome> biomes = Lists.newArrayList();
@@ -68,7 +32,6 @@ public class Zoesteria implements IZoesteriaJavaModule {
 		// Woodlands
 		biomes.add(new Woodlands("low_woodlands", 8, 0.3f, 0.07f));
 		biomes.add(new Woodlands("high_woodlands", 6, 1.3f, 0.03f));
-		biomes.add(new Woodlands("woodlands_hills", 6, 0.45f, 0.38f, true));
 
 		// Australian Outback
 		biomes.add(new AustralianOutback(false)); // normal
@@ -294,5 +257,4 @@ public class Zoesteria implements IZoesteriaJavaModule {
 	}
 
 	private static final ISurfaceBuilderTemplate<AlterBlocksTemplate.Step, BaseSurfaceTemplateConfig> ALTER_BLOCKS = new AlterBlocksTemplate();
-	public static final BiomeDictionary.Type AMPLIFIED = BiomeDictionary.Type.getType("AMPLIFIED");
 }
