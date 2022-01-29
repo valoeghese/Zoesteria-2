@@ -1,19 +1,9 @@
 package valoeghese.zoesteria.common;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.blockplacer.DoublePlantBlockPlacer;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -34,7 +24,7 @@ import valoeghese.zoesteria.common.surface.FillToSeaLevelSurfaceBuilder;
 /**
  * Event registry handler for common stuff.
  */
-public class ZoesteriaCommonEventHandler {
+public class ZoesteriaFeatures {
 	@SubscribeEvent
 	public static void onPlacementRegister(RegistryEvent.Register<Placement<?>> event) {
 		IForgeRegistry<Placement<?>> registry = event.getRegistry();
@@ -62,19 +52,19 @@ public class ZoesteriaCommonEventHandler {
 
 	@SubscribeEvent
 	public static void onFoliagePlacerRegister(RegistryEvent.Register<FoliagePlacerType<?>> event) {
-		event.getRegistry().register(NONE_FOLIAGE);
+		event.getRegistry().register(NONE_FOLIAGE.setRegistryName("none"));
 	}
 
 	// Features
-	public static final Feature<TreeFeatureConfig> BLUFF_PINE = new BluffPineFeature(true);
-	public static final Feature<TreeFeatureConfig> BLUFF_PINE_SAPLING = new BluffPineFeature(false);
-	public static final Feature<NoFeatureConfig> BLUFF_RUINS = new BluffRuinsFeature();
+	public static final Feature<TreeConfiguration> BLUFF_PINE = new BluffPineFeature(true);
+	public static final Feature<TreeConfiguration> BLUFF_PINE_SAPLING = new BluffPineFeature(false);
+	public static final Feature<NoneFeatureConfiguration> BLUFF_RUINS = new BluffRuinsFeature();
 	public static final Feature<TreeLikeFeatureConfig> FALLEN_LOG = new FallenLogFeature();
 	public static final Feature<TripleFeatureConfig> TRIPLE_NOISE_SELECTOR = new TripleNoiseSelectorFeature();
-	public static final Feature<TreeFeatureConfig> LOLLIPOP_TREE = new LollipopFeature();
+	public static final Feature<TreeConfiguration> LOLLIPOP_TREE = new LollipopFeature();
 	public static final Feature<ShrubFeatureConfig> SIMPLE_SHRUB = new SimpleShrubFeature();
 
-	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new).setRegistryName("none");
+	public static final FoliagePlacerType<?> NONE_FOLIAGE = new FoliagePlacerType<>(NoneFoliagePlacer::new);
 
 	// Configured Features
 	public static final ConfiguredFeature<TreeFeatureConfig, ?> CONFIGURED_ASPEN = LOLLIPOP_TREE

@@ -1,16 +1,10 @@
 package valoeghese.zoesteria.common.feature;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
-import net.minecraft.world.gen.blockstateprovider.BlockStateProviderType;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-
-public class TreeLikeFeatureConfig implements IFeatureConfig {
+public class TreeLikeFeatureConfig implements FeatureConfiguration {
 	public TreeLikeFeatureConfig(BlockStateProvider log, int baseSize, int sizeRandom) {
 		this.logProvider = log;
 		this.baseSize = baseSize;
@@ -21,6 +15,7 @@ public class TreeLikeFeatureConfig implements IFeatureConfig {
 	public final int baseSize;
 	public final int sizeRandom;
 
+	// TODO switch all uses of DynamicOps to Codec
 	public <T> Dynamic<T> serialize(DynamicOps<T> ops) {
 		ImmutableMap.Builder<T, T> builder = ImmutableMap.builder();
 

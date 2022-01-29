@@ -27,7 +27,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import valoeghese.zoesteria.common.placement.LinePlacementConfig;
 
@@ -79,7 +79,7 @@ public class Meadow implements IBiome {
 										Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_WITH_MORE_BEEHIVES_CONFIG),
 										0.1f)),
 								Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_WITH_MORE_BEEHIVES_CONFIG)))
-						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(11, 0.016, 0.1))))
+						.withPlacement(ZoesteriaFeatures.LINE_PLACEMENT.configure(new LinePlacementConfig(11, 0.016, 0.1))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(new WeightedBlockStateProvider()
 								.addWeightedBlockstate(Blocks.POPPY.getDefaultState(), 10)

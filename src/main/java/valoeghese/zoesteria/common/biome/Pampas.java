@@ -29,7 +29,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import valoeghese.zoesteria.common.placement.LinePlacementConfig;
 
@@ -90,8 +90,8 @@ public class Pampas implements IBiome {
 								32.0, // stretch of coordinates (pos / val)
 								-0.5, // offset of raw noise
 								Heightmap.Type.OCEAN_FLOOR_WG))))
-				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
-						.withPlacement(ZoesteriaCommonEventHandler.LINE_PLACEMENT.configure(new LinePlacementConfig(5))))
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaFeatures.CONFIGURED_HICKORY
+						.withPlacement(ZoesteriaFeatures.LINE_PLACEMENT.configure(new LinePlacementConfig(5))))
 				.addDecoration(Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(
 						new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(ZoesteriaBlocks.PAMPAS_GRASS.get().getDefaultState()),

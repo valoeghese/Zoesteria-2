@@ -30,7 +30,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
 public class Prairie implements IBiome {
@@ -103,7 +103,7 @@ public class Prairie implements IBiome {
 								new DoublePlantBlockPlacer()).tries(32).build()
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10))))
-				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.CONFIGURED_HICKORY
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaFeatures.CONFIGURED_HICKORY
 						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.0325f, 9))));
 
 		BiomeDefaultFeatures.addWaterLakes(decorations, Blocks.WATER.getDefaultState(), 50);

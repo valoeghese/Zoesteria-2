@@ -16,7 +16,7 @@ public class NoneFoliagePlacer extends FoliagePlacer {
 	}
 
 	private NoneFoliagePlacer(int useless, int useless2) {
-		super(useless, useless2, ZoesteriaCommonEventHandler.NONE_FOLIAGE);
+		super(useless, useless2, ZoesteriaFeatures.NONE_FOLIAGE);
 	}
 
 	public <T> NoneFoliagePlacer(Dynamic<T> no) {

@@ -1,8 +1,11 @@
 package valoeghese.zoesteria.forge;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -13,15 +16,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import terrablender.api.BiomeProviders;
 import terrablender.api.ParameterUtils;
-import terrablender.worldgen.TBClimate;
 import valoeghese.zoesteria.abstr.Bridge;
 import valoeghese.zoesteria.abstr.biome.ZoesteriaBiome;
-import valoeghese.zoesteria.client.ZoesteriaClientEventHandler;
 import valoeghese.zoesteria.common.Zoesteria;
 import valoeghese.zoesteria.common.ZoesteriaBiomeProvider;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 import valoeghese.zoesteria.common.objects.ZoesteriaItems;
+import valoeghese.zoesteria.forge.client.ZoesteriaClientEventHandler;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,8 +33,8 @@ import java.util.Map;
 @Mod("zoesteria")
 public class ForgeProxy extends Bridge {
 	public static final Logger LOGGER = LogManager.getLogger("Zoesteria");
-	private static final Map<TBClimate.ParameterPoint, ResourceKey<Biome>> PLACEMENTS = new HashMap<>();
-	private static final List<ResourceKey<Biome>> BIOMES_TO_REGISTER = new LinkedList<>(); // we merely add then iterate thus LinkedList
+	private static final Map<Climate.ParameterPoint, ResourceKey<Biome>> PLACEMENTS = new HashMap<>();
+	private static final List<Biome> BIOMES_TO_REGISTER = new LinkedList<>();
 
 	// FORGE STUFF
 
@@ -49,7 +51,7 @@ public class ForgeProxy extends Bridge {
 
 		// common
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ZoesteriaClientEventHandler::safeRunClient);
-		eventHandler.register(ZoesteriaCommonEventHandler.class);
+		eventHandler.register(ZoesteriaFeatures.class);
 		ZoesteriaItems.ITEMS.register(eventHandler);
 		ZoesteriaBlocks.BLOCKS.register(eventHandler);
 	}
@@ -62,14 +64,19 @@ public class ForgeProxy extends Bridge {
 		});
 	}
 
+	// REGISTRY STUFF
+
+	static Iterable<Biome> getBiomesToRegister() {
+		return BIOMES_TO_REGISTER;
+	}
+
 	// API STUFF
 
 	@Override
 	public ResourceKey<Biome> registerBiome(String id, ZoesteriaBiome biome, ParameterUtils.ParameterPointListBuilder placement) {
-		ResourceKey result = ResourceKey.create(Registry.BIOME_REGISTRY, Zoesteria.id(id));
-		// TODO build the ZoesteriaBiome
-		placement.build().forEach(pp -> PLACEMENTS.put(pp, result));
-		BIOMES_TO_REGISTER.add(result);
+		ResourceKey<Biome> result = ResourceKey.create(Registry.BIOME_REGISTRY, Zoesteria.id(id));
+		placement.buildVanilla().forEach(pp -> PLACEMENTS.put(pp, result));
+		BIOMES_TO_REGISTER.add(build(biome).setRegistryName(id)); // build biome and store the pair to register later
 		return result;
 	}
 
@@ -81,7 +88,7 @@ public class ForgeProxy extends Bridge {
 	// IMPLEMENTATION STUFF
 
 	@Override
-	public Map<TBClimate.ParameterPoint, ResourceKey<net.minecraft.world.level.biome.Biome>> getBiomePlacements() {
+	public Map<Climate.ParameterPoint, ResourceKey<net.minecraft.world.level.biome.Biome>> getBiomePlacements() {
 		return PLACEMENTS;
 	}
 }

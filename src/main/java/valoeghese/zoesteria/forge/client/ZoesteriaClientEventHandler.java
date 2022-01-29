@@ -1,4 +1,4 @@
-package valoeghese.zoesteria.client;
+package valoeghese.zoesteria.forge.client;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;

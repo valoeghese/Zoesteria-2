@@ -26,7 +26,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.feature.TreeLikeFeatureConfig;
 import valoeghese.zoesteria.common.feature.TripleFeatureConfig;
 
@@ -136,14 +136,14 @@ public class Woodlands implements IBiome {
 						.build()
 						)
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(this.tpc - 1, 0.1f, 7))))
-		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.TRIPLE_NOISE_SELECTOR
+		.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaFeatures.TRIPLE_NOISE_SELECTOR
 				.withConfiguration(new TripleFeatureConfig(
 						Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG),
-						ZoesteriaCommonEventHandler.CONFIGURED_ASPEN,
+						ZoesteriaFeatures.CONFIGURED_ASPEN,
 						Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.PINE_TREE_CONFIG)))
 				.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 1))))
 		.addDecoration(Decoration.VEGETAL_DECORATION,
-				ZoesteriaCommonEventHandler.FALLEN_LOG
+				ZoesteriaFeatures.FALLEN_LOG
 				.withConfiguration(new TreeLikeFeatureConfig(
 						new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()),
 						4, 

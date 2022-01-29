@@ -28,7 +28,7 @@ import tk.valoeghese.zoesteria.api.biome.BiomeDefaultFeatures;
 import tk.valoeghese.zoesteria.api.biome.IBiomeProperties;
 import tk.valoeghese.zoesteria.api.biome.IBiome;
 import tk.valoeghese.zoesteria.api.biome.SpawnEntry;
-import valoeghese.zoesteria.common.ZoesteriaCommonEventHandler;
+import valoeghese.zoesteria.common.ZoesteriaFeatures;
 import valoeghese.zoesteria.common.feature.ShrubFeatureConfig;
 import valoeghese.zoesteria.common.objects.ZoesteriaBlocks;
 
@@ -92,7 +92,7 @@ public class AustralianOutback implements IBiome {
 								new SimpleBlockPlacer()).tries(this.plateau ? 16 : 32).build()
 						)
 						.withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(this.plateau ? 1 : 3))))
-				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaCommonEventHandler.SIMPLE_SHRUB
+				.addDecoration(Decoration.VEGETAL_DECORATION, ZoesteriaFeatures.SIMPLE_SHRUB
 						.withConfiguration(new ShrubFeatureConfig(
 								new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), 
 								new SimpleBlockStateProvider(Blocks.OAK_LEAVES.getDefaultState())))

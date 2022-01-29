@@ -6,8 +6,8 @@ import net.minecraft.world.level.biome.AmbientMoodSettings;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import terrablender.worldgen.TBClimate;
 import valoeghese.zoesteria.abstr.biome.BiomeProperties;
 import valoeghese.zoesteria.abstr.biome.SpawnEntry;
 import valoeghese.zoesteria.abstr.biome.ZoesteriaBiome;
@@ -18,7 +18,7 @@ import java.util.Map;
  * For the implementation to touch.
  */
 public abstract class Bridge implements Proxy {
-	abstract public Map<TBClimate.ParameterPoint, ResourceKey<Biome>> getBiomePlacements();
+	abstract public Map<Climate.ParameterPoint, ResourceKey<Biome>> getBiomePlacements();
 
 	static Bridge instance;
 
