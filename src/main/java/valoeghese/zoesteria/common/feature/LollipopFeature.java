@@ -1,38 +1,39 @@
 package valoeghese.zoesteria.common.feature;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+
 import java.util.Random;
-import java.util.Set;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.Mutable;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.AbstractTreeFeature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import static net.minecraft.world.level.levelgen.feature.TreeFeature.validTreePos;
 
-public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
+public class LollipopFeature extends OldStyleFeature<TreeFeatureConfig> {
 	public LollipopFeature() {
-		super(TreeFeatureConfig::deserializeFoliage);
+		super(TreeFeatureConfig.CODEC);
 	}
 
 	@Override
-	protected boolean place(IWorldGenerationReader world, Random rand, BlockPos start, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, TreeFeatureConfig config) {
+	protected boolean place(WorldGenLevel world, ChunkGenerator generator, Random rand, BlockPos start, TreeFeatureConfig config) {
 		final int startY = start.getY();
 		int height = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
 
 		// check height
-		if (startY < 1 || startY + height >= world.getMaxHeight()) {
+		if (startY <= world.getMinBuildHeight() || startY + height >= world.getMaxBuildHeight()) {
 			return false;
 		}
 
 		final int startX = start.getX();
 		final int startZ = start.getZ();
-		BlockPos.Mutable pos = new BlockPos.Mutable(start);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos().set(start);
 
 		for (int yo = 0; yo < height; ++yo) {
 			pos.setY(startY + yo);
 
-			if (!canBeReplacedByLogs(world, pos)) {
+			if (!validTreePos(world, pos)) {
 				return false;
 			}
 		}
@@ -47,9 +48,9 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		// trunk top offset in the config thus indicates the amount of bare foliage at the end
 		final int trunkEnd = height - (config.trunkTopOffset + rand.nextInt(config.trunkTopOffsetRandom + 1));
 
-		pos.setPos(start);
+		pos.set(start);
 
-		if (isSoil(world, start.down(), null)) {
+		if (isSoil(world, start.below())) {
 			// this code was adapted from an old mod I wrote last year
 			final int largeStart = foliageStart + 2;
 			final int largeEnd = height - 2;
@@ -58,9 +59,9 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 				pos.setY(startY + yOff);
 
 				if (yOff == height) {
-					this.setLeaf(world, rand, pos, leaves, box, config);
+					this.setLeaf(world, rand, pos, config);
 				} else if (yOff == height - 1 || yOff == foliageStart) {
-					this.plusShape(world, rand, pos, leaves, box, startX, startZ, 1, config);
+					this.plusShape(world, rand, pos, startX, startZ, 1, config);
 				} else {
 					for (int xOff = -1; xOff < 2; ++xOff) {
 						pos.setX(startX + xOff);
@@ -68,12 +69,12 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 						for (int zOff = -1; zOff < 2; ++zOff) {
 							pos.setZ(startZ + zOff);
 
-							this.setLeaf(world, rand, pos, leaves, box, config);
+							this.setLeaf(world, rand, pos, config);
 						}
 					}
 
 					if (yOff >= largeStart && yOff < largeEnd) {
-						this.plusShape(world, rand, pos, leaves, box, startX, startZ, 2, config);
+						this.plusShape(world, rand, pos, startX, startZ, 2, config);
 					}
 				}
 			}
@@ -83,7 +84,7 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 
 			for (int yOff = 0; yOff < trunkEnd; ++yOff) {
 				pos.setY(startY + yOff);
-				this.setLog(world, rand, pos, logs, box, config);
+				this.setLog(world, rand, pos, config);
 			}
 
 			return true;
@@ -92,19 +93,31 @@ public class LollipopFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 		return false;
 	}
 
-	private void plusShape(IWorldGenerationReader world, Random rand, Mutable pos, Set<BlockPos> leaves, MutableBoundingBox box, int startX, int startZ, int offset, TreeFeatureConfig config) {
+	private boolean isSoil(WorldGenLevel world, BlockPos below) {
+		return world.isStateAtPosition(below, state -> BlockTags.DIRT.contains(state.getBlock()));
+	}
+
+	private void plusShape(WorldGenLevel world, Random rand, BlockPos.MutableBlockPos pos, int startX, int startZ, int offset, TreeFeatureConfig config) {
 		pos.setX(startX);
 		pos.setZ(startZ - offset);
-		this.setLeaf(world, rand, pos, leaves, box, config);
+		this.setLeaf(world, rand, pos, config);
 		pos.setZ(startZ + offset);
-		this.setLeaf(world, rand, pos, leaves, box, config);
+		this.setLeaf(world, rand, pos, config);
 		pos.setZ(startZ);
 
 		pos.setX(startX - offset);
-		this.setLeaf(world, rand, pos, leaves, box, config);
+		this.setLeaf(world, rand, pos, config);
 		pos.setX(startX + offset);
-		this.setLeaf(world, rand, pos, leaves, box, config);
+		this.setLeaf(world, rand, pos, config);
 		pos.setX(startX);
-		this.setLeaf(world, rand, pos, leaves, box, config);
+		this.setLeaf(world, rand, pos, config);
+	}
+
+	private void setLeaf(WorldGenLevel world, Random rand, BlockPos.MutableBlockPos pos, TreeFeatureConfig config) {
+		world.setBlock(pos, config.leavesProvider.getState(rand, pos), 19);
+	}
+
+	private void setLog(WorldGenLevel world, Random rand, BlockPos.MutableBlockPos pos, TreeFeatureConfig config) {
+		world.setBlock(pos, config.logProvider.getState(rand, pos), 19);
 	}
 }

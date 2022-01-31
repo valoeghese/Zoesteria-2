@@ -1,9 +1,15 @@
 package valoeghese.zoesteria.abstr;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import terrablender.api.ParameterUtils;
 import valoeghese.zoesteria.abstr.biome.ZoesteriaBiome;
+
+import java.util.function.Predicate;
 
 /**
  * An interface for a bridge between a worldgen mod and a given minecraft version and modding api.
@@ -25,4 +31,21 @@ public interface Proxy {
 	 * @param formattedObjects the formatted objects in the message.
 	 */
 	void log(String string, Object ... formattedObjects);
+
+	/**
+	 * Gives the proxy instance, an adapter for different mod versions.
+	 * @return the current proxy instance.
+	 */
+	static Proxy getInstance() {
+		return Bridge.getBridge();
+	}
+
+	/**
+	 *
+	 * @param world
+	 * @param down
+	 * @param up
+	 * @return
+	 */
+	Predicate<BlockState> canSustainPlant(WorldGenLevel world, BlockPos down, Direction up);
 }

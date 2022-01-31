@@ -1,16 +1,10 @@
 package valoeghese.zoesteria.common.feature;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
-import net.minecraft.world.gen.blockstateprovider.BlockStateProviderType;
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
-public class ShrubFeatureConfig implements IFeatureConfig {
+public class ShrubFeatureConfig implements FeatureConfiguration {
 	public ShrubFeatureConfig(BlockStateProvider log, BlockStateProvider leaves) {
 		this.logProvider = log;
 		this.leavesProvider = leaves;
