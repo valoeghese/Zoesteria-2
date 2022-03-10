@@ -1,24 +1,21 @@
 package valoeghese.zoesteria.common.feature;
 
-import java.util.Random;
-
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import valoeghese.zoesteria.common.util.OpenSimplexNoise;
 
-public class TripleNoiseSelectorFeature extends Feature<TripleFeatureConfig> {
+import java.util.Random;
+
+public class TripleNoiseSelectorFeature extends OldStyleFeature<TripleFeatureConfig> {
 	public TripleNoiseSelectorFeature() {
-		super(TripleFeatureConfig::deserialize);
+		super(TripleFeatureConfig.CODEC);
 	}
 
 	private static final OpenSimplexNoise NOISE = new OpenSimplexNoise(new Random(0));
-	//	private static final LossyDoubleCache SAMPLER = new LossyDoubleCache(256, (x, z) -> NOISE.sample((double) x * 0.001D, (double) z * 0.001D));
 
 	@Override
-	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, TripleFeatureConfig config) {
+	public boolean place(WorldGenLevel world, ChunkGenerator generator, Random rand, BlockPos pos, TripleFeatureConfig config) {
 		int iseed = (int) (world.getSeed() & 0x7fffffffL);
 		int iseed2 = (int) ((world.getSeed() >> 32) & 0x7fffffffL);
 		int xoff = 100 * (int) (10 * (double) iseed / (double) Integer.MAX_VALUE);
