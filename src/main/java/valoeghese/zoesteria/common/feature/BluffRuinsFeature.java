@@ -1,34 +1,34 @@
 package valoeghese.zoesteria.common.feature;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.IWorldWriter;
+import net.minecraft.world.level.LevelWriter;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldWriter;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-
-public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
+public class BluffRuinsFeature extends OldStyleFeature<NoneFeatureConfiguration> {
 	public BluffRuinsFeature() {
-		super(NoFeatureConfig::deserialize);
+		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+	public boolean place(WorldGenLevel world, ChunkGenerator generator, Random rand, BlockPos pos, NoneFeatureConfiguration config) {
 		final int startY = pos.getY() - 1;
 
-		if (startY > 0 && startY < world.getMaxHeight() - 10) {
-			final int height = MathHelper.clamp(world.getMaxHeight() - startY, 10, 20) - 2 + ((startY < world.getMaxHeight() - 20) ? rand.nextInt(5) : 0);
+		if (startY > 0 && startY < world.getMaxBuildHeight() - 10) {
+			final int height = Mth.clamp(world.getMaxBuildHeight() - startY, 10, 20) - 2 + ((startY < world.getMaxBuildHeight() - 20) ? rand.nextInt(5) : 0);
 			final int threeQuarterHeight = 3 * height / 4;
 
-			BlockPos.Mutable mutablePos = new BlockPos.Mutable(pos);
+			BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos().set(pos);
 			mutablePos.setY(startY - 1);
 
 			final int startX = pos.getX();
@@ -41,7 +41,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 				for (int zo = -1; zo <= 1; ++zo) {
 					mutablePos.setZ(startZ + zo);
 
-					if (!world.hasBlockState(mutablePos, state -> state.isSolid())) {
+					if (!world.isStateAtPosition(mutablePos, state -> state.isSolid())) {
 						return false;
 					}
 				}				
@@ -97,7 +97,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		}
 	}
 
-	private static void fillRingAround(IWorldWriter world, BlockPos.Mutable pos, final int radius, Supplier<BlockState> centre, Supplier<BlockState> outside) {
+	private static void fillRingAround(LevelWriter world, BlockPos.MutableBlockPos pos, final int radius, Supplier<BlockState> centre, Supplier<BlockState> outside) {
 		createRingAround(world, pos, radius, outside);
 		final int run = radius - 1;
 		final int startX = pos.getX();
@@ -112,7 +112,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 				BlockState state = centre.get();
 
 				if (state != null) {
-					world.setBlockState(pos, state, 3);
+					world.setBlock(pos, state, 3);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 		pos.setZ(startZ);
 	}
 
-	private static void createRingAround(IWorldWriter world, BlockPos.Mutable pos, final int radius, Supplier<BlockState> stateSupplier) {
+	private static void createRingAround(LevelWriter world, BlockPos.MutableBlockPos pos, final int radius, Supplier<BlockState> stateSupplier) {
 		final int run = radius - 1;
 		final int startX = pos.getX();
 		final int startZ = pos.getZ();
@@ -134,7 +134,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
-				world.setBlockState(pos, state, 3);
+				world.setBlock(pos, state, 3);
 			}
 		}
 
@@ -146,7 +146,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
-				world.setBlockState(pos, state, 3);
+				world.setBlock(pos, state, 3);
 			}
 		}
 
@@ -158,7 +158,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
-				world.setBlockState(pos, state, 3);
+				world.setBlock(pos, state, 3);
 			}
 		}
 
@@ -170,7 +170,7 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 			BlockState state = stateSupplier.get();
 
 			if (state != null) {
-				world.setBlockState(pos, state, 3);
+				world.setBlock(pos, state, 3);
 			}
 		}
 
@@ -179,30 +179,30 @@ public class BluffRuinsFeature extends Feature<NoFeatureConfig> {
 	}
 
 	private static final BlockState[] WALLS = new BlockState[] {
-			Blocks.MOSSY_COBBLESTONE.getDefaultState(),
-			Blocks.COBBLESTONE.getDefaultState(),
-			Blocks.STONE_BRICKS.getDefaultState(),
+			Blocks.MOSSY_COBBLESTONE.defaultBlockState(),
+			Blocks.COBBLESTONE.defaultBlockState(),
+			Blocks.STONE_BRICKS.defaultBlockState(),
 			null
 	};
 	private static final BlockState[] FLOOR = new BlockState[] {
-			Blocks.SPRUCE_PLANKS.getDefaultState(),
-			Blocks.SPRUCE_PLANKS.getDefaultState(),
-			Blocks.SPRUCE_PLANKS.getDefaultState(),
-			Blocks.SPRUCE_SLAB.getDefaultState(),
+			Blocks.SPRUCE_PLANKS.defaultBlockState(),
+			Blocks.SPRUCE_PLANKS.defaultBlockState(),
+			Blocks.SPRUCE_PLANKS.defaultBlockState(),
+			Blocks.SPRUCE_SLAB.defaultBlockState(),
 			null,
 			null
 	};
 	private static final BlockState[] BATTLEMENT_TOP = new BlockState[] {
-			Blocks.MOSSY_COBBLESTONE.getDefaultState(),
-			Blocks.COBBLESTONE.getDefaultState(),
-			Blocks.STONE_BRICKS.getDefaultState(),
-			Blocks.STONE_BRICK_SLAB.getDefaultState(),
-			Blocks.COBBLESTONE_SLAB.getDefaultState(),
+			Blocks.MOSSY_COBBLESTONE.defaultBlockState(),
+			Blocks.COBBLESTONE.defaultBlockState(),
+			Blocks.STONE_BRICKS.defaultBlockState(),
+			Blocks.STONE_BRICK_SLAB.defaultBlockState(),
+			Blocks.COBBLESTONE_SLAB.defaultBlockState(),
 			null
 	};
 	private static final BlockState[] BATTLEMENT = new BlockState[] {
-			Blocks.MOSSY_COBBLESTONE.getDefaultState(),
-			Blocks.COBBLESTONE.getDefaultState(),
-			Blocks.STONE_BRICKS.getDefaultState()
+			Blocks.MOSSY_COBBLESTONE.defaultBlockState(),
+			Blocks.COBBLESTONE.defaultBlockState(),
+			Blocks.STONE_BRICKS.defaultBlockState()
 	};
 }

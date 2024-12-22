@@ -60,7 +60,7 @@ public abstract class AbstractTreeFeature<FC extends TreeFeatureConfig> extends 
 			return state.isAir()
 					|| state.is(BlockTags.LEAVES)
 					|| state.is(Blocks.WATER)
-					|| state.is(BlockTags.REPLACEABLE_PLANTS)) return true;
+					|| state.is(BlockTags.REPLACEABLE_PLANTS);
 		});
 	}
 
